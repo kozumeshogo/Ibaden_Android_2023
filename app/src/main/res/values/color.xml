@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="Green">#5AA90D</color>
+    <color name="Orange">#F6990B</color>
+    <color name="background_connect">#003030</color>
+    <color name="background_disconnect">#000000</color>
+</resources>

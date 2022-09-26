@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        applicationId "jp.co.tss21.sample.android.inventorytag"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 500
+        versionName "5.0.0"
+    }
+
+    //apk作成時のキー情報はgradle.propertiesに記載しています。
+    //Android Studioから同じキーで作成する場合のパスワード等はそちらを参照してください。
+    signingConfigs {
+        releaseConfig {
+            storeFile = file(project.properties.storeFile)
+            storePassword = project.properties.storePassword
+            keyAlias = project.properties.keyAlias
+            keyPassword = project.properties.keyPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.equals("release")) {
+            variant.outputs.all {
+                System.println("* outputFileName : ${outputFileName}")
+                def newName = "InventoryTag_Android.apk"
+                outputFileName = newName
+            }
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.so'])
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+    implementation files('libs/TSS_SDK.aar')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:23.4.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+//    implementation fileTree(dir: 'libs', include: ['*.aar'])
+}

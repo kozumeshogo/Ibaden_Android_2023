@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TabHost android:id="@android:id/tabhost"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+
+
+            <TabWidget android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </TabWidget>
+
+
+            <FrameLayout android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/tab1"
+                    layout="@layout/device"
+                    android:layout_height="689dp" />
+
+                <include android:id="@+id/tab2" layout="@layout/cal" />
+                <include android:id="@+id/tab3" layout="@layout/store" />
+                <include android:id="@+id/tab4" layout="@layout/search" />
+                <include android:id="@+id/tab5" layout="@layout/goods_regi" />
+                <include android:id="@+id/tab6" layout="@layout/addtag_regi" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </TabHost>
+</LinearLayout>
