@@ -85,7 +85,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private Button mBtnDevForward;
 
     /** CALタブ用 */
-
+    //220926 ほりえ
     private Button mBtnOptBack;
     private Button mBtnOptForward;
     private Button mBtnMapLab;//学生室ボタン
