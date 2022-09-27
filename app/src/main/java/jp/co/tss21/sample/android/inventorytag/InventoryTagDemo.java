@@ -129,6 +129,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private int origin_x = 0;//マップ上の原点x座標（左手系）20220223
     private int origin_y = 0;//マップ上の原点y座標（左手系）20220223
 
+    private String store_goods_epc = "";
     //アドレスRFIDタグ座標設定[m]
     private double add_1_x = 6.0;
     private double add_1_y = 2.0;
@@ -1422,6 +1423,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         Log.d("EPC", store[1]);
 
                         if(epc_store.equals(store[1])){
+                            store_goods_epc = epc_store;
                             String sakuban = "";
                             String tyuban = "";
                             boolean allo_start =false;//文字列が開始していればtrue
@@ -1805,7 +1807,74 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     Log.d("推定座標", "(" + det_x_m + ", " + det_y_m + ")" + "(" + det_x + ", " + det_y + ")");
 
 
+                    //20220927 保管位置の座標をgoods_epc.csvに記録
+                    //epc_goodsの内容を一度全て変数に置き、変更箇所のみ変更を加えた後再度書き込み
+                    StringBuilder all_insert = new StringBuilder();
 
+                    File file = new File("/data/data/" + this.getPackageName() + "/files/epc_goods.csv");
+                    FileReader buff = null;
+                    try {
+                        buff = new FileReader(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    BufferedReader fr = new BufferedReader(buff);
+
+                    String line_insert = null;
+                    try {
+                        line_insert = fr.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    while(line_insert!=null){
+
+                        String[] store_insert = line_insert.split(",");
+                        Timestamp stored_time = new Timestamp(System.currentTimeMillis());
+                        if(store_insert[1].equals(store_goods_epc)){
+                            Log.d("変更対象", store_insert[0]);
+                            all_insert.append(store_insert[0] + "," + //作番/注番
+                                    store_insert[1] + "," +//EPC
+                                    stored_time + "," +//タイムスタンプ
+                                    "44" + "," +//x座標
+                                    "359" + "," +//y座標
+                                    /*
+                                    String.valueOf(det_x) + "," +//x座標
+                                    String.valueOf(det_y) + "," +//y座標
+
+                                     */
+                                    String.valueOf(inv_map_flg) + "\n");//マップ番号
+                        }
+                        else{
+                            Log.d("それ以外", store_insert[0]);
+                            all_insert.append(store_insert[0] + "," + //作番/注番
+                                    store_insert[1] + "," +//EPC
+                                    store_insert[2] + "," +//タイムスタンプ
+                                    store_insert[3] + "," +//x座標
+                                    store_insert[4] + "," +//y座標
+                                    store_insert[5] + "," + "\n");//マップ番号
+                        }
+
+
+                        try {
+                            line_insert = fr.readLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Log.d("上書き内容", store_goods_epc.concat(", aaa"));
+
+                    try {
+                        File store_file = new File("/data/data/" + this.getPackageName() + "/files/epc_goods.csv");
+                        FileWriter goods_write = new FileWriter(store_file,false);
+                        goods_write.write(all_insert.toString());//変数に入れたすべての物品データを再度epc_goods.csvに書き込み
+                        //epc_goodsのフォーマット：(作番/注番,epc,タイムスタンプ,x座標,y座標,マップ番号)
+                        goods_write.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    store_goods_epc = "";
 
 
 
@@ -1891,7 +1960,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     try {
                         File file = new File("/data/data/" + this.getPackageName() + "/files/epc_goods.csv");
                         FileWriter goods_write = new FileWriter(file,true);
-                        goods_write.append(txt_sakuban + "/" + txt_tyuban + "," + epcoc + "," + timestamp + ",,,\n");
+                        goods_write.append(txt_sakuban + "/" + txt_tyuban + "," +
+                                           epcoc + "," +
+                                           timestamp + "," +
+                                           "0,0,0\n");
                         //epc_goodsのフォーマット：(作番/注番,epc,タイムスタンプ,x座標,y座標,マップ番号)
                         goods_write.close();
                     } catch (IOException e) {

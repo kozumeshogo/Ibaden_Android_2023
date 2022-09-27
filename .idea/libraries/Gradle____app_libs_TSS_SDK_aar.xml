@@ -1,9 +1,10 @@
 <component name="libraryTable">
-  <library name="Gradle: C./Users/Skozu/StudioProjects/Ibaden_Android_2022/app/libs/TSS_SDK.aar">
+  <library name="Gradle: ./app/libs/TSS_SDK.aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e58ef67c74b01f29731c087181aec8d1/TSS_SDK/jars/classes.jar!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e58ef67c74b01f29731c087181aec8d1/TSS_SDK/jars/libs/cw-deviceapi.jar!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e58ef67c74b01f29731c087181aec8d1/TSS_SDK/jars/libs/DOTR_ANDROID.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e58ef67c74b01f29731c087181aec8d1/TSS_SDK/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e58ef67c74b01f29731c087181aec8d1/TSS_SDK/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
