@@ -78,6 +78,12 @@
             android:layout_height="wrap_content"
             android:text="ログ表示" />
 
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/e5_8f_inov" />
+
         <ListView
             android:id="@+id/list_log"
             android:layout_width="match_parent"

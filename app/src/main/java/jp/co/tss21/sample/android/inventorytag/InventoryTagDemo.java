@@ -140,6 +140,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     //範囲円半径[m]
     private double range_x_m =3.0;
     private double range_y_m = 3.0;
+    
 
     private Bitmap invMap;// = mapData(R.drawable.laboratory);
 
@@ -191,6 +192,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private Spinner SEARCH_GOODS_NAME;
 
     private int search_flg = 0;
+    private int search_test = 0;//起動時の描画を防ぐフラグ20220929
+
 
 
     /** ADD登録タブ用*/
@@ -387,9 +390,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             search_goods_name.add(str[0]);
             search_goods_epc.add(str[1]);
             search_goods_lasttime.add(str[2]);
-            //search_goods_coorx.add(str[3]);
-            //search_goods_coory.add(str[4]);
-            //search_goods_map.add(str[0]);
+            search_goods_coorx.add(str[3]);
+            search_goods_coory.add(str[4]);
+            search_goods_map.add(str[5]);
             try {
                 line_goods = fr_goods.readLine();
             } catch (IOException e) {
@@ -409,6 +412,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 android.R.layout.simple_spinner_item,
                 search_goods_name
         );
+        final ImageView search_map = (ImageView) this.findViewById(R.id.img_search);//検索マップ20220929
+
         SEARCH_GOODS_NAME = (Spinner) findViewById(R.id.sp_search_goods);
         adapter_goods.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SEARCH_GOODS_NAME.setAdapter(adapter_goods);
@@ -421,6 +426,29 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 String item = (String)spinner.getSelectedItem();
                 goods_epc.setText(search_goods_epc.get(spinner.getSelectedItemPosition()));
                 goods_lasttime.setText(search_goods_lasttime.get(spinner.getSelectedItemPosition()));
+
+                //検索マップ描画パラメータ
+                int search_x = Integer.parseInt(search_goods_coorx.get(spinner.getSelectedItemPosition()));
+                int search_y = Integer.parseInt(search_goods_coory.get(spinner.getSelectedItemPosition()));
+                int search_r_x = (int) (range_x_m * dotm_x);
+                int search_r_y = (int) (range_y_m * dotm_y);
+                int search_map_flg = Integer.parseInt(search_goods_map.get(spinner.getSelectedItemPosition()));
+                //描画リセット20220502
+                Canvas canvas;
+                canvas = new Canvas(invMap);
+                canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+                //マップ設定20220929
+                // ImageViewに作成したBitmapをセット
+                invMap = setMap(search_map_flg);
+                search_map.setImageBitmap(invMap);
+                Canvas canvas_search;
+                canvas_search = new Canvas(invMap);
+
+                Paint search_paint = new Paint();
+                search_paint.setColor(Color.argb(128, 255, 255, 0));
+
+                canvas_search.drawArc(search_x-search_r_x, search_y-search_r_y, search_x+search_r_x, search_y+search_r_y, 0, 360, false, search_paint);
+
             }
 
             //　アイテムが選択されなかった
@@ -428,6 +456,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 //
             }
         });
+
 
 
         /** 物品登録タブ用*/
@@ -660,51 +689,6 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 mDotrUtil.setTxCycle((int)sb_ms_goods.getProgress()+40);
 
                 //マップ設定20220502
-                if(inv_map_flg==0){//学生室
-                    dotm_x = 237;
-                    dotm_y = 237;
-                    origin_x = 290;
-                    origin_y = 2955;
-
-                    add_1_x=5.0;
-                    add_1_y=3.0;
-                    add_2_x=5.0;
-                    add_2_y=6.0;
-                    add_3_x=5.0;
-                    add_3_y=11.0;
-
-                    invMap = mapData(R.drawable.laboratory);
-                }
-                else if(inv_map_flg==1){//イノベ
-                    dotm_x = 62;
-                    dotm_y = 62;
-                    origin_x = 40;
-                    origin_y = 855;
-
-                    add_1_x=6.0;
-                    add_1_y=2.0;
-                    add_2_x=12.0;
-                    add_2_y=12.0;
-                    add_3_x=18.0;
-                    add_3_y=2.0;
-
-                    invMap = mapData(R.drawable.e5_8f_inov);
-                }
-                else if(inv_map_flg==2){//工場
-                    dotm_x = 186;
-                    dotm_y = 186;
-                    origin_x = 560;
-                    origin_y = 2510;
-
-                    add_1_x=18.0;
-                    add_1_y=0.0;
-                    add_2_x=6.0;
-                    add_2_y=10.0;
-                    add_3_x=18.0;
-                    add_3_y=10.0;
-
-                    invMap = mapData(R.drawable.ibaden_factory);
-                }
 
                 //画像描画20220216
                 ImageView inv_sector = (ImageView) this.findViewById(R.id.img_inv);
@@ -723,18 +707,67 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 //canvas.drawRect(40, 115, 1510, 855, paint);
 
                 break;
-            case R.id.btn_map_lab: //ログ表示ボタン20211108
+            case R.id.btn_map_lab: //マップ「研究室」20211108
                 inv_map_flg=0;
+
+                dotm_x = 237;
+                dotm_y = 237;
+                origin_x = 290;
+                origin_y = 2955;
+
+                add_1_x=5.0;
+                add_1_y=3.0;
+                add_2_x=5.0;
+                add_2_y=6.0;
+                add_3_x=5.0;
+                add_3_y=11.0;
+
+                invMap = mapData(R.drawable.laboratory);
                 break;
-            case R.id.btn_map_inobe: //ログ表示ボタン20211108
+            case R.id.btn_map_inobe: //マップ「E5棟8Fイノベーションルーム」20211108
                 inv_map_flg=1;
+
+                dotm_x = 62;
+                dotm_y = 62;
+                origin_x = 40;
+                origin_y = 855;
+
+                add_1_x=6.0;
+                add_1_y=2.0;
+                add_2_x=12.0;
+                add_2_y=12.0;
+                add_3_x=18.0;
+                add_3_y=2.0;
+
+                invMap = mapData(R.drawable.e5_8f_inov);
+
                 break;
-            case R.id.btn_map_fac: //ログ表示ボタン20211108
+            case R.id.btn_map_fac: //マップ「工場」20211108
                 inv_map_flg=2;
+
+                dotm_x = 186;
+                dotm_y = 186;
+                origin_x = 560;
+                origin_y = 2510;
+
+                add_1_x=18.0;
+                add_1_y=0.0;
+                add_2_x=6.0;
+                add_2_y=10.0;
+                add_3_x=18.0;
+                add_3_y=10.0;
+
+                invMap = mapData(R.drawable.ibaden_factory);
                 break;
             case R.id.btn_search:;
                 flg=3;//検索
                 search_flg=1;
+
+
+
+
+
+
                 break;
             case R.id.btn_goods_regi://物品保管時タグの読み取り20220620
                 flg=4;//物品保管
@@ -1530,17 +1563,6 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     canvas = new Canvas(invMap);
                     canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
-                    // ImageViewに作成したBitmapをセット
-                    if(inv_map_flg==0){//学生室
-                        invMap = mapData(R.drawable.laboratory);
-                    }
-                    else if(inv_map_flg==1){//イノベ
-                        invMap = mapData(R.drawable.e5_8f_inov);
-                    }
-                    else if(inv_map_flg==2){//工場
-                        invMap = mapData(R.drawable.ibaden_factory);
-                    }
-
                     inv_sector.setImageBitmap(invMap);
 
 
@@ -1872,6 +1894,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    //変更箇所
 
 
                     store_goods_epc = "";
@@ -2291,6 +2314,20 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             }
         }
         return "";
+    }
+
+    private Bitmap setMap(int map_flg){
+        if(map_flg==0){
+            return mapData(R.drawable.laboratory);
+        }else if (map_flg==1){
+            return mapData(R.drawable.e5_8f_inov);
+        }
+        else if (map_flg==2){
+            return mapData(R.drawable.ibaden_factory);
+        }
+        else{
+            return mapData(R.drawable.laboratory);
+        }
     }
 
 
