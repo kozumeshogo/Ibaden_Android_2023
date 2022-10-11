@@ -1557,11 +1557,15 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     stplace.setBackgroundColor(Color.argb(40, 255, 255, 0));
 
                     //描画リセット20220502
-
-                    ImageView inv_sector = (ImageView) this.findViewById(R.id.img_inv);
+                    //マップ設定20220929
                     Canvas canvas;
                     canvas = new Canvas(invMap);
                     canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
+                    ImageView inv_sector = (ImageView) this.findViewById(R.id.img_inv);
+                    // ImageViewに作成したBitmapをセット
+                    invMap = setMap(inv_map_flg);
+                    inv_sector.setImageBitmap(invMap);
 
                     inv_sector.setImageBitmap(invMap);
 
@@ -1669,6 +1673,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     String str = "";
 
                     StringBuilder dis_log = new StringBuilder();
+
+
+
 
                     //画像描画20220216
                     ImageView inv_sector = (ImageView) this.findViewById(R.id.img_inv);
