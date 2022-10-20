@@ -21,23 +21,29 @@
         android:drawableStart="@drawable/ic_menu_search"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/btn_scan"/>
-    <LinearLayout android:id="@+id/linearLayout1"
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="488dp"
         android:orientation="vertical">
-        <TextView android:id="@+id/txt_device_name"
+
+        <TextView
+            android:id="@+id/txt_device_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="32sp"
-            android:textStyle="bold"/>
-        <TextView android:id="@+id/txt_device_address"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_device_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="address"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -173,26 +179,58 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_map_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="研究室" />
+
+            <Button
+                android:id="@+id/btn_map_inobe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="イノベ" />
+
+            <Button
+                android:id="@+id/btn_map_fac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="工場" />
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/linearLayout3"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">
-        <Button android:id="@+id/btn_disconnect"
+
+        <Button
+            android:id="@+id/btn_disconnect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_menu_stop"
             android:drawableStart="@drawable/ic_menu_stop"
-            android:text="@string/btn_disconnect"/>
-        <Button android:id="@+id/btn_connect"
+            android:drawableLeft="@drawable/ic_menu_stop"
+            android:text="@string/btn_disconnect" />
+
+        <Button
+            android:id="@+id/btn_connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableEnd="@drawable/ic_menu_play_clip"
             android:drawableRight="@drawable/ic_menu_play_clip"
-            android:text="@string/btn_connect"/>
+            android:text="@string/btn_connect" />
         <!--
         <Button android:id="@+id/btn_dev_back"
             android:layout_width="wrap_content"
