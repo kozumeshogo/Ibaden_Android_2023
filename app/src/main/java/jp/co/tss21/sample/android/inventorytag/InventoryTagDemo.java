@@ -87,9 +87,13 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     /** CALタブ用 */
     private Button mBtnOptBack;
     private Button mBtnOptForward;
+
     private Button mBtnMapLab;//学生室ボタン
     private Button mBtnMapInobe;//イノベボタン
     private Button mBtnMapFac;//工場ボタン
+
+    private Button mBtnRangeTwo;//二点CAL
+    private Button mBtnRangeMulti;//多点CAL
 
     private double cal_rssi1 = -52;//RSSI基準値
     private double cal_rssi2 = -60;
@@ -152,6 +156,12 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     /*
     1:物品読み取り
     2:アドレスRFIDタグ読み取り
+     */
+    //20221014 距離計算手法切替用フラグ
+    int ranging_method_flg = 0;
+    /*
+    1:2点CAL
+    2:多点CAL
      */
 
 
@@ -287,6 +297,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mBtnMapInobe.setOnClickListener(this);
         mBtnMapFac = (Button) findViewById(R.id.btn_map_fac);
         mBtnMapFac.setOnClickListener(this);
+        mBtnRangeTwo = (Button) findViewById(R.id.btn_ranging_two);
+        mBtnRangeTwo.setOnClickListener(this);
+        mBtnRangeMulti = (Button) findViewById(R.id.btn_ranging_multi);
+        mBtnRangeMulti.setOnClickListener(this);
 
 
         //20220920
@@ -867,8 +881,12 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
 
                 break;
-
-
+            case R.id.btn_ranging_two:
+                ranging_method_flg = 1;
+                break;
+            case R.id.btn_ranging_multi:
+                ranging_method_flg = 2;
+                break;
         }
     }
 
@@ -1582,6 +1600,12 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     String epcpre = "";
                     double rssi = 0;
 
+                    //多点CAL用パラメータ20221024
+                    EditText multi_a_origin = (EditText) findViewById(R.id.multi_a);
+                    EditText multi_b_origin = (EditText) findViewById(R.id.multi_b);
+                    float curve_a = Float.valueOf(multi_a_origin.getText().toString());
+                    float curve_b = Float.valueOf(multi_b_origin.getText().toString());
+
                     //距離推定時のパラメーター
                     int cnt = 0;
                     double dis = 0;//水平距離
@@ -1623,7 +1647,14 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                             mst.add((Double)rssi);//RSSI
                             mst.add((int)cnt);//読み取り回数
                             base_dg = Math.sqrt(Math.pow(cal_dis1, 2) + Math.pow(add_height - read_height, 2));//斜め基準距離
-                            dis_dg = base_dg * Math.pow(10, ((cal_rssi1 - rssi) / sub_const));//アドレスRFIDタグからの斜め距離, sub_constは減衰定数N
+
+                            if(ranging_method_flg==0||ranging_method_flg==1){//2点CAL
+                                dis_dg = base_dg * Math.pow(10, ((cal_rssi1 - rssi) / sub_const));//アドレスRFIDタグからの斜め距離, sub_constは減衰定数N
+                            }
+                            else if(ranging_method_flg==2){//多点CAL
+                                dis_dg =  Math.exp(-((rssi+curve_a)/curve_b));
+                            }
+
                             dis = Math.sqrt((Math.pow(dis_dg, 2)) - (Math.pow(add_height - read_height, 2)));//アドレスRFIDタグからの水平距離
 
                             //アドレスRFIDタグの高さは全て等しいとみなすため、if文を省略
