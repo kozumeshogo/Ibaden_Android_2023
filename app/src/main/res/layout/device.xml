@@ -179,32 +179,68 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView23"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:text="マップ選択" />
+
+        <RadioGroup
+            android:id="@+id/rdgroup_map_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_map_lab"
+            <RadioButton
+                android:id="@+id/rd_map_lab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="研究室" />
 
-            <Button
-                android:id="@+id/btn_map_inobe"
+            <RadioButton
+                android:id="@+id/rd_map_inov"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="イノベ" />
 
-            <Button
-                android:id="@+id/btn_map_fac"
+            <RadioButton
+                android:id="@+id/rd_map_fac"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="工場" />
-        </LinearLayout>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="金属板の面数" />
+
+
+        <RadioGroup
+            android:id="@+id/rdgroup_surface_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/rd_surface_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3面" />
+
+                <RadioButton
+                    android:id="@+id/rd_surface_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4面" />
+            </RadioGroup>
 
     </LinearLayout>
 

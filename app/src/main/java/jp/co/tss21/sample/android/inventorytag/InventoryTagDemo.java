@@ -22,9 +22,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -83,17 +86,28 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private TextView mTxtDeviceAddr;
     private TextView mTxtDeviceName;
     private Button mBtnDevForward;
+    private RadioGroup mRadioGroupMapSelect;
+    private RadioGroup mRadioGroupSurfaceSelect;
+    int inv_map_flg =0;
+    /*
+    0:学生室
+    1:イノベ
+    2:工場
+     */
+    private int surface_flg = 0;
+    /*
+    0:3面　
+    1:4面
+    */
 
     /** CALタブ用 */
     private Button mBtnOptBack;
     private Button mBtnOptForward;
 
-    private Button mBtnMapLab;//学生室ボタン
-    private Button mBtnMapInobe;//イノベボタン
-    private Button mBtnMapFac;//工場ボタン
+    private RadioGroup mRadioGroupCalSelect;
 
-    private Button mBtnRangeTwo;//二点CAL
-    private Button mBtnRangeMulti;//多点CAL
+
+
 
     private double cal_rssi1 = -52;//RSSI基準値
     private double cal_rssi2 = -60;
@@ -109,12 +123,13 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     1:1回目cal
     2:2回目cal
      */
-    int inv_map_flg =0;
+    //20221014 距離計算手法切替用フラグ
+    int ranging_method_flg = 0;
     /*
-    0:学生室
-    1:イノベ
-    2:工場
+    0:2点CAL
+    1:多点CAL
      */
+
 
 
 
@@ -157,12 +172,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     1:物品読み取り
     2:アドレスRFIDタグ読み取り
      */
-    //20221014 距離計算手法切替用フラグ
-    int ranging_method_flg = 0;
-    /*
-    1:2点CAL
-    2:多点CAL
-     */
+
 
 
     /** ログタブ用 */
@@ -288,19 +298,98 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mTxtDeviceName.setText(getAutoConnectDeviceName());
         mTxtDeviceAddr.setText(getAutoConnectDeviceAddress());
 
+        //マップ番号取得20221025
+        mRadioGroupMapSelect = (RadioGroup)findViewById(R.id.rdgroup_map_select);
+        mRadioGroupMapSelect.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId != -1) {
+                    // 選択されているラジオボタンの取得
+                    RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                    inv_map_flg = 2131230831 - checkedId;
+                    if(inv_map_flg==0){//マップ「研究室」20211108
+                        dotm_x = 237;
+                        dotm_y = 237;
+                        origin_x = 290;
+                        origin_y = 2955;
+
+                        add_1_x=5.0;
+                        add_1_y=3.0;
+                        add_2_x=5.0;
+                        add_2_y=6.0;
+                        add_3_x=5.0;
+                        add_3_y=11.0;
+
+                        invMap = mapData(R.drawable.laboratory);
+                    }
+                    else if(inv_map_flg==1){//マップ「E5棟8Fイノベーションルーム」20211108
+                        dotm_x = 62;
+                        dotm_y = 62;
+                        origin_x = 40;
+                        origin_y = 855;
+
+                        add_1_x=6.0;
+                        add_1_y=2.0;
+                        add_2_x=12.0;
+                        add_2_y=12.0;
+                        add_3_x=18.0;
+                        add_3_y=2.0;
+
+                        invMap = mapData(R.drawable.e5_8f_inov);
+                    }
+                    else if(inv_map_flg==2){//マップ「工場」20211108
+                        inv_map_flg=2;
+
+                        dotm_x = 186;
+                        dotm_y = 186;
+                        origin_x = 560;
+                        origin_y = 2510;
+
+                        add_1_x=18.0;
+                        add_1_y=0.0;
+                        add_2_x=6.0;
+                        add_2_y=10.0;
+                        add_3_x=18.0;
+                        add_3_y=10.0;
+
+                        invMap = mapData(R.drawable.ibaden_factory);
+                    }
+                } else {
+                    // 何も選択されていない場合の処理
+                }
+            }
+        });
+        //金属板の面数20221025
+        mRadioGroupSurfaceSelect = (RadioGroup)findViewById(R.id.rdgroup_surface_select);
+        mRadioGroupSurfaceSelect.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId != -1){
+                    surface_flg = checkedId - 2131230832;
+                    Log.d("Surface", String.valueOf(surface_flg));
+                }
+                else{
+
+                }
+            }
+
+        });
+
         /** CALタブ用 */
         mBtnCAL = (Button) findViewById(R.id.btn_cal);
         mBtnCAL.setOnClickListener(this);
-        mBtnMapLab = (Button) findViewById(R.id.btn_map_lab);
-        mBtnMapLab.setOnClickListener(this);
-        mBtnMapInobe = (Button) findViewById(R.id.btn_map_inobe);
-        mBtnMapInobe.setOnClickListener(this);
-        mBtnMapFac = (Button) findViewById(R.id.btn_map_fac);
-        mBtnMapFac.setOnClickListener(this);
-        mBtnRangeTwo = (Button) findViewById(R.id.btn_ranging_two);
-        mBtnRangeTwo.setOnClickListener(this);
-        mBtnRangeMulti = (Button) findViewById(R.id.btn_ranging_multi);
-        mBtnRangeMulti.setOnClickListener(this);
+        mRadioGroupCalSelect = (RadioGroup)findViewById(R.id.rdgroup_cal_select);
+        mRadioGroupCalSelect.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId != -1) {
+                    ranging_method_flg = 2131230828 - checkedId;
+                    Log.d("Surface", String.valueOf(ranging_method_flg));
+                } else {
+
+                }
+            }
+        });
 
 
         //20220920
@@ -721,58 +810,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 //canvas.drawRect(40, 115, 1510, 855, paint);
 
                 break;
-            case R.id.btn_map_lab: //マップ「研究室」20211108
-                inv_map_flg=0;
 
-                dotm_x = 237;
-                dotm_y = 237;
-                origin_x = 290;
-                origin_y = 2955;
-
-                add_1_x=5.0;
-                add_1_y=3.0;
-                add_2_x=5.0;
-                add_2_y=6.0;
-                add_3_x=5.0;
-                add_3_y=11.0;
-
-                invMap = mapData(R.drawable.laboratory);
-                break;
-            case R.id.btn_map_inobe: //マップ「E5棟8Fイノベーションルーム」20211108
-                inv_map_flg=1;
-
-                dotm_x = 62;
-                dotm_y = 62;
-                origin_x = 40;
-                origin_y = 855;
-
-                add_1_x=6.0;
-                add_1_y=2.0;
-                add_2_x=12.0;
-                add_2_y=12.0;
-                add_3_x=18.0;
-                add_3_y=2.0;
-
-                invMap = mapData(R.drawable.e5_8f_inov);
-
-                break;
-            case R.id.btn_map_fac: //マップ「工場」20211108
-                inv_map_flg=2;
-
-                dotm_x = 186;
-                dotm_y = 186;
-                origin_x = 560;
-                origin_y = 2510;
-
-                add_1_x=18.0;
-                add_1_y=0.0;
-                add_2_x=6.0;
-                add_2_y=10.0;
-                add_3_x=18.0;
-                add_3_y=10.0;
-
-                invMap = mapData(R.drawable.ibaden_factory);
-                break;
             case R.id.btn_search:;
                 flg=3;//検索
                 search_flg=1;
@@ -880,12 +918,6 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
 
 
-                break;
-            case R.id.btn_ranging_two:
-                ranging_method_flg = 1;
-                break;
-            case R.id.btn_ranging_multi:
-                ranging_method_flg = 2;
                 break;
         }
     }
@@ -1648,10 +1680,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                             mst.add((int)cnt);//読み取り回数
                             base_dg = Math.sqrt(Math.pow(cal_dis1, 2) + Math.pow(add_height - read_height, 2));//斜め基準距離
 
-                            if(ranging_method_flg==0||ranging_method_flg==1){//2点CAL
+                            if(ranging_method_flg==0){//2点CAL
                                 dis_dg = base_dg * Math.pow(10, ((cal_rssi1 - rssi) / sub_const));//アドレスRFIDタグからの斜め距離, sub_constは減衰定数N
                             }
-                            else if(ranging_method_flg==2){//多点CAL
+                            else if(ranging_method_flg==1){//多点CAL
                                 dis_dg =  Math.exp(-((rssi+curve_a)/curve_b));
                             }
 
@@ -2290,6 +2322,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         Log.d("est座標", add_epc_ + ": " + "(" + (add_x-origin_x)/dotm_x + ", " + (origin_y-add_y)/dotm_y + ")" + add_r_x_ +"(" + est_x + ", " + est_y + ")");
 
     }
+
+
 
     //検索時グラフ作成20220530
     private void setupPieChart() {
