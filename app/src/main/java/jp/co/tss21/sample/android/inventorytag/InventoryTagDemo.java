@@ -95,6 +95,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     2:工場
      */
     private int surface_flg = 0;
+
     /*
     0:3面　
     1:4面
@@ -143,22 +144,24 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private Button mBtnMaskBack;
     private Button mBtnMaskForward;
 
-    private int dotm_x = 60;//1mあたりのピクセルの数(x) 20220217
-    private int dotm_y = 60;//1mあたりのピクセルの数(y) 20220217
-    private int origin_x = 0;//マップ上の原点x座標（左手系）20220223
-    private int origin_y = 0;//マップ上の原点y座標（左手系）20220223
+    //初期値はマップ「研究室」対応
+    private int dotm_x = 237;//1mあたりのピクセルの数(x) 20220217
+    private int dotm_y = 237;//1mあたりのピクセルの数(y) 20220217
+    private int origin_x = 290;//マップ上の原点x座標（左手系）20220223
+    private int origin_y = 2955;//マップ上の原点y座標（左手系）20220223
 
     private String store_goods_epc = "";
     //アドレスRFIDタグ座標設定[m]
-    private double add_1_x = 6.0;
-    private double add_1_y = 2.0;
-    private double add_2_x = 12.0;
-    private double add_2_y = 12.0;
-    private double add_3_x = 18.0;
-    private double add_3_y = 2.0;
+    private double add_1_x = 5.0;
+    private double add_1_y = 3.0;
+    private double add_2_x = 5.0;
+    private double add_2_y = 6.0;
+    private double add_3_x = 5.0;
+    private double add_3_y = 11.0;
     //範囲円半径[m]
     private double range_x_m =3.0;
     private double range_y_m = 3.0;
+
     
 
     private Bitmap invMap;// = mapData(R.drawable.laboratory);
@@ -307,7 +310,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     // 選択されているラジオボタンの取得
                     RadioButton radioButton = (RadioButton) findViewById(checkedId);
                     inv_map_flg = 2131230831 - checkedId;
+                    Log.d("マップ選択", String.valueOf(inv_map_flg));
                     if(inv_map_flg==0){//マップ「研究室」20211108
+
                         dotm_x = 237;
                         dotm_y = 237;
                         origin_x = 290;
@@ -366,7 +371,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId != -1){
                     surface_flg = checkedId - 2131230832;
-                    Log.d("Surface", String.valueOf(surface_flg));
+                    Log.d("面数選択", String.valueOf(surface_flg));
+
+                    setAddTag();
                 }
                 else{
 
@@ -374,6 +381,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             }
 
         });
+        setAddTag();
 
         /** CALタブ用 */
         mBtnCAL = (Button) findViewById(R.id.btn_cal);
@@ -384,7 +392,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId != -1) {
                     ranging_method_flg = 2131230828 - checkedId;
-                    Log.d("Surface", String.valueOf(ranging_method_flg));
+                    Log.d("測距手法選択", String.valueOf(ranging_method_flg));
                 } else {
 
                 }
@@ -533,9 +541,24 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 //検索マップ描画パラメータ
                 int search_x = Integer.parseInt(search_goods_coorx.get(spinner.getSelectedItemPosition()));
                 int search_y = Integer.parseInt(search_goods_coory.get(spinner.getSelectedItemPosition()));
-                int search_r_x = (int) (range_x_m * dotm_x);
-                int search_r_y = (int) (range_y_m * dotm_y);
+                int search_dotm_x = 0;
+                int search_dotm_y = 0;
                 int search_map_flg = Integer.parseInt(search_goods_map.get(spinner.getSelectedItemPosition()));
+                if(search_map_flg==0){
+                    search_dotm_x = 237;
+                    search_dotm_y = 237;
+                }
+                else if(search_map_flg==1){
+                    search_dotm_x = 62;
+                    search_dotm_y = 62;
+                }
+                else if(search_map_flg==2){
+                    search_dotm_x = 186;
+                    search_dotm_y = 186;
+                }
+                int search_r_x = (int) (range_x_m * search_dotm_x);
+                int search_r_y = (int) (range_y_m * search_dotm_y);
+
                 //描画リセット20220502
                 Canvas canvas;
                 canvas = new Canvas(invMap);
@@ -549,8 +572,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
                 Paint search_paint = new Paint();
                 search_paint.setColor(Color.argb(128, 255, 255, 0));
+                search_paint.setStyle(Paint.Style.FILL);
 
                 canvas_search.drawArc(search_x-search_r_x, search_y-search_r_y, search_x+search_r_x, search_y+search_r_y, 0, 360, false, search_paint);
+                //canvas_search.drawArc(0, 0, 1000, 1000, 0, 360, false, search_paint);
 
             }
 
@@ -814,6 +839,57 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             case R.id.btn_search:;
                 flg=3;//検索
                 search_flg=1;
+
+                //Spinner追加（物品選択）20220920
+                ArrayAdapter<String> adapter_goods_reset = new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        search_goods_name
+                );
+                adapter_goods_reset.clear();//リセット20221027
+
+                File file_goods = new File("/data/data/" + this.getPackageName() + "/files/epc_goods.csv");
+                FileReader buff_goods = null;
+                try {
+                    buff_goods = new FileReader(file_goods);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                BufferedReader fr_goods = new BufferedReader(buff_goods);
+                String line_goods = null;
+                try {
+                    line_goods = fr_goods.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                while (line_goods != null){
+                    String[] str = line_goods.split(",");
+                    search_goods_name.add(str[0]);
+                    search_goods_epc.add(str[1]);
+                    search_goods_lasttime.add(str[2]);
+                    search_goods_coorx.add(str[3]);
+                    search_goods_coory.add(str[4]);
+                    search_goods_map.add(str[5]);
+                    try {
+                        line_goods = fr_goods.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    fr_goods.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //20220913 Spinner追加
+                final TextView goods_epc = (TextView) findViewById(R.id.txt_search_epc);//画面に物品のEPC表示
+                final TextView goods_lasttime = (TextView) findViewById(R.id.txt_search_lasttime);//保管時の時間を表示
+                ArrayAdapter<String> adapter_goods = new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        search_goods_name
+                );
+                final ImageView search_map = (ImageView) this.findViewById(R.id.img_search);//検索マップ20220929
 
 
 
@@ -1189,38 +1265,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mHandler.sendMessage(mHandler.obtainMessage(MSG_FIRM, 0, 0, ver));
 
         //アドレスRFIDタグの情報呼び出し20220209
-        File file = new File("/data/data/" + this.getPackageName() + "/files/epc_add_3.csv");
-        FileReader buff = null;
-        try {
-            buff = new FileReader(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        BufferedReader fr = new BufferedReader(buff);
 
-        String line_ = null;
-        try {
-            line_ = fr.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        while (line_ != null)
-        {
-            String[] str = line_.split(",");
-            epcadd.add(str[1]);
 
-            try {
-                line_ = fr.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
-        try {
-            fr.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         /*削除予定
         Spinner sp_cal_epc_ = (Spinner) findViewById(R.id.sp_cal_epc);
@@ -1235,6 +1282,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
         //マップ情報デフォルト20220502
         //イノベ
+        /*
         dotm_x = 237;
         dotm_y = 237;
         origin_x = 290;
@@ -1249,6 +1297,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
 
         invMap = mapData(R.drawable.laboratory);
+
+         */
 
 
     }
@@ -1835,29 +1885,63 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
 
                     //アドレスRFIDタグセクター描画
-                    //3rd
-                    if(!add_epc[2].equals("")){
-                        paint.setColor(Color.argb(255, 150, 150, 255));//青
-                        Inv_Sector_3(add_epc[2], add_dis[2], canvas, paint, add_3rd_d, add_3rd_x, add_3rd_y, est_3rd_m);
+                    if(surface_flg==0){
+                        //3面　20221027
+                        //3rd
+                        if(!add_epc[2].equals("")){
+                            paint.setColor(Color.argb(255, 150, 150, 255));//青
+                            paint.setStyle(Paint.Style.STROKE);
+                            Inv_Sector_3(add_epc[2], add_dis[2], canvas, paint, add_3rd_d, add_3rd_x, add_3rd_y, est_3rd_m);
+                        }
+
+                        //2nd
+                        if(!add_epc[1].equals("")){
+                            paint.setColor(Color.argb(255, 150, 255, 150));//緑
+                            paint.setStyle(Paint.Style.STROKE);
+                            Inv_Sector_3(add_epc[1], add_dis[1], canvas, paint, add_2nd_d, add_2nd_x, add_2nd_y, est_2nd_m);
+                        }
+
+                        //1st
+                        if(!add_epc[0].equals("")){
+                            paint.setColor(Color.argb(255, 255, 150, 150));//赤
+                            paint.setStyle(Paint.Style.STROKE);
+                            Inv_Sector_3(add_epc[0], add_dis[0], canvas, paint, add_1st_d, add_1st_x, add_1st_y, est_1st_m);
+
+                        }
+                    }
+                    else if(surface_flg==1){
+                        //4面　20221027
+                        if(!add_epc[2].equals("")){
+                            paint.setColor(Color.argb(255, 150, 150, 255));//青
+                            paint.setStyle(Paint.Style.STROKE);
+                            Inv_Sector_4(add_epc[2], add_dis[2], canvas, paint, add_3rd_d, add_3rd_x, add_3rd_y, est_3rd_m);
+                        }
+
+                        //2nd
+                        if(!add_epc[1].equals("")){
+                            paint.setColor(Color.argb(255, 150, 255, 150));//緑
+                            paint.setStyle(Paint.Style.STROKE);
+                            Inv_Sector_4(add_epc[1], add_dis[1], canvas, paint, add_2nd_d, add_2nd_x, add_2nd_y, est_2nd_m);
+                        }
+
+                        //1st
+                        if(!add_epc[0].equals("")){
+                            paint.setColor(Color.argb(255, 255, 150, 150));//赤
+                            paint.setStyle(Paint.Style.STROKE);
+                            Inv_Sector_4(add_epc[0], add_dis[0], canvas, paint, add_1st_d, add_1st_x, add_1st_y, est_1st_m);
+
+                        }
                     }
 
-                    //2nd
-                    if(!add_epc[1].equals("")){
-                        paint.setColor(Color.argb(255, 150, 255, 150));//緑
-                        Inv_Sector_3(add_epc[1], add_dis[1], canvas, paint, add_2nd_d, add_2nd_x, add_2nd_y, est_2nd_m);
-                    }
 
-                    //1st
-                    if(!add_epc[0].equals("")){
-                        paint.setColor(Color.argb(255, 255, 150, 150));//赤
-                        Inv_Sector_3(add_epc[0], add_dis[0], canvas, paint, add_1st_d, add_1st_x, add_1st_y, est_1st_m);
 
-                    }
+
 
 
 
                     //真値平方根重みによる範囲円描画20220509
                     paint.setColor(Color.argb(128, 255, 255, 0));//黄
+                    paint.setStyle(Paint.Style.FILL);
                     if(!add_epc[2].equals("")){
                         //アドレスRFIDタグが3つ以上読み取れた場合
                         double tr_sq_1st = Math.sqrt(add_rssi_tr[0]);
@@ -1871,7 +1955,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         det_y = origin_y - (int)(det_y_m*dotm_y);
 
 
-                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, true, paint);
+                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
+
+
+
 
                     }
                     else if(add_epc[2].equals("") && !add_epc[1].equals("")){
@@ -1885,16 +1972,14 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         det_x = origin_x + (int)(det_x_m*dotm_x);
                         det_y = origin_y - (int)(det_y_m*dotm_y);
 
-                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, true, paint);
-
-
+                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
 
                     }
                     else if(add_epc[1].equals("") && !add_epc[0].equals("")){
                         //アドレスRFIDタグが1つ読み取れた場合
                         det_x = origin_x + (int)(est_1st_m.get(0)*dotm_x);
                         det_y = origin_y - (int)(est_1st_m.get(1)*dotm_y);
-                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, true, paint);
+                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
                     }
                     Log.d("推定座標", "(" + det_x_m + ", " + det_y_m + ")" + "(" + det_x + ", " + det_y + ")");
 
@@ -1927,13 +2012,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                             all_insert.append(store_insert[0] + "," + //作番/注番
                                     store_insert[1] + "," +//EPC
                                     stored_time + "," +//タイムスタンプ
-                                    "44" + "," +//x座標
-                                    "359" + "," +//y座標
-                                    /*
                                     String.valueOf(det_x) + "," +//x座標
                                     String.valueOf(det_y) + "," +//y座標
-
-                                     */
                                     String.valueOf(inv_map_flg) + "\n");//マップ番号
                         }
                         else{
@@ -2118,6 +2198,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         {
             epcoc = epc.substring(0, 28); ;//20180711水戸OC用アプリ追記
         }
+        Log.d("EPC", epcoc);
 
 
 
@@ -2323,6 +2404,111 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
     }
 
+    //4面セクター描画
+    private void Inv_Sector_4(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, int add_d, int add_x, int add_y, List<Double> est_){
+        //Inv_Sector_4(アドレスタグのEPC, 距離, Canvas, Paint, y軸→x軸回転の角度, アドレスタグのx座標（dot）, アドレスタグのy座標（dot）)
+        //drawArc(左上x, 左上y, 右下x, 右下y, 開始角度, 移動角度, Paintクラスのインスタンス)
+        double est_x = 0;
+        double est_y = 0;
+
+        if(add_epc_.equals("3000000000000000000000000031")){
+            add_d = 360;//y軸→x軸回転の角度
+            add_x += (int)(add_1_x*dotm_x);
+            add_y -= (int)(add_1_y*dotm_y);
+            est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000032")){
+            add_d = 90;//y軸→x軸回転の角度
+            add_x += (int)(add_1_x*dotm_x);
+            add_y -= (int)(add_1_y*dotm_y);
+            est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000033")){
+            add_d = 180;//y軸→x軸回転の角度
+            add_x += (int)(add_1_x*dotm_x);
+            add_y -= (int)(add_1_y*dotm_y);
+            est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000096")){
+            add_d = 270;//y軸→x軸回転の角度
+            add_x += (int)(add_1_x*dotm_x);
+            add_y -= (int)(add_1_y*dotm_y);
+            est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        //34,35,36,97
+        else if(add_epc_.equals("3000000000000000000000000034")){
+            add_d = 360;//y軸→x軸回転の角度
+            add_x += (int)(add_2_x*dotm_x);
+            add_y -= (int)(add_2_y*dotm_y);
+            est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000035")){
+            add_d = 90;//y軸→x軸回転の角度
+            add_x += (int)(add_2_x*dotm_x);
+            add_y -= (int)(add_2_y*dotm_y);
+            est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000036")){
+            add_d = 180;//y軸→x軸回転の角度
+            add_x += (int)(add_2_x*dotm_x);
+            add_y -= (int)(add_2_y*dotm_y);
+            est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000097")){
+            add_d = 270;//y軸→x軸回転の角度
+            add_x += (int)(add_2_x*dotm_x);
+            add_y -= (int)(add_2_y*dotm_y);
+            est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        //37,38,39,98
+        else if(add_epc_.equals("3000000000000000000000000037")){
+            add_d = 360;//y軸→x軸回転の角度
+            add_x += (int)(add_3_x*dotm_x);
+            add_y -= (int)(add_3_y*dotm_y);
+            est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000038")){
+            add_d = 90;//y軸→x軸回転の角度
+            add_x += (int)(add_3_x*dotm_x);
+            add_y -= (int)(add_3_y*dotm_y);
+            est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000039")){
+            add_d = 180;//y軸→x軸回転の角度
+            add_x += (int)(add_3_x*dotm_x);
+            add_y -= (int)(add_3_y*dotm_y);
+            est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000039")){
+            add_d = 270;//y軸→x軸回転の角度
+            add_x += (int)(add_3_x*dotm_x);
+            add_y -= (int)(add_3_y*dotm_y);
+            est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+
+        int add_r_x_ = (int)(add_dis_*dotm_x);
+        int add_r_y_ = (int)(add_dis_*dotm_y);
+        canvas_.drawArc(add_x - add_r_x_, add_y - add_r_y_, add_x + add_r_x_, add_y + add_r_y_,add_d - 45,90,true, paint_);
+
+        //重みづけ用の座標設定（m）
+        est_.add(est_x);
+        est_.add(est_y);
+        Log.d("est座標", add_epc_ + ": " + "(" + (add_x-origin_x)/dotm_x + ", " + (origin_y-add_y)/dotm_y + ")" + add_r_x_ +"(" + est_x + ", " + est_y + ")");
+
+    }
+
 
 
     //検索時グラフ作成20220530
@@ -2399,6 +2585,80 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         }
         else{
             return mapData(R.drawable.laboratory);
+        }
+    }
+
+    //3面、4面の時のアドレスRFIDタグのEPCを.csvより取得 20221108
+    private void setAddTag(){
+        if(surface_flg==0){
+            File file = new File("/data/data/" + this.getPackageName() + "/files/epc_add_3.csv");
+            FileReader buff = null;
+            try {
+                buff = new FileReader(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            BufferedReader fr = new BufferedReader(buff);
+
+            String line_ = null;
+            try {
+                line_ = fr.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            while (line_ != null)
+            {
+                String[] str = line_.split(",");
+                epcadd.add(str[1]);
+
+                try {
+                    line_ = fr.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(surface_flg==1){
+            epcadd = new ArrayList();
+
+            File file = new File("/data/data/" + this.getPackageName() + "/files/epc_add_4.csv");
+            FileReader buff = null;
+            try {
+                buff = new FileReader(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            BufferedReader fr = new BufferedReader(buff);
+
+            String line_ = null;
+            try {
+                line_ = fr.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            while (line_ != null)
+            {
+                String[] str = line_.split(",");
+                epcadd.add(str[1]);
+
+                try {
+                    line_ = fr.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

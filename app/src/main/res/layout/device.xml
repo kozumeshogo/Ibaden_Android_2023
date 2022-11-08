@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="488dp"
+        android:layout_height="373dp"
         android:orientation="vertical">
 
         <TextView
@@ -196,6 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="研究室" />
 
             <RadioButton
@@ -227,27 +228,28 @@
             android:orientation="horizontal">
 
 
-                <RadioButton
-                    android:id="@+id/rd_surface_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="3面" />
+            <RadioButton
+                android:id="@+id/rd_surface_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="3面" />
 
-                <RadioButton
-                    android:id="@+id/rd_surface_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="4面" />
-            </RadioGroup>
+            <RadioButton
+                android:id="@+id/rd_surface_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="4面" />
+        </RadioGroup>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
         android:gravity="bottom">
 
         <Button
