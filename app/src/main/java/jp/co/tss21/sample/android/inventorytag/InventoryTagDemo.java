@@ -206,12 +206,12 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     /**検索タブ用     */
     private Button mBtnSearch;
 
-    private final ArrayList<String> search_goods_name = new ArrayList<String>();//検索対象の名前
-    private final ArrayList<String> search_goods_epc = new ArrayList<String>();//検索対象のEPC
-    private final ArrayList<String> search_goods_lasttime = new ArrayList<String>();//検索対象の保管時の時間
-    private final ArrayList<String> search_goods_coorx = new ArrayList<String>();//検索対象のx座標
-    private final ArrayList<String> search_goods_coory = new ArrayList<String>();//検索対象のy座標
-    private final ArrayList<String> search_goods_map = new ArrayList<String>();//検索対象のマップ番号
+    private ArrayList<String> search_goods_name = new ArrayList<String>();//検索対象の名前
+    private ArrayList<String> search_goods_epc = new ArrayList<String>();//検索対象のEPC
+    private ArrayList<String> search_goods_lasttime = new ArrayList<String>();//検索対象の保管時の時間
+    private ArrayList<String> search_goods_coorx = new ArrayList<String>();//検索対象のx座標
+    private ArrayList<String> search_goods_coory = new ArrayList<String>();//検索対象のy座標
+    private ArrayList<String> search_goods_map = new ArrayList<String>();//検索対象のマップ番号
     private Spinner SEARCH_GOODS_NAME;
 
     private int search_flg = 0;
@@ -496,6 +496,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         } catch (IOException e) {
             e.printStackTrace();
         }
+        SearchListClear();
         while (line_goods != null){
             String[] str = line_goods.split(",");
             search_goods_name.add(str[0]);
@@ -762,6 +763,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 flg=1;//CALフラグ設定20220209
                 cal_flg=1;//1回目読み取り設定
                 store_flg=0;
+                search_flg=0;
+                goods_flg=0;
+
+                SettingsClear();
 
                 //20220216CAL時
                 final SeekBar sb_db_add = (SeekBar)findViewById(R.id.db_add);
@@ -810,6 +815,11 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 flg=2;//物品読取フラグ設定20220209
                 cal_flg=0;
                 store_flg=1;//物品読取
+                search_flg=0;
+                goods_flg=0;
+
+                SettingsClear();
+
                 final SeekBar sb_db_goods = (SeekBar)findViewById(R.id.db_goods);
                 final SeekBar sb_ms_goods = (SeekBar)findViewById(R.id.ms_goods);
                 //20220216物品読み取り時
@@ -838,7 +848,12 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
             case R.id.btn_search:;
                 flg=3;//検索
+                cal_flg=0;
+                store_flg=0;
                 search_flg=1;
+                goods_flg=0;
+
+                SettingsClear();
 
                 //Spinner追加（物品選択）20220920
                 ArrayAdapter<String> adapter_goods_reset = new ArrayAdapter<>(
@@ -847,6 +862,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         search_goods_name
                 );
                 adapter_goods_reset.clear();//リセット20221027
+
+
+
 
                 File file_goods = new File("/data/data/" + this.getPackageName() + "/files/epc_goods.csv");
                 FileReader buff_goods = null;
@@ -862,6 +880,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                SearchListClear();
                 while (line_goods != null){
                     String[] str = line_goods.split(",");
                     search_goods_name.add(str[0]);
@@ -891,6 +910,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 );
                 final ImageView search_map = (ImageView) this.findViewById(R.id.img_search);//検索マップ20220929
 
+                SEARCH_GOODS_NAME = (Spinner) findViewById(R.id.sp_search_goods);
+                adapter_goods.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                SEARCH_GOODS_NAME.setAdapter(adapter_goods);
+
 
 
 
@@ -899,7 +922,12 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 break;
             case R.id.btn_goods_regi://物品保管時タグの読み取り20220620
                 flg=4;//物品保管
+                cal_flg=0;
+                store_flg=0;
+                search_flg=0;
                 goods_flg=1;//読取
+
+                SettingsClear();
 
 
                 TextView target = (TextView) findViewById(R.id.txt_write_target);
@@ -2660,6 +2688,46 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 e.printStackTrace();
             }
         }
+    }
+
+    private void SearchListClear(){
+        //検索時Spinnerに入れるデータの初期化20221110
+        search_goods_name = new ArrayList<>();
+        search_goods_epc = new ArrayList<>();
+        search_goods_lasttime = new ArrayList<>();
+        search_goods_coorx = new ArrayList<>();
+        search_goods_coory = new ArrayList<>();
+        search_goods_map = new ArrayList<>();
+    }
+
+    private void SettingsClear(){
+        //一括でテキスト背景色や画像描画の設定をリセットするメソッド2021110
+        TextView st_sakuban = (TextView) findViewById(R.id.txt_sakuban_store);
+        TextView st_tyuban = (TextView) findViewById(R.id.txt_tyuban_store);
+        TextView target = (TextView) findViewById(R.id.txt_write_target);
+        TextView sakuban = (TextView) findViewById(R.id.txt_sakuban_regi);
+        TextView tyuban = (TextView) findViewById(R.id.txt_tyuban_regi);
+        TextView write = (TextView) findViewById(R.id.txt_write_epc);
+        TextView written = (TextView) findViewById(R.id.txt_written_goods);
+        TextView order = (TextView) findViewById(R.id.txt_goods_regi_order);
+        TextView txtInv = (TextView) findViewById(R.id.txt_inv);
+        //テキストの背景色変更
+        st_sakuban.setBackgroundColor(Color.argb(0, 255, 255, 0));
+        st_tyuban.setBackgroundColor(Color.argb(0, 255, 255, 0));
+        target.setBackgroundColor(Color.argb(0, 255, 255, 0));
+        sakuban.setBackgroundColor(Color.argb(0, 255, 255, 0));
+        tyuban.setBackgroundColor(Color.argb(0, 255, 255, 0));
+        write.setBackgroundColor(Color.argb(0, 255, 255, 0));
+        written.setBackgroundColor(Color.argb(0, 255, 255, 0));
+        //テキストの中身初期化
+        st_sakuban.setText("");
+        st_tyuban.setText("");
+        txtInv.setText("");
+
+        Canvas canvas;
+        canvas = new Canvas(invMap);
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
     }
 
 
