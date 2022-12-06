@@ -228,7 +228,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:text="11.55" />
+            android:text="10.65" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -254,7 +254,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:text="42.434" />
+            android:text="44.342" />
     </LinearLayout>
 
 </LinearLayout>

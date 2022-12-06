@@ -1762,8 +1762,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                                 dis_dg = base_dg * Math.pow(10, ((cal_rssi1 - rssi) / sub_const));//アドレスRFIDタグからの斜め距離, sub_constは減衰定数N
                             }
                             else if(ranging_method_flg==1){//多点CAL
-                                dis_dg =  Math.exp(-((rssi+curve_a)/curve_b));
+                                dis_dg =  Math.exp(-((rssi+curve_b)/curve_a));
                             }
+
 
                             dis = Math.sqrt((Math.pow(dis_dg, 2)) - (Math.pow(add_height - read_height, 2)));//アドレスRFIDタグからの水平距離
 
@@ -1827,16 +1828,46 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
 
 
-                    //描画用パラメータ20220418
-                    String[] add_epc = {"", "", ""};
-                    Double[] add_dis = new Double[3];
-                    Double[] add_rssi = new Double[3];
-                    Double[] add_rssi_tr = new Double[3];
 
-                    Paint paint = new Paint();
 
                     //表示用テキスト設定20220418
+                    int j=0;
+                    for(Object item_ : addlist){
+                        j++;
+                    }
+                    //描画用パラメータ20220418
+                    String[] add_epc = new String[j];
+                    Double[] add_dis = new Double[j];
+                    Double[] add_rssi = new Double[j];
+                    Double[] add_rssi_tr = new Double[j];
+
+                    Paint paint = new Paint();
+                    paint.setStrokeWidth(20);
+
+                    //重み平均を用いる際に使用する(セクターの弧の中心の)座標（m）
+                    List<Double> est_x_m = new ArrayList<Double>();
+                    List<Double> est_y_m = new ArrayList<Double>();
+                    //(dot)
+                    List<Integer> est_x = new ArrayList<Integer>();
+                    List<Integer> est_y = new ArrayList<Integer>();
+
+                    double det_sum_x = 0;//真値平方根重みの分子x初期値
+                    double det_sum_y = 0;//真値平方根重みの分子yの初期値
+                    double tr_sq_sum = 0;//真値平方根重みの分母の初期値
+
+                    //範囲円の中心の座標（m）
+                    double det_x_m = 0;
+                    double det_y_m = 0;
+                    //範囲円の中心の座標（dot）
+                    int det_x = origin_x;
+                    int det_y = origin_y;
+                    //範囲円の半径(dot)
+                    int range_x = (int)(range_x_m * dotm_x);
+                    int range_y = (int)(range_y_m * dotm_y);
+
                     int i=0;
+                    int inv_alpha = 255;//描画時のアルファ値（透け具合）
+                    int inv_color = 150;
                     for(Object item_ : addlist)//item_: [EPC, RSSI, 読み取り回数, 距離 RSSI真値]
                     {
                         ArrayList item = (ArrayList) item_;
@@ -1856,159 +1887,48 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         dis_log.append(write_);
 
 
+                        paint.setStyle(Paint.Style.STROKE);
+                        paint.setAntiAlias(true);
+                        add_epc[i] = String.valueOf(item.get(0));
+                        add_rssi[i] = Double.parseDouble(String.valueOf(item.get(1)));
+                        add_dis[i] = Double.parseDouble(String.valueOf(item.get(3)));
+                        add_rssi_tr[i] = Double.parseDouble(String.valueOf(item.get(4)));
 
-                        paint.setStrokeWidth(20);
-                        if(i<=2){
-                            paint.setStyle(Paint.Style.STROKE);
-                            paint.setAntiAlias(true);
-                            add_epc[i] = String.valueOf(item.get(0));
-                            add_rssi[i] = Double.parseDouble(String.valueOf(item.get(1)));
-                            add_dis[i] = Double.parseDouble(String.valueOf(item.get(3)));
-                            add_rssi_tr[i] = Double.parseDouble(String.valueOf(item.get(4)));
-
-
+                        //セクターの描画20221206
+                        paint.setColor(Color.argb(inv_alpha, inv_color, 255, inv_color));//緑
+                        paint.setStyle(Paint.Style.STROKE);
+                        if(surface_flg==0){//3面
+                            Inv_Sector_3(add_epc[i], add_dis[i], canvas, paint, est_x_m, est_y_m);
                         }
+                        else if(surface_flg==1){//4面
+                            Inv_Sector_4(add_epc[i], add_dis[i], canvas, paint, est_x_m, est_y_m);
+                        }
+
+                        //推定座標の分子、分母の加算20221206
+                        det_sum_x += add_rssi_tr[i] * est_x_m.get(i);
+                        det_sum_y += add_rssi_tr[i] * est_y_m.get(i);
+                        tr_sq_sum += add_rssi_tr[i];
+
+
+                        inv_alpha -= 20;
+                        inv_color -= 10;
                         i++;
 
                     }
 
-
-                    //読み取ったアドレスRFIDタグの座標（dot）と方向（y軸→x軸回転した角度[degree]）
-                    int add_1st_x = origin_x;
-                    int add_1st_y = origin_y;
-                    int add_1st_d = 0;
-                    int add_2nd_x = origin_x;
-                    int add_2nd_y = origin_y;
-                    int add_2nd_d = 0;
-                    int add_3rd_x = origin_x;
-                    int add_3rd_y = origin_y;
-                    int add_3rd_d = 0;
-
-                    //重み平均を用いる際に使用する(セクターの弧の中心の)座標（m）
-                    //est_***: [x座標, y座標]
-                    List<Double> est_1st_m = new ArrayList<Double>();
-                    List<Double> est_2nd_m = new ArrayList<Double>();
-                    List<Double> est_3rd_m = new ArrayList<Double>();
-
-                    //(dot)
-                    List<Integer> est_1st = new ArrayList<Integer>();
-                    List<Integer> est_2nd = new ArrayList<Integer>();
-                    List<Integer> est_3rd = new ArrayList<Integer>();
-
-                    double tr_sq_sum = 1;//真値平方根重みの分母の初期値
-
-                    //範囲円の中心の座標（m）
-                    double det_x_m = 0;
-                    double det_y_m = 0;
-                    //範囲円の中心の座標（dot）
-                    int det_x = origin_x;
-                    int det_y = origin_y;
-                    //範囲円の半径(dot)
-                    int range_x = (int)(range_x_m * dotm_x);
-                    int range_y = (int)(range_y_m * dotm_y);
-
-
-
-
-
-
-                    //アドレスRFIDタグセクター描画
-                    if(surface_flg==0){
-                        //3面　20221027
-                        //3rd
-                        if(!add_epc[2].equals("")){
-                            paint.setColor(Color.argb(255, 150, 150, 255));//青
-                            paint.setStyle(Paint.Style.STROKE);
-                            Inv_Sector_3(add_epc[2], add_dis[2], canvas, paint, add_3rd_d, add_3rd_x, add_3rd_y, est_3rd_m);
-                        }
-
-                        //2nd
-                        if(!add_epc[1].equals("")){
-                            paint.setColor(Color.argb(255, 150, 255, 150));//緑
-                            paint.setStyle(Paint.Style.STROKE);
-                            Inv_Sector_3(add_epc[1], add_dis[1], canvas, paint, add_2nd_d, add_2nd_x, add_2nd_y, est_2nd_m);
-                        }
-
-                        //1st
-                        if(!add_epc[0].equals("")){
-                            paint.setColor(Color.argb(255, 255, 150, 150));//赤
-                            paint.setStyle(Paint.Style.STROKE);
-                            Inv_Sector_3(add_epc[0], add_dis[0], canvas, paint, add_1st_d, add_1st_x, add_1st_y, est_1st_m);
-
-                        }
-                    }
-                    else if(surface_flg==1){
-                        //4面　20221027
-                        if(!add_epc[2].equals("")){
-                            paint.setColor(Color.argb(255, 150, 150, 255));//青
-                            paint.setStyle(Paint.Style.STROKE);
-                            Inv_Sector_4(add_epc[2], add_dis[2], canvas, paint, add_3rd_d, add_3rd_x, add_3rd_y, est_3rd_m);
-                        }
-
-                        //2nd
-                        if(!add_epc[1].equals("")){
-                            paint.setColor(Color.argb(255, 150, 255, 150));//緑
-                            paint.setStyle(Paint.Style.STROKE);
-                            Inv_Sector_4(add_epc[1], add_dis[1], canvas, paint, add_2nd_d, add_2nd_x, add_2nd_y, est_2nd_m);
-                        }
-
-                        //1st
-                        if(!add_epc[0].equals("")){
-                            paint.setColor(Color.argb(255, 255, 150, 150));//赤
-                            paint.setStyle(Paint.Style.STROKE);
-                            Inv_Sector_4(add_epc[0], add_dis[0], canvas, paint, add_1st_d, add_1st_x, add_1st_y, est_1st_m);
-
-                        }
-                    }
-
-
-
-
-
-
-
-                    //真値平方根重みによる範囲円描画20220509
-                    paint.setColor(Color.argb(128, 255, 255, 0));//黄
-                    paint.setStyle(Paint.Style.FILL);
-                    if(!add_epc[2].equals("")){
-                        //アドレスRFIDタグが3つ以上読み取れた場合
-                        double tr_sq_1st = Math.sqrt(add_rssi_tr[0]);
-                        double tr_sq_2nd = Math.sqrt(add_rssi_tr[1]);
-                        double tr_sq_3rd = Math.sqrt(add_rssi_tr[2]);
-                        tr_sq_sum = tr_sq_1st + tr_sq_2nd + tr_sq_3rd;
-
-                        det_x_m = ((est_1st_m.get(0) * tr_sq_1st) + (est_2nd_m.get(0) * tr_sq_2nd) + (est_3rd_m.get(0) * tr_sq_3rd))/tr_sq_sum;
-                        det_y_m = ((est_1st_m.get(1) * tr_sq_1st) + (est_2nd_m.get(1) * tr_sq_2nd) + (est_3rd_m.get(1) * tr_sq_3rd))/tr_sq_sum;
+                    //推定座標の算出及び推定円の描画20221206
+                    if(tr_sq_sum!=0.0){
+                        det_x_m = det_sum_x / tr_sq_sum;
+                        det_y_m = det_sum_y / tr_sq_sum;
                         det_x = origin_x + (int)(det_x_m*dotm_x);
                         det_y = origin_y - (int)(det_y_m*dotm_y);
 
-
-                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
-
-
-
-
-                    }
-                    else if(add_epc[2].equals("") && !add_epc[1].equals("")){
-                        //アドレスRFIDタグが２つ読み取れた場合
-                        double tr_sq_1st = Math.sqrt(add_rssi_tr[0]);
-                        double tr_sq_2nd = Math.sqrt(add_rssi_tr[1]);
-                        tr_sq_sum = tr_sq_1st + tr_sq_2nd;
-
-                        det_x_m = ((est_1st_m.get(0) * tr_sq_1st) + (est_2nd_m.get(0) * tr_sq_2nd))/tr_sq_sum;
-                        det_y_m = ((est_1st_m.get(1) * tr_sq_1st) + (est_2nd_m.get(1) * tr_sq_2nd))/tr_sq_sum;
-                        det_x = origin_x + (int)(det_x_m*dotm_x);
-                        det_y = origin_y - (int)(det_y_m*dotm_y);
-
-                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
-
-                    }
-                    else if(add_epc[1].equals("") && !add_epc[0].equals("")){
-                        //アドレスRFIDタグが1つ読み取れた場合
-                        det_x = origin_x + (int)(est_1st_m.get(0)*dotm_x);
-                        det_y = origin_y - (int)(est_1st_m.get(1)*dotm_y);
+                        //真値平方根重みによる範囲円描画20220509
+                        paint.setColor(Color.argb(128, 255, 255, 0));//黄
+                        paint.setStyle(Paint.Style.FILL);
                         canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
                     }
+
                     Log.d("推定座標", "(" + det_x_m + ", " + det_y_m + ")" + "(" + det_x + ", " + det_y + ")");
 
 
@@ -2351,11 +2271,14 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     }
 
     //3面セクター描画
-    private void Inv_Sector_3(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, int add_d, int add_x, int add_y, List<Double> est_){
+    private void Inv_Sector_3(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, List<Double> est_x_, List<Double> est_y_){
         //Inv_Sector_3(アドレスタグのEPC, 距離, Canvas, Paint, y軸→x軸回転の角度, アドレスタグのx座標（dot）, アドレスタグのy座標（dot）)
         //drawArc(左上x, 左上y, 右下x, 右下y, 開始角度, 移動角度, Paintクラスのインスタンス)
         double est_x = 0;
         double est_y = 0;
+        int add_d = 0;
+        int add_x = origin_x;
+        int add_y = origin_y;
 
         if(add_epc_.equals("3000000000000000000000000031")){
             add_d = 225;//y軸→x軸回転の角度
@@ -2421,23 +2344,26 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
         }
 
-        int add_r_x_ = (int)add_dis_*dotm_x;
-        int add_r_y_ = (int)add_dis_*dotm_y;
+        int add_r_x_ = (int)(add_dis_*dotm_x);
+        int add_r_y_ = (int)(add_dis_*dotm_y);
         canvas_.drawArc(add_x - add_r_x_, add_y - add_r_y_, add_x + add_r_x_, add_y + add_r_y_,add_d - 45,90,true, paint_);
 
         //重みづけ用の座標設定（m）
-        est_.add(est_x);
-        est_.add(est_y);
+        est_x_.add(est_x);
+        est_y_.add(est_y);
         Log.d("est座標", add_epc_ + ": " + "(" + (add_x-origin_x)/dotm_x + ", " + (origin_y-add_y)/dotm_y + ")" + add_r_x_ +"(" + est_x + ", " + est_y + ")");
 
     }
 
     //4面セクター描画
-    private void Inv_Sector_4(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, int add_d, int add_x, int add_y, List<Double> est_){
+    private void Inv_Sector_4(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, List<Double> est_x_, List<Double> est_y_){
         //Inv_Sector_4(アドレスタグのEPC, 距離, Canvas, Paint, y軸→x軸回転の角度, アドレスタグのx座標（dot）, アドレスタグのy座標（dot）)
         //drawArc(左上x, 左上y, 右下x, 右下y, 開始角度, 移動角度, Paintクラスのインスタンス)
         double est_x = 0;
         double est_y = 0;
+        int add_d = 0;
+        int add_x = origin_x;
+        int add_y = origin_y;
 
         if(add_epc_.equals("3000000000000000000000000031")){
             add_d = 360;//y軸→x軸回転の角度
@@ -2518,7 +2444,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
             est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
         }
-        else if(add_epc_.equals("3000000000000000000000000039")){
+        else if(add_epc_.equals("3000000000000000000000000098")){
             add_d = 270;//y軸→x軸回転の角度
             add_x += (int)(add_3_x*dotm_x);
             add_y -= (int)(add_3_y*dotm_y);
@@ -2531,8 +2457,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         canvas_.drawArc(add_x - add_r_x_, add_y - add_r_y_, add_x + add_r_x_, add_y + add_r_y_,add_d - 45,90,true, paint_);
 
         //重みづけ用の座標設定（m）
-        est_.add(est_x);
-        est_.add(est_y);
+        est_x_.add(est_x);
+        est_y_.add(est_y);
         Log.d("est座標", add_epc_ + ": " + "(" + (add_x-origin_x)/dotm_x + ", " + (origin_y-add_y)/dotm_y + ")" + add_r_x_ +"(" + est_x + ", " + est_y + ")");
 
     }
