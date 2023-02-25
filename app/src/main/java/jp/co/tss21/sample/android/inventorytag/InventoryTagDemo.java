@@ -81,6 +81,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
     private TabHost mTabHost;
 
+    //#0001 変数宣言
     /** 設定タブ用 */
     private Button mBtnScan;
     private TextView mTxtDeviceAddr;
@@ -131,13 +132,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     1:多点CAL
      */
 
-
-
-
     private final ArrayList<String> epc_cal = new ArrayList<String>();
     private Spinner CALEPC;
-
-
 
     /** 保管タブ用 */
 
@@ -162,21 +158,14 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private double range_x_m =3.0;
     private double range_y_m = 3.0;
 
-    
-
     private Bitmap invMap;// = mapData(R.drawable.laboratory);
 
     private String epc_inv = "";
-
-
-
     int store_flg = 0;
     /*
     1:物品読み取り
     2:アドレスRFIDタグ読み取り
      */
-
-
 
     /** ログタブ用 */
     private Button mBtnLogClear;
@@ -218,7 +207,6 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private int search_test = 0;//起動時の描画を防ぐフラグ20220929
 
 
-
     /** ADD登録タブ用*/
 
     /**public変数　20211129*/
@@ -240,15 +228,14 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     物品登録:4
 
      */
-
-    /**テスト用 20220121**/
-    private Color search = new Color();
+    //#0001fin
 
 
 
     /**
      * Called when the activity is first created.
      */
+    //#0002 メニューバーの表示
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -275,7 +262,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
         return super.onOptionsItemSelected(item);
     }
+    //#0002fin
 
+
+    //#0003 イベント関連の変数宣言
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -301,6 +291,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mTxtDeviceName.setText(getAutoConnectDeviceName());
         mTxtDeviceAddr.setText(getAutoConnectDeviceAddress());
 
+        //#0004 マップ切替用ラジオボタンに関する処理
         //マップ番号取得20221025
         mRadioGroupMapSelect = (RadioGroup)findViewById(R.id.rdgroup_map_select);
         mRadioGroupMapSelect.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -309,8 +300,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 if (checkedId != -1) {
                     // 選択されているラジオボタンの取得
                     RadioButton radioButton = (RadioButton) findViewById(checkedId);
-                    inv_map_flg = 2131230831 - checkedId;
+                    inv_map_flg = 2131230833 - checkedId;
                     Log.d("マップ選択", String.valueOf(inv_map_flg));
+                    //アドレスRFIDタグ座標設定
                     if(inv_map_flg==0){//マップ「研究室」20211108
 
                         dotm_x = 237;
@@ -364,14 +356,29 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 }
             }
         });
+        //#0004fin
+
+        //#0005 金属板の面数切替用ラジオボタンに関する処理
         //金属板の面数20221025
         mRadioGroupSurfaceSelect = (RadioGroup)findViewById(R.id.rdgroup_surface_select);
         mRadioGroupSurfaceSelect.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId != -1){
-                    surface_flg = checkedId - 2131230832;
+                    surface_flg = checkedId - 2131230834;
                     Log.d("面数選択", String.valueOf(surface_flg));
+
+                    //多点CAL用パラメータ20221024
+                    EditText multi_a_origin = (EditText) findViewById(R.id.multi_a);
+                    EditText multi_b_origin = (EditText) findViewById(R.id.multi_b);
+                    if(surface_flg==0){//3面
+                        multi_a_origin.setText("11.55");
+                        multi_b_origin.setText("42.434");
+                    }
+                    else if(surface_flg==1){//4面
+                        multi_a_origin.setText("10.65");
+                        multi_b_origin.setText("44.342");
+                    }
 
                     setAddTag();
                 }
@@ -382,7 +389,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
         });
         setAddTag();
+        //#0005fin
 
+        //#0006 測距方法切替用ラジオボタンに関する処理
         /** CALタブ用 */
         mBtnCAL = (Button) findViewById(R.id.btn_cal);
         mBtnCAL.setOnClickListener(this);
@@ -391,16 +400,17 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId != -1) {
-                    ranging_method_flg = 2131230828 - checkedId;
+                    ranging_method_flg = 2131230830 - checkedId;
                     Log.d("測距手法選択", String.valueOf(ranging_method_flg));
                 } else {
 
                 }
             }
         });
+        //#0006fin
 
 
-        //20220920
+        //#0007 cal用アドレスタグ選択spinnerの処理
         //20220913 sp_cal_epc SpinnerによるCAL時のマスク設定
         File file_cal = new File("/data/data/" + this.getPackageName() + "/files/epc_add_4.csv");
         FileReader buff_cal = null;
@@ -430,8 +440,6 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         //20220913 Spinner追加
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
@@ -456,11 +464,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             }
         });
         epc_cal.add("");//20220913
-
-
-
-
-
+        //#0007fin
 
         /** 保管タブ用 */
         mBtnStore = (Button) findViewById(R.id.btn_store);
@@ -481,6 +485,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mBtnSearch = (Button) findViewById(R.id.btn_search);
         mBtnSearch.setOnClickListener(this);
 
+        //#0008 検索時物品選択用spnnerの処理
         //Spinner追加（物品選択）20220920
         File file_goods = new File("/data/data/" + this.getPackageName() + "/files/epc_goods.csv");
         FileReader buff_goods = null;
@@ -585,8 +590,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 //
             }
         });
-
-
+        //#0008fin
 
         /** 物品登録タブ用*/
         mBtnGoodsRegi = (Button) findViewById(R.id.btn_goods_regi);
@@ -617,8 +621,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             startActivityForResult(intent, REQUEST_ENABLE_BT);
         }
 
-
-
+        //#0009 シークバー関連の処理
         //物品読み取り時電力変更時のシークバーの挙動20220120
         final SeekBar sb0 = (SeekBar)findViewById(R.id.db_goods);
         final TextView tv0 = (TextView)findViewById(R.id.db_goods_value);
@@ -710,26 +713,17 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     }
                 }
         );
+        //#0009fin
+
         //マップデフォルト（落ち防止）20220502
         invMap = mapData(R.drawable.laboratory);
-
-
-
-
     }
-
-
-
-
-    /**
-     * イベントハンドラを記載します
-     */
-
-
+    //#0003fin
 
 
     @Override
 
+    //#0010 クリックイベント一覧
     public void onClick(View arg0) {
         switch (arg0.getId()) {
             case R.id.btn_scan: //デバイス検索ボタン
@@ -1025,7 +1019,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                 break;
         }
     }
+    //#0010fin
 
+    //#0011 イベントハンドラ関連
     //主に別スレッドを考慮したイベントハンドラを記載します
     public static final int MSG_QUIT = 9999;
     public static final int MSG_SHOW_TOAST = 20;
@@ -1069,6 +1065,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             }
         }
     }
+
 
 
     private void closeApp() {
@@ -1125,14 +1122,16 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     public void onClickInv(){
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
-
-
     }
+
+    //#0011fin
 
 
     /** ---------------------------------------- ----------------------------------------
      * デバイスタブ用
      * ---------------------------------------- ---------------------------------------- */
+
+    //#0012 RFID関連初期値設定
     void setting() {
 
         //一括読取り時の取得データ設定
@@ -1147,8 +1146,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mDotrUtil.setRadioChannel(EnChannel.ALL);//チャネルの設定（Ch5, Ch11, Ch17, Ch23, Ch24, Ch25のみ使用可能）20220209
         mDotrUtil.setSession(EnSession.Session0);//セッションの設定20220209
 
-
     }
+    //#0012fin
 
 
     static final int ListBtDevice_Activity = 1;
@@ -1159,6 +1158,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
      * (非 Javadoc)
      * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
      */
+    //#0013 Bluetooth関連設定
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1187,6 +1187,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             }
         }
     }
+
 
 
     /**
@@ -1228,11 +1229,13 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         SharedPreferences pref = getSharedPreferences(TAG, 0);
         return pref.getString("auto_link_device_name", "");
     }
+    //#0013fin
 
 
     /** ---------------------------------------- ----------------------------------------
      * ログタブ用
      * ---------------------------------------- ---------------------------------------- */
+    //#0014 リストにEPC, RSSIの表示処理
     private void initLog() {
         mListLog = (ListView) findViewById(R.id.list_log);
         if (mAarryLog == null) {
@@ -1251,6 +1254,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mAarryLog.clear();
         mAdapterLog.notifyDataSetChanged();
     }
+    //#0014fin
 
 
     /*
@@ -1258,6 +1262,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
      * (非 Javadoc)
      * @see jp.co.tss21.uhfrfid.dotr_android.OnDotrEventListener#onConnected()
      */
+    //#0015 RFID R/W接続時の処理 (R/W: リーダ/ライタ)
     @Override
     public void onConnected() {
 
@@ -1292,44 +1297,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         //ファームウェアバージョンをログに表示
         mHandler.sendMessage(mHandler.obtainMessage(MSG_FIRM, 0, 0, ver));
 
-        //アドレスRFIDタグの情報呼び出し20220209
-
-
-
-
-        /*削除予定
-        Spinner sp_cal_epc_ = (Spinner) findViewById(R.id.sp_cal_epc);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                epcadd
-        );
-
-         */
-
-
-        //マップ情報デフォルト20220502
-        //イノベ
-        /*
-        dotm_x = 237;
-        dotm_y = 237;
-        origin_x = 290;
-        origin_y = 2955;
-
-        add_1_x=5.0;
-        add_1_y=0.0;
-        add_2_x=5.0;
-        add_2_y=4.0;
-        add_3_x=1.5;
-        add_3_y=7.5;
-
-
-        invMap = mapData(R.drawable.laboratory);
-
-         */
-
-
     }
+    //#0015fin
 
 
     /*
@@ -1337,6 +1306,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
      * (非 Javadoc)
      * @see jp.co.tss21.uhfrfid.dotr_android.OnDotrEventListener#onDisconnected()
      */
+    //#0016 RFID R/W切断時の処理
     @Override
     public void onDisconnected() {
         Log.d(TAG, "onDisconnected");
@@ -1347,6 +1317,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
         epcadd.clear();
     }
+    //#0016fin
 
 
     /*
@@ -1354,6 +1325,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
      * (非 Javadoc)
      * @see jp.co.tss21.uhfrfid.dotr_android.OnDotrEventListener#onLinkLost()
      */
+    //#0017 リンク切れ時の処理
     @Override
     public void onLinkLost() {
         Log.d(TAG, "onLinkLost");
@@ -1361,6 +1333,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mHandler.sendMessage(mHandler.obtainMessage(MSG_BACK_COLOR, Toast.LENGTH_SHORT, getResources().getColor(R.color.background_disconnect), null));
         showToastByOtherThread("リンクが切れました。", Toast.LENGTH_SHORT);
     }
+    //#0017fin
 
 
     /*
@@ -1372,11 +1345,8 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     public void onTriggerChaned(boolean trigger) {
         Log.d(TAG, "onTriggerChaned(" + trigger + ")");
 
-        if (trigger) {//トリガー引く
-
-
-
-
+        //#0018 RFID R/Wのトリガーを引いた時の処理
+        if (trigger) {
             //フラグごとの動作20220209
             if(flg==1){//cal
                 //送信電力、読み取りサイクルの設定20220209
@@ -1497,7 +1467,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             }
 
 
-        } else {//トリガー離す
+        }
+        //#0018fin
+        //#00 RFID R/Wのトリガーを離した時の処理
+        else {
             //トリガを離したら読取り処理をストップ
             mDotrUtil.stop();
 
@@ -1759,14 +1732,15 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                             base_dg = Math.sqrt(Math.pow(cal_dis1, 2) + Math.pow(add_height - read_height, 2));//斜め基準距離
 
                             if(ranging_method_flg==0){//2点CAL
-                                dis_dg = base_dg * Math.pow(10, ((cal_rssi1 - rssi) / sub_const));//アドレスRFIDタグからの斜め距離, sub_constは減衰定数N
+                                dis_dg = NanIsZero(base_dg * Math.pow(10, ((cal_rssi1 - rssi) / sub_const)));//アドレスRFIDタグからの斜め距離, sub_constは減衰定数N
                             }
                             else if(ranging_method_flg==1){//多点CAL
-                                dis_dg =  Math.exp(-((rssi+curve_b)/curve_a));
+                                dis_dg =  NanIsZero(Math.exp(-((rssi+curve_b)/curve_a)));
+
                             }
 
 
-                            dis = Math.sqrt((Math.pow(dis_dg, 2)) - (Math.pow(add_height - read_height, 2)));//アドレスRFIDタグからの水平距離
+                            dis = NanIsZero(Math.sqrt((Math.pow(dis_dg, 2)) - (Math.pow(add_height - read_height, 2))));//アドレスRFIDタグからの水平距離
 
                             //アドレスRFIDタグの高さは全て等しいとみなすため、if文を省略
                             Log.d("RSSI" , "DIS =" + dis_dg);
@@ -1847,13 +1821,26 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     //重み平均を用いる際に使用する(セクターの弧の中心の)座標（m）
                     List<Double> est_x_m = new ArrayList<Double>();
                     List<Double> est_y_m = new ArrayList<Double>();
-                    //(dot)
-                    List<Integer> est_x = new ArrayList<Integer>();
-                    List<Integer> est_y = new ArrayList<Integer>();
 
-                    double det_sum_x = 0;//真値平方根重みの分子x初期値
-                    double det_sum_y = 0;//真値平方根重みの分子yの初期値
-                    double tr_sq_sum = 0;//真値平方根重みの分母の初期値
+                    double det_sum_x = 0;//距離重みの分子x初期値
+                    double det_sum_y = 0;//距離重みの分子yの初期値
+                    double dis_weight_sum = 1;//距離重みの分母の初期値
+
+                    double first_x = 0;//1stの扇形の弧の中心のx座標
+                    double first_y = 0;//1stの扇形の弧の中心のy座標
+
+                    //P=α*exp(-β*dis1n)
+                    /*
+                    TextView dis_weight_alpha_ = (TextView)findViewById(R.id.dis_weight_alpha_set);
+                    TextView dis_weight_beta_ = (TextView)findViewById(R.id.dis_weight_beta_set);
+                    Log.d("aaa", "aaa");
+                    double dis_weight_alpha = Double.parseDouble((String)dis_weight_alpha_.getText());//距離重み式のパラメータα
+                    double dis_weight_beta =Double.parseDouble((String)dis_weight_beta_.getText());//距離重み式のパラメータβ
+
+                     */
+
+                    double dis_weight_alpha = 1;//距離重み式のパラメータα
+                    double dis_weight_beta =0.460517;//距離重み式のパラメータβ
 
                     //範囲円の中心の座標（m）
                     double det_x_m = 0;
@@ -1904,10 +1891,23 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                             Inv_Sector_4(add_epc[i], add_dis[i], canvas, paint, est_x_m, est_y_m);
                         }
 
-                        //推定座標の分子、分母の加算20221206
-                        det_sum_x += add_rssi_tr[i] * est_x_m.get(i);
-                        det_sum_y += add_rssi_tr[i] * est_y_m.get(i);
-                        tr_sq_sum += add_rssi_tr[i];
+                        if(i==0){
+                            first_x = est_x_m.get(i);
+                            first_y = est_y_m.get(i);
+                            det_sum_x += est_x_m.get(i);
+                            det_sum_y += est_y_m.get(i);
+                        }
+                        else{
+                            //推定座標の分子、分母の加算20221206
+                            double dis_weight = dis_weight_alpha * Math.exp(-(dis_weight_beta*Math.sqrt(Math.pow((first_x-est_x_m.get(i)), 2)+Math.pow((first_y-est_y_m.get(i)), 2))));//距離重み
+                            det_sum_x += dis_weight * est_x_m.get(i);//x成分の分子の足し算
+                            det_sum_y += dis_weight * est_y_m.get(i);//y成分の分子の足し算
+                            dis_weight_sum += dis_weight;//分母の足し算（距離重みの和）
+
+                            Log.d((i+1) + "番目", String.valueOf(dis_weight));
+                        }
+
+
 
 
                         inv_alpha -= 20;
@@ -1917,17 +1917,55 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     }
 
                     //推定座標の算出及び推定円の描画20221206
-                    if(tr_sq_sum!=0.0){
-                        det_x_m = det_sum_x / tr_sq_sum;
-                        det_y_m = det_sum_y / tr_sq_sum;
-                        det_x = origin_x + (int)(det_x_m*dotm_x);
-                        det_y = origin_y - (int)(det_y_m*dotm_y);
+                    det_x_m = det_sum_x / dis_weight_sum;
+                    det_y_m = det_sum_y / dis_weight_sum;
+                    det_x = origin_x + (int)(det_x_m*dotm_x);
+                    det_y = origin_y - (int)(det_y_m*dotm_y);
 
-                        //真値平方根重みによる範囲円描画20220509
-                        paint.setColor(Color.argb(128, 255, 255, 0));//黄
-                        paint.setStyle(Paint.Style.FILL);
-                        canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
+                    //距離差計算20230202
+                    TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
+                    TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
+                    double store_x_m = Double.valueOf(txt_store_x_m_.getText().toString());
+                    double store_y_m = Double.valueOf(txt_store_y_m_.getText().toString());
+                    double error_m = Math.sqrt(Math.pow(det_x_m - store_x_m,2)+Math.pow(det_y_m-store_y_m, 2));
+
+                    /*
+                    int store_x_dot = origin_x + (int)(store_x_m*dotm_x);
+                    int store_y_dot = origin_y + (int)(store_y_m*dotm_y);
+
+                     */
+
+                    try{
+                        File file = new File("/data/data/" + this.getPackageName() + "/files/error_logs.csv");
+                        FileWriter filewriter = new FileWriter(file, true);
+
+                        filewriter.write("(" + store_x_m  + ", " + store_y_m + ")#" + error_m + "\n");
+
+                        filewriter.close();
+                    }catch(IOException e){
+                        System.out.println(e);
                     }
+
+
+
+                    //真値平方根重みによる範囲円描画20220509
+                    paint.setColor(Color.argb(128, 255, 255, 0));//黄
+                    paint.setStyle(Paint.Style.FILL);
+                    canvas.drawArc(det_x-range_x, det_y-range_y, det_x+range_x, det_y+range_y, 0, 360, false, paint);
+
+                    /*
+                    paint.setColor(Color.argb(128, 255, 255, 255));//黄
+                    paint.setStyle(Paint.Style.FILL);
+                    canvas.drawArc(store_x_dot-5, store_y_dot-5, store_x_dot+5, store_y_dot+5, 0, 360, false, paint);
+
+
+                     */
+                    /*
+                    if(dis_weight_sum!=1){
+
+                    }
+
+                     */
 
                     Log.d("推定座標", "(" + det_x_m + ", " + det_y_m + ")" + "(" + det_x + ", " + det_y + ")");
 
@@ -2100,6 +2138,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             addlist.clear();
 
         }
+        //#00fin
     }
 
 
@@ -2625,6 +2664,16 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         search_goods_coory = new ArrayList<>();
         search_goods_map = new ArrayList<>();
     }
+
+    //double型変数がNaNを出力した時に0を返す 20221213
+    private double NanIsZero(double dis_){
+        if (!Double.isNaN(dis_) || dis_<0){
+            return dis_;
+        }
+        else{
+            return 0.1;
+        }
+    };
 
     private void SettingsClear(){
         //一括でテキスト背景色や画像描画の設定をリセットするメソッド2021110
