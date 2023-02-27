@@ -1,5 +1,6 @@
 package jp.co.tss21.sample.android.inventorytag;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.bluetooth.BluetoothAdapter;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -536,6 +538,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         SEARCH_GOODS_NAME.setAdapter(adapter_goods);
         SEARCH_GOODS_NAME.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemSelected(AdapterView<?> parent,
                                        View view, int position, long id) {
@@ -1341,6 +1344,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
      * (非 Javadoc)
      * @see jp.co.tss21.uhfrfid.dotr_android.OnDotrEventListener#onTriggerChaned(boolean)
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onTriggerChaned(boolean trigger) {
         Log.d(TAG, "onTriggerChaned(" + trigger + ")");
@@ -1469,7 +1473,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
         }
         //#0018fin
-        //#00 RFID R/Wのトリガーを離した時の処理
+        //#0019 RFID R/Wのトリガーを離した時の処理
         else {
             //トリガを離したら読取り処理をストップ
             mDotrUtil.stop();
@@ -2138,7 +2142,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             addlist.clear();
 
         }
-        //#00fin
+        //#0019fin
     }
 
 
@@ -2147,6 +2151,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
      * (非 Javadoc)
      * @see jp.co.tss21.uhfrfid.dotr_android.OnDotrEventListener#onInventoryEPC(java.lang.String)
      */
+    //#0020 EPCを複数回読み取った時の読み取りごとの処理
     @Override
     public void onInventoryEPC(String epc) {
         Log.d(TAG, "onInventoryEPC(" + epc + ")");
@@ -2249,6 +2254,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         mHandler.sendMessage(mHandler.obtainMessage(MSG_INVENTORY_TAG, 0, 0, epc));
 
     }
+    //#0020fin
 
 
     @Override
@@ -2286,6 +2292,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
 
     //登録情報の判断部分20211129
+    //0021 アドレスRFIDタグを読み取ったかどうかの判別
     private Boolean isadd(String epcoc_)
     {
 
@@ -2300,16 +2307,19 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         return false;
 
     }
+    //#0021fin
 
-    //BitMapの生成20220217
+    //#0022 BitMapの生成(描画用)20220217
     private Bitmap mapData(int id){
         BitmapFactory.Options options = new  BitmapFactory.Options();
         options.inMutable = true;
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id, options);
         return bitmap;
     }
+    //#0022fin
 
-    //3面セクター描画
+    //#0023 3面セクター描画
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void Inv_Sector_3(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, List<Double> est_x_, List<Double> est_y_){
         //Inv_Sector_3(アドレスタグのEPC, 距離, Canvas, Paint, y軸→x軸回転の角度, アドレスタグのx座標（dot）, アドレスタグのy座標（dot）)
         //drawArc(左上x, 左上y, 右下x, 右下y, 開始角度, 移動角度, Paintクラスのインスタンス)
@@ -2393,8 +2403,10 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         Log.d("est座標", add_epc_ + ": " + "(" + (add_x-origin_x)/dotm_x + ", " + (origin_y-add_y)/dotm_y + ")" + add_r_x_ +"(" + est_x + ", " + est_y + ")");
 
     }
+    //#0023fin
 
-    //4面セクター描画
+    //#0024 4面セクター描画
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void Inv_Sector_4(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, List<Double> est_x_, List<Double> est_y_){
         //Inv_Sector_4(アドレスタグのEPC, 距離, Canvas, Paint, y軸→x軸回転の角度, アドレスタグのx座標（dot）, アドレスタグのy座標（dot）)
         //drawArc(左上x, 左上y, 右下x, 右下y, 開始角度, 移動角度, Paintクラスのインスタンス)
@@ -2501,10 +2513,11 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         Log.d("est座標", add_epc_ + ": " + "(" + (add_x-origin_x)/dotm_x + ", " + (origin_y-add_y)/dotm_y + ")" + add_r_x_ +"(" + est_x + ", " + est_y + ")");
 
     }
+    //#0024fin
 
 
 
-    //検索時グラフ作成20220530
+    //#0025 検索時グラフ描画20220530
     private void setupPieChart() {
         //PieEntriesのリストを作成する:
         List<PieEntry> pieEntries = new ArrayList<>();
@@ -2536,7 +2549,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         piechart.setData(data);
         piechart.invalidate();
     }
+    //#0025fin
 
+    //#0026 EPCのデコード処理（物品登録）
     private String epcDecode(char c_1, char c_2){
         File file = new File("/data/data/" + this.getPackageName() + "/files/char_allocation.csv");
         FileReader buff = null;
@@ -2566,7 +2581,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         }
         return "";
     }
+    //#0026fin
 
+    //#0027 描画するマップ画像のセット
     private Bitmap setMap(int map_flg){
         if(map_flg==0){
             return mapData(R.drawable.laboratory);
@@ -2580,8 +2597,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             return mapData(R.drawable.laboratory);
         }
     }
+    //#0027
 
-    //3面、4面の時のアドレスRFIDタグのEPCを.csvより取得 20221108
+    //#0028 アドレスRFIDタグのEPCを.csvより取得 20221108
     private void setAddTag(){
         if(surface_flg==0){
             File file = new File("/data/data/" + this.getPackageName() + "/files/epc_add_3.csv");
@@ -2654,7 +2672,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             }
         }
     }
+    //#0028fin
 
+    //#0029 各種設定
     private void SearchListClear(){
         //検索時Spinnerに入れるデータの初期化20221110
         search_goods_name = new ArrayList<>();
@@ -2704,10 +2724,5 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
     }
-
-
-
-
-
-
+    //#0029fin
 }
