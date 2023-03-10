@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -1885,11 +1884,68 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         add_dis[i] = Double.parseDouble(String.valueOf(item.get(3)));
                         add_rssi_tr[i] = Double.parseDouble(String.valueOf(item.get(4)));
 
+                        //epc1st判定20230310 孤爪
+                        String epc_1st = null;
+                        String epc_2nd = null;
+                        String epc_3rd = null;
+                        String epc_4th = null;
+                        String epc_5th = null;
+                        String epc_6th = null;
+                        String epc_7th = null;
+                        String epc_8th = null;
+                        String epc_9th = null;
+
+                        for (int n = 0; n < add_epc.length; n++)
+                        {
+                            if (n == 0)
+                            {
+                                epc_1st = add_epc[n];
+                            }
+                            if (n == 1)
+                            {
+                                epc_2nd = add_epc[n];
+                            }
+                            else if (n == 2)
+                            {
+                                epc_3rd = add_epc[n];
+                            }
+                            else if (n == 3)
+                            {
+                                epc_4th = add_epc[n];
+                            }
+                            else if (n == 4)
+                            {
+                                epc_5th = add_epc[n];
+                            }
+                            else if (n == 5)
+                            {
+                                epc_6th = add_epc[n];
+                            }
+                            else if (n == 6)
+                            {
+                                epc_7th = add_epc[n];
+                            }
+                            else if (n == 7)
+                            {
+                                epc_8th = add_epc[n];
+                            }
+                            else if (n == 8)
+                            {
+                                epc_9th = add_epc[n];
+                            }
+                        }
+
+                        //反対除去 20230310 孤爪
+                        int judge = 0;
+                        if(surface_flg==0){//3面
+                           judge = Rem_Sector_3(epc_1st, epc_2nd, epc_3rd, epc_4th, epc_5th, epc_6th, epc_7th, epc_8th, epc_9th);
+                        }
+
                         //セクターの描画20221206
                         paint.setColor(Color.argb(inv_alpha, inv_color, 255, inv_color));//緑
                         paint.setStyle(Paint.Style.STROKE);
                         if(surface_flg==0){//3面
-                            Inv_Sector_3(add_epc[i], add_dis[i], canvas, paint, est_x_m, est_y_m);
+                            Inv_Sector_3(add_epc[i], add_dis[i], canvas, paint, est_x_m, est_y_m,judge); //judeg追加　20230310 孤爪
                         }
                         else if(surface_flg==1){//4面
                             Inv_Sector_4(add_epc[i], add_dis[i], canvas, paint, est_x_m, est_y_m);
@@ -2318,23 +2374,532 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     }
     //#0022fin
 
+    //3面反対除去　20230310
+    private int Rem_Sector_3(String epc_1st, String epc_2nd, String epc_3rd, String epc_4th, String epc_5th, String epc_6th, String epc_7th, String epc_8th, String epc_9th){
+        int RSSIcheck1 = 0;
+        int RSSIcheck2 = 0;
+        int RSSIcheck3 = 0;
+        int RSSIcheck4 = 0;
+        int RSSIcheck5 = 0;
+        int RSSIcheck6 = 0;
+        int RSSIcheck7 = 0;
+        int RSSIcheck8 = 0;
+        int RSSIcheck9 = 0;
+        int Rem = 0;
+
+        //31
+        if (epc_1st == "3000000000000000000000000031") { RSSIcheck1 = 311;}
+        else if (epc_2nd == "3000000000000000000000000031") { RSSIcheck2 = 312;}
+        else if (epc_3rd == "3000000000000000000000000031") { RSSIcheck3 = 313;}
+        else if (epc_4th == "3000000000000000000000000031") { RSSIcheck4 = 314;}
+        else if (epc_5th == "3000000000000000000000000031") { RSSIcheck5 = 315;}
+        else if (epc_6th == "3000000000000000000000000031") { RSSIcheck6 = 316;}
+        else if (epc_7th == "3000000000000000000000000031") { RSSIcheck7 = 317;}
+        else if (epc_8th == "3000000000000000000000000031") { RSSIcheck8 = 318;}
+        else if (epc_9th == "3000000000000000000000000031") { RSSIcheck9 = 319;}
+
+        //32 変更前 -71.60
+        if (epc_1st == "3000000000000000000000000032") { RSSIcheck1 = 321;}
+        else if (epc_2nd == "3000000000000000000000000032") { RSSIcheck2 = 322;}
+        else if (epc_3rd == "3000000000000000000000000032") { RSSIcheck3 = 323;}
+        else if (epc_4th == "3000000000000000000000000032") { RSSIcheck4 = 324;}
+        else if (epc_5th == "3000000000000000000000000032") { RSSIcheck5 = 325;}
+        else if (epc_6th == "3000000000000000000000000032") { RSSIcheck6 = 326;}
+        else if (epc_7th == "3000000000000000000000000032") { RSSIcheck7 = 327;}
+        else if (epc_8th == "3000000000000000000000000032") { RSSIcheck8 = 328;}
+        else if (epc_9th == "3000000000000000000000000032") { RSSIcheck9 = 329;}
+
+        //33 変更前  -75.49
+        if (epc_1st == "3000000000000000000000000033") { RSSIcheck1 = 331;}
+        else if (epc_2nd == "3000000000000000000000000033") { RSSIcheck2 = 332;}
+        else if (epc_3rd == "3000000000000000000000000033") { RSSIcheck3 = 333;}
+        else if (epc_4th == "3000000000000000000000000033") { RSSIcheck4 = 334;}
+        else if (epc_5th == "3000000000000000000000000033") { RSSIcheck5 = 335;}
+        else if (epc_6th == "3000000000000000000000000033") { RSSIcheck6 = 336;}
+        else if (epc_7th == "3000000000000000000000000033") { RSSIcheck7 = 337;}
+        else if (epc_8th == "3000000000000000000000000033") { RSSIcheck8 = 338;}
+        else if (epc_9th == "3000000000000000000000000033") { RSSIcheck9 = 339;}
+
+        //34 変更前
+        if (epc_1st == "3000000000000000000000000034") { RSSIcheck1 = 341;}
+        else if (epc_2nd == "3000000000000000000000000034") { RSSIcheck2 = 342;}
+        else if (epc_3rd == "3000000000000000000000000034") { RSSIcheck3 = 343;}
+        else if (epc_4th == "3000000000000000000000000034") { RSSIcheck4 = 344;}
+        else if (epc_5th == "3000000000000000000000000034") { RSSIcheck5 = 345;}
+        else if (epc_6th == "3000000000000000000000000034") { RSSIcheck6 = 346;}
+        else if (epc_7th == "3000000000000000000000000034") { RSSIcheck7 = 347;}
+        else if (epc_8th == "3000000000000000000000000034") { RSSIcheck8 = 348;}
+        else if (epc_9th == "3000000000000000000000000034") { RSSIcheck9 = 349;}
+
+        //35 変更前
+        if (epc_1st == "3000000000000000000000000035") { RSSIcheck1 = 351;}
+        else if (epc_2nd == "3000000000000000000000000035") { RSSIcheck2 = 352;}
+        else if (epc_3rd == "3000000000000000000000000035") { RSSIcheck3 = 353; }
+        else if (epc_4th == "3000000000000000000000000035") { RSSIcheck4 = 354;}
+        else if (epc_5th == "3000000000000000000000000035") { RSSIcheck5 = 355;}
+        else if (epc_6th == "3000000000000000000000000035") { RSSIcheck6 = 356;}
+        else if (epc_7th == "3000000000000000000000000035") { RSSIcheck7 = 357;}
+        else if (epc_8th == "3000000000000000000000000035") { RSSIcheck8 = 358;}
+        else if (epc_9th == "3000000000000000000000000035") { RSSIcheck9 = 359;}
+
+        //36 変更前 -67.81
+        if (epc_1st == "3000000000000000000000000036") { RSSIcheck1 = 361;}
+        else if (epc_2nd == "3000000000000000000000000036") { RSSIcheck2 = 362;}
+        else if (epc_3rd == "3000000000000000000000000036") { RSSIcheck3 = 363;}
+        else if (epc_4th == "3000000000000000000000000036") { RSSIcheck4 = 364;}
+        else if (epc_5th == "3000000000000000000000000036") { RSSIcheck5 = 365;}
+        else if (epc_6th == "3000000000000000000000000036") { RSSIcheck6 = 366;}
+        else if (epc_7th == "3000000000000000000000000036") { RSSIcheck7 = 367;}
+        else if (epc_8th == "3000000000000000000000000036") { RSSIcheck8 = 368;}
+        else if (epc_9th == "3000000000000000000000000036") { RSSIcheck9 = 369;}
+
+        //37 変更前 -71.6
+        if (epc_1st == "3000000000000000000000000037") { RSSIcheck1 = 371;}
+        else if (epc_2nd == "3000000000000000000000000037") { RSSIcheck2 = 372;}
+        else if (epc_3rd == "3000000000000000000000000037") { RSSIcheck3 = 373;}
+        else if (epc_4th == "3000000000000000000000000037") { RSSIcheck4 = 374;}
+        else if (epc_5th == "3000000000000000000000000037") { RSSIcheck5 = 375;}
+        else if (epc_6th == "3000000000000000000000000037") { RSSIcheck6 = 376;}
+        else if (epc_7th == "3000000000000000000000000037") { RSSIcheck7 = 377;}
+        else if (epc_8th == "3000000000000000000000000037") { RSSIcheck8 = 378;}
+        else if (epc_9th == "3000000000000000000000000037") { RSSIcheck9 = 379;}
+
+        //38 変更前
+        if (epc_1st == "3000000000000000000000000038") { RSSIcheck1 = 381;}
+        else if (epc_2nd == "3000000000000000000000000038") { RSSIcheck2 = 382;}
+        else if (epc_3rd == "3000000000000000000000000038") { RSSIcheck3 = 383;}
+        else if (epc_4th == "3000000000000000000000000038") { RSSIcheck4 = 384;}
+        else if (epc_5th == "3000000000000000000000000038") { RSSIcheck5 = 385;}
+        else if (epc_6th == "3000000000000000000000000038") { RSSIcheck6 = 386;}
+        else if (epc_7th == "3000000000000000000000000038") { RSSIcheck7 = 387;}
+        else if (epc_8th == "3000000000000000000000000038") { RSSIcheck8 = 388;}
+        else if (epc_9th == "3000000000000000000000000038") { RSSIcheck9 = 389;}
+
+        //39 変更前 75.49
+        if (epc_1st == "3000000000000000000000000039") { RSSIcheck1 = 391;}
+        else if (epc_2nd == "3000000000000000000000000039") { RSSIcheck2 = 392;}
+        else if (epc_3rd == "3000000000000000000000000039") { RSSIcheck3 = 393;}
+        else if (epc_4th == "3000000000000000000000000039") { RSSIcheck4 = 394;}
+        else if (epc_5th == "3000000000000000000000000039") { RSSIcheck5 = 395;}
+        else if (epc_6th == "3000000000000000000000000039") { RSSIcheck6 = 396;}
+        else if (epc_7th == "3000000000000000000000000039") { RSSIcheck7 = 397;}
+        else if (epc_8th == "3000000000000000000000000039") { RSSIcheck8 = 398;}
+        else if (epc_9th == "3000000000000000000000000039") { RSSIcheck9 = 399;}
+
+
+
+        if (RSSIcheck1 == 311)
+        {
+            if (RSSIcheck2 == 332) { Rem = 33;}
+            else if (RSSIcheck3 == 333) { Rem = 33;}
+            else if (RSSIcheck4 == 334) { Rem = 33;}
+            else if (RSSIcheck5 == 335) { Rem = 33;}
+            else if (RSSIcheck6 == 336) { Rem = 33;}
+            else if (RSSIcheck7 == 337) { Rem = 33;}
+            else if (RSSIcheck8 == 338) { Rem = 33;}
+            else if (RSSIcheck9 == 339) { Rem = 33;}
+        }
+        //32
+        if (RSSIcheck1 == 321)
+        {
+            if (RSSIcheck2 == 312)
+            {
+                if (RSSIcheck3 == 333) { Rem = 33;}
+                else if (RSSIcheck4 == 334) { Rem = 33;}
+                else if (RSSIcheck5 == 335) { Rem = 33;}
+                else if (RSSIcheck6 == 336) { Rem = 33;}
+                else if (RSSIcheck7 == 337) { Rem = 33;}
+                else if (RSSIcheck8 == 338) { Rem = 33;}
+                else if (RSSIcheck9 == 339) { Rem = 33;}
+            }
+            else if (RSSIcheck3 == 313)
+            {
+                if (RSSIcheck4 == 334) { Rem = 33;}
+                else if (RSSIcheck5 == 335) { Rem = 33;}
+                else if (RSSIcheck6 == 336) { Rem = 33;}
+                else if (RSSIcheck7 == 337) { Rem = 33;}
+                else if (RSSIcheck8 == 338) { Rem = 33;}
+                else if (RSSIcheck9 == 339) { Rem = 33;}
+            }
+            else if (RSSIcheck4 == 314)
+            {
+                if (RSSIcheck5 == 335) { Rem = 33;}
+                else if (RSSIcheck6 == 336) { Rem = 33;}
+                else if (RSSIcheck7 == 337) { Rem = 33;}
+                else if (RSSIcheck8 == 338) { Rem = 33;}
+                else if (RSSIcheck9 == 339) { Rem = 33;}
+            }
+            else if (RSSIcheck5 == 315)
+            {
+                if (RSSIcheck6 == 336) { Rem = 33;}
+                else if (RSSIcheck7 == 337) { Rem = 33;}
+                else if (RSSIcheck8 == 338) { Rem = 33;}
+                else if (RSSIcheck9 == 339) { Rem = 33;}
+            }
+            else if (RSSIcheck6 == 316)
+            {
+                if (RSSIcheck7 == 337) { Rem = 33;}
+                else if (RSSIcheck8 == 338) { Rem = 33;}
+                else if (RSSIcheck9 == 339) { Rem = 33;}
+            }
+            else if (RSSIcheck7 == 317)
+            {
+                if (RSSIcheck8 == 338) { Rem = 33;}
+                else if (RSSIcheck9 == 339) { Rem = 33;}
+            }
+            else if (RSSIcheck8 == 318)
+            {
+                if (RSSIcheck9 == 339) { Rem = 33;}
+            }
+
+            if (RSSIcheck2 == 332)
+            {
+                if (RSSIcheck3 == 313) { Rem = 31;}
+                else if (RSSIcheck4 == 314) { Rem = 31;}
+                else if (RSSIcheck5 == 315) { Rem = 31;}
+                else if (RSSIcheck6 == 316) { Rem = 31;}
+                else if (RSSIcheck7 == 317) { Rem = 31;}
+                else if (RSSIcheck8 == 318) { Rem = 31;}
+                else if (RSSIcheck9 == 319) { Rem = 31;}
+            }
+            else if (RSSIcheck3 == 333)
+            {
+                if (RSSIcheck4 == 314) { Rem = 31;}
+                else if (RSSIcheck5 == 315) { Rem = 31;}
+                else if (RSSIcheck6 == 316) { Rem = 31;}
+                else if (RSSIcheck7 == 317) { Rem = 31;}
+                else if (RSSIcheck8 == 318) { Rem = 31;}
+                else if (RSSIcheck9 == 319) { Rem = 31;}
+            }
+            else if (RSSIcheck4 == 334)
+            {
+                if (RSSIcheck5 == 315) { Rem = 31;}
+                else if (RSSIcheck6 == 316) { Rem = 31;}
+                else if (RSSIcheck7 == 317) { Rem = 31;}
+                else if (RSSIcheck8 == 318) { Rem = 31;}
+                else if (RSSIcheck9 == 319) { Rem = 31;}
+            }
+            else if (RSSIcheck5 == 335)
+            {
+                if (RSSIcheck6 == 316) { Rem = 31;}
+                else if (RSSIcheck7 == 317) { Rem = 31;}
+                else if (RSSIcheck8 == 318) { Rem = 31;}
+                else if (RSSIcheck9 == 319) { Rem = 31;}
+            }
+            else if (RSSIcheck6 == 336)
+            {
+                if (RSSIcheck7 == 317) { Rem = 31;}
+                else if (RSSIcheck8 == 318) { Rem = 31;}
+                else if (RSSIcheck9 == 319) { Rem = 31;}
+            }
+            else if (RSSIcheck7 == 337)
+            {
+                if (RSSIcheck8 == 318) { Rem = 31;}
+                else if (RSSIcheck9 == 319) { Rem = 31;}
+            }
+            else if (RSSIcheck8 == 338)
+            {
+                if (RSSIcheck9 == 319) { Rem = 31;}
+            }
+        }
+        //33
+        if (RSSIcheck1 == 331)
+        {
+            if (RSSIcheck2 == 312) { Rem = 31;}
+            else if (RSSIcheck3 == 313) { Rem = 31;}
+            else if (RSSIcheck4 == 314) { Rem = 31;}
+            else if (RSSIcheck5 == 315) { Rem = 31;}
+            else if (RSSIcheck6 == 316) { Rem = 31;}
+            else if (RSSIcheck7 == 317) { Rem = 31;}
+            else if (RSSIcheck8 == 318) { Rem = 31;}
+            else if (RSSIcheck9 == 319) { Rem = 31;}
+        }
+        //34
+        if (RSSIcheck1 == 341)
+        {
+            if (RSSIcheck2 == 362) { Rem = 36;}
+            else if (RSSIcheck3 == 363) { Rem = 36;}
+            else if (RSSIcheck4 == 364) { Rem = 36;}
+            else if (RSSIcheck5 == 365) { Rem = 36;}
+            else if (RSSIcheck6 == 366) { Rem = 36;}
+            else if (RSSIcheck7 == 367) { Rem = 36;}
+            else if (RSSIcheck8 == 368) { Rem = 36;}
+            else if (RSSIcheck9 == 369) { Rem = 36;}
+        }
+        //35
+        if (RSSIcheck1 == 351)
+        {
+            if (RSSIcheck2 == 342)
+            {
+                if (RSSIcheck3 == 363) { Rem = 36;}
+                else if (RSSIcheck4 == 364) { Rem = 36;}
+                else if (RSSIcheck5 == 365) { Rem = 36;}
+                else if (RSSIcheck6 == 366) { Rem = 36;}
+                else if (RSSIcheck7 == 367) { Rem = 36;}
+                else if (RSSIcheck8 == 368) { Rem = 36;}
+                else if (RSSIcheck9 == 369) { Rem = 36;}
+            }
+            else if (RSSIcheck3 == 343)
+            {
+                if (RSSIcheck4 == 364) { Rem = 36;}
+                else if (RSSIcheck5 == 365) { Rem = 36;}
+                else if (RSSIcheck6 == 366) { Rem = 36;}
+                else if (RSSIcheck7 == 367) { Rem = 36;}
+                else if (RSSIcheck8 == 368) { Rem = 36;}
+                else if (RSSIcheck9 == 369) { Rem = 36;}
+            }
+            else if (RSSIcheck4 == 344)
+            {
+                if (RSSIcheck5 == 365) { Rem = 36;}
+                else if (RSSIcheck6 == 366) { Rem = 36;}
+                else if (RSSIcheck7 == 367) { Rem = 36;}
+                else if (RSSIcheck8 == 368) { Rem = 36;}
+                else if (RSSIcheck9 == 369) { Rem = 36;}
+            }
+            else if (RSSIcheck5 == 345)
+            {
+                if (RSSIcheck6 == 366) { Rem = 36;}
+                else if (RSSIcheck7 == 367) { Rem = 36;}
+                else if (RSSIcheck8 == 368) { Rem = 36;}
+                else if (RSSIcheck9 == 369) { Rem = 36;}
+            }
+            else if (RSSIcheck6 == 346)
+            {
+                if (RSSIcheck7 == 367) { Rem = 36;}
+                else if (RSSIcheck8 == 368) { Rem = 36;}
+                else if (RSSIcheck9 == 369) { Rem = 36;}
+            }
+            else if (RSSIcheck7 == 347)
+            {
+                if (RSSIcheck8 == 368) { Rem = 36;}
+                else if (RSSIcheck9 == 369) { Rem = 36;}
+            }
+            else if (RSSIcheck8 == 348)
+            {
+                if (RSSIcheck9 == 369) { Rem = 36;}
+            }
+
+
+            if (RSSIcheck2 == 362)
+            {
+                if (RSSIcheck3 == 343) { Rem = 34;}
+                else if (RSSIcheck4 == 344) { Rem = 34;}
+                else if (RSSIcheck5 == 345) { Rem = 34;}
+                else if (RSSIcheck6 == 346) { Rem = 34;}
+                else if (RSSIcheck7 == 347) { Rem = 34;}
+                else if (RSSIcheck8 == 348) { Rem = 34;}
+                else if (RSSIcheck9 == 349) { Rem = 34;}
+            }
+            else if (RSSIcheck3 == 363)
+            {
+                if (RSSIcheck4 == 344) { Rem = 34;}
+                else if (RSSIcheck5 == 345) { Rem = 34;}
+                else if (RSSIcheck6 == 346) { Rem = 34;}
+                else if (RSSIcheck7 == 347) { Rem = 34;}
+                else if (RSSIcheck8 == 348) { Rem = 34;}
+                else if (RSSIcheck9 == 349) { Rem = 34;}
+            }
+
+            else if (RSSIcheck4 == 364)
+            {
+                if (RSSIcheck5 == 345) { Rem = 34;}
+                else if (RSSIcheck6 == 346) { Rem = 34;}
+                else if (RSSIcheck7 == 347) { Rem = 34;}
+                else if (RSSIcheck8 == 348) { Rem = 34;}
+                else if (RSSIcheck9 == 349) { Rem = 34;}
+            }
+            else if (RSSIcheck5 == 365)
+            {
+                if (RSSIcheck6 == 346) { Rem = 34;}
+                else if (RSSIcheck7 == 347) { Rem = 34;}
+                else if (RSSIcheck8 == 348) { Rem = 34;}
+                else if (RSSIcheck9 == 349) { Rem = 34;}
+            }
+            else if (RSSIcheck6 == 366)
+            {
+                if (RSSIcheck7 == 347) { Rem = 34;}
+                else if (RSSIcheck8 == 348) { Rem = 34;}
+                else if (RSSIcheck9 == 349) { Rem = 34;}
+            }
+            else if (RSSIcheck7 == 367)
+            {
+                if (RSSIcheck8 == 348) { Rem = 34;}
+                else if (RSSIcheck9 == 349) { Rem = 34;}
+            }
+            else if (RSSIcheck8 == 368)
+            {
+                if (RSSIcheck9 == 349) { Rem = 34;}
+            }
+        }
+        //36
+        if (RSSIcheck1 == 361)
+        {
+            if (RSSIcheck2 == 342) {  Rem = 34;}
+            else if (RSSIcheck3 == 343) { Rem = 34;}
+            else if (RSSIcheck4 == 344) { Rem = 34;}
+            else if (RSSIcheck5 == 345) { Rem = 34;}
+            else if (RSSIcheck6 == 346) { Rem = 34;}
+            else if (RSSIcheck7 == 347) { Rem = 34;}
+            else if (RSSIcheck8 == 348) { Rem = 34;}
+            else if (RSSIcheck9 == 349) { Rem = 34;}
+        }
+        //37
+        if (RSSIcheck1 == 371)
+        {
+            if (RSSIcheck2 == 392) { Rem = 39;}
+            else if (RSSIcheck3 == 393) { Rem = 39;}
+            else if (RSSIcheck4 == 394) { Rem = 39;}
+            else if (RSSIcheck5 == 395) { Rem = 39;}
+            else if (RSSIcheck6 == 396) { Rem = 39;}
+            else if (RSSIcheck7 == 397) { Rem = 39;}
+            else if (RSSIcheck8 == 398) { Rem = 39;}
+            else if (RSSIcheck9 == 399) { Rem = 39;}
+        }
+        //38
+        if (RSSIcheck1 == 381)
+        {
+            if (RSSIcheck2 == 372)
+            {
+                if (RSSIcheck3 == 393) { Rem = 39;}
+                else if (RSSIcheck4 == 394) { Rem = 39;}
+                else if (RSSIcheck5 == 395) { Rem = 39;}
+                else if (RSSIcheck6 == 396) { Rem = 39;}
+                else if (RSSIcheck7 == 397) { Rem = 39;}
+                else if (RSSIcheck8 == 398) { Rem = 39;}
+                else if (RSSIcheck9 == 399) { Rem = 39;}
+            }
+            else if (RSSIcheck3 == 373)
+            {
+                if (RSSIcheck4 == 394) { Rem = 39;}
+                else if (RSSIcheck5 == 395) { Rem = 39;}
+                else if (RSSIcheck6 == 396) { Rem = 39;}
+                else if (RSSIcheck7 == 397) { Rem = 39;}
+                else if (RSSIcheck8 == 398) { Rem = 39;}
+                else if (RSSIcheck9 == 399) { Rem = 39;}
+            }
+            else if (RSSIcheck4 == 374)
+            {
+                if (RSSIcheck5 == 395) { Rem = 39;}
+                else if (RSSIcheck6 == 396) { Rem = 39;}
+                else if (RSSIcheck7 == 397) { Rem = 39;}
+                else if (RSSIcheck8 == 398) { Rem = 39;}
+                else if (RSSIcheck9 == 399) { Rem = 39;}
+            }
+            else if (RSSIcheck5 == 375)
+            {
+                if (RSSIcheck6 == 396) { Rem = 39;}
+                else if (RSSIcheck7 == 397) { Rem = 39;}
+                else if (RSSIcheck8 == 398) { Rem = 39;}
+                else if (RSSIcheck9 == 399) { Rem = 39;}
+            }
+            else if (RSSIcheck6 == 376)
+            {
+                if (RSSIcheck7 == 397) { Rem = 39;}
+                else if (RSSIcheck8 == 398) { Rem = 39;}
+                else if (RSSIcheck9 == 399) { Rem = 39;}
+            }
+            else if (RSSIcheck7 == 377)
+            {
+                if (RSSIcheck8 == 398) { Rem = 39;}
+                else if (RSSIcheck9 == 399) { Rem = 39;}
+            }
+            else if (RSSIcheck8 == 378)
+            {
+                if (RSSIcheck9 == 399) { Rem = 39;}
+            }
+
+            if (RSSIcheck2 == 392)
+            {
+                if (RSSIcheck3 == 373) { Rem = 37;}
+                else if (RSSIcheck4 == 374) { Rem = 37;}
+                else if (RSSIcheck5 == 375) { Rem = 37;}
+                else if (RSSIcheck6 == 376) { Rem = 37;}
+                else if (RSSIcheck7 == 377) { Rem = 37;}
+                else if (RSSIcheck8 == 378) { Rem = 37;}
+                else if (RSSIcheck9 == 379) { Rem = 37;}
+            }
+            else if (RSSIcheck3 == 393)
+            {
+                if (RSSIcheck4 == 374) { Rem = 37;}
+                else if (RSSIcheck5 == 375) { Rem = 37;}
+                else if (RSSIcheck6 == 376) { Rem = 37;}
+                else if (RSSIcheck7 == 377) { Rem = 37;}
+                else if (RSSIcheck8 == 378) { Rem = 37;}
+                else if (RSSIcheck9 == 379) { Rem = 37;}
+            }
+            else if (RSSIcheck4 == 394)
+            {
+                if (RSSIcheck5 == 375) { Rem = 37;}
+                else if (RSSIcheck6 == 376) { Rem = 37;}
+                else if (RSSIcheck7 == 377) { Rem = 37;}
+                else if (RSSIcheck8 == 378) { Rem = 37;}
+                else if (RSSIcheck9 == 379) { Rem = 37;}
+            }
+            else if (RSSIcheck5 == 395)
+            {
+                if (RSSIcheck6 == 376) { Rem = 37;}
+                else if (RSSIcheck7 == 377) { Rem = 37;}
+                else if (RSSIcheck8 == 378) { Rem = 37;}
+                else if (RSSIcheck9 == 379) { Rem = 37;}
+            }
+            else if (RSSIcheck6 == 396)
+            {
+                if (RSSIcheck7 == 377) { Rem = 37;}
+                else if (RSSIcheck8 == 378) { Rem = 37;}
+                else if (RSSIcheck9 == 379) { Rem = 37;}
+            }
+            else if (RSSIcheck7 == 397)
+            {
+                if (RSSIcheck8 == 378) { Rem = 37;}
+                else if (RSSIcheck9 == 379) { Rem = 37;}
+            }
+            else if (RSSIcheck8 == 398)
+            {
+                if (RSSIcheck9 == 379) { Rem = 37;}
+            }
+        }
+        //39
+        if (RSSIcheck1 == 391)
+        {
+            if (RSSIcheck2 == 372) { Rem = 37;}
+            else if (RSSIcheck3 == 373) { Rem = 37;}
+            else if (RSSIcheck4 == 374) { Rem = 37;}
+            else if (RSSIcheck5 == 375) { Rem = 37;}
+            else if (RSSIcheck6 == 376) { Rem = 37;}
+            else if (RSSIcheck7 == 377) { Rem = 37;}
+            else if (RSSIcheck8 == 378) { Rem = 37;}
+            else if (RSSIcheck9 == 379) { Rem = 37;}
+        }
+        return Rem;
+    }
+
+
+
     //#0023 3面セクター描画
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void Inv_Sector_3(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, List<Double> est_x_, List<Double> est_y_){
+    private void Inv_Sector_3(String add_epc_, double add_dis_, Canvas canvas_, Paint paint_, List<Double> est_x_, List<Double> est_y_ ,int judge){
         //Inv_Sector_3(アドレスタグのEPC, 距離, Canvas, Paint, y軸→x軸回転の角度, アドレスタグのx座標（dot）, アドレスタグのy座標（dot）)
         //drawArc(左上x, 左上y, 右下x, 右下y, 開始角度, 移動角度, Paintクラスのインスタンス)
+        //judge,if-else文,色変更追加　20230310 孤爪
         double est_x = 0;
         double est_y = 0;
         int add_d = 0;
         int add_x = origin_x;
         int add_y = origin_y;
+        int inv_alpha = 255;
+        int inv_color = 150;
 
         if(add_epc_.equals("3000000000000000000000000031")){
             add_d = 225;//y軸→x軸回転の角度
             add_x += (int)(add_1_x*dotm_x);
             add_y -= (int)(add_1_y*dotm_y);
-            est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
-            est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            if (judge != 31) {
+                est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));//色変更
+            }
         }
         else if(add_epc_.equals("3000000000000000000000000032")){
             add_d = 270;//y軸→x軸回転の角度
@@ -2347,15 +2912,25 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             add_d = 315;//y軸→x軸回転の角度
             add_x += (int)(add_1_x*dotm_x);
             add_y -= (int)(add_1_y*dotm_y);
-            est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
-            est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            if (judge != 33) {
+                est_x = add_1_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_1_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
+            }
         }
         else if(add_epc_.equals("3000000000000000000000000034")){
             add_d = 45;//y軸→x軸回転の角度
             add_x += (int)(add_2_x*dotm_x);
             add_y -= (int)(add_2_y*dotm_y);
-            est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
-            est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            if (judge != 34) {
+                est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
+            }
         }
         else if(add_epc_.equals("3000000000000000000000000035")){
             add_d = 90;//y軸→x軸回転の角度
@@ -2368,15 +2943,25 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             add_d = 135;//y軸→x軸回転の角度
             add_x += (int)(add_2_x*dotm_x);
             add_y -= (int)(add_2_y*dotm_y);
-            est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
-            est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            if (judge != 36) {
+                est_x = add_2_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_2_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
+            }
         }
         else if(add_epc_.equals("3000000000000000000000000037")){
             add_d = 45;//y軸→x軸回転の角度
             add_x += (int)(add_3_x*dotm_x);
             add_y -= (int)(add_3_y*dotm_y);
-            est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
-            est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            if (judge != 37) {
+                est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
+            }
         }
         else if(add_epc_.equals("3000000000000000000000000038")){
             add_d = 90;//y軸→x軸回転の角度
@@ -2389,13 +2974,19 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             add_d = 135;//y軸→x軸回転の角度
             add_x += (int)(add_3_x*dotm_x);
             add_y -= (int)(add_3_y*dotm_y);
-            est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
-            est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            if (judge != 39) {
+                est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
+            }
         }
 
         int add_r_x_ = (int)(add_dis_*dotm_x);
         int add_r_y_ = (int)(add_dis_*dotm_y);
         canvas_.drawArc(add_x - add_r_x_, add_y - add_r_y_, add_x + add_r_x_, add_y + add_r_y_,add_d - 45,90,true, paint_);
+        paint_.setColor(Color.argb(inv_alpha, inv_color, 255, inv_color));//色戻し
 
         //重みづけ用の座標設定（m）
         est_x_.add(est_x);
