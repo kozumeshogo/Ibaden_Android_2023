@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,9 +8,11 @@
     <LinearLayout
         android:layout_width="409dp"
         android:layout_height="729dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txt_goods_regi_order"
@@ -46,8 +49,8 @@
 
             <LinearLayout
                 android:layout_width="0dip"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -68,8 +71,8 @@
 
             <LinearLayout
                 android:layout_width="0dip"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -107,6 +110,7 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
+
         <TextView
             android:id="@+id/textView31"
             android:layout_width="match_parent"

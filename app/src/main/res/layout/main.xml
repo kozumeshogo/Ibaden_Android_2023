@@ -30,8 +30,7 @@
 
                 <include
                     android:id="@+id/tab1"
-                    layout="@layout/device"
-                    android:layout_height="689dp" />
+                    layout="@layout/device" />
 
                 <include android:id="@+id/tab2" layout="@layout/cal" />
                 <include android:id="@+id/tab3" layout="@layout/store" />

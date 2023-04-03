@@ -11,6 +11,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +38,11 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,27 +56,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import jp.co.tss21.uhfrfid.dotr_android.EnChannel;
+import jp.co.tss21.uhfrfid.dotr_android.EnMaskFlag;
+import jp.co.tss21.uhfrfid.dotr_android.EnMemoryBank;
+import jp.co.tss21.uhfrfid.dotr_android.EnSession;
+import jp.co.tss21.uhfrfid.dotr_android.EnTagAccessFlag;
+import jp.co.tss21.uhfrfid.dotr_android.OnDotrEventListener;
+import jp.co.tss21.uhfrfid.dotr_android.TagAccessParameter;
+import jp.co.tss21.uhfrfid.tssrfid.TssRfidUtill;
 
 /**
  * jp.co.tss21.uhfrfid.dotr_androidパッケージを参照します
  */
-import jp.co.tss21.uhfrfid.dotr_android.EnChannel;
-import jp.co.tss21.uhfrfid.dotr_android.EnMemoryBank;
-import jp.co.tss21.uhfrfid.dotr_android.EnSession;
-import jp.co.tss21.uhfrfid.dotr_android.EnTagAccessFlag;
-import jp.co.tss21.uhfrfid.dotr_android.TagAccessParameter;
-import jp.co.tss21.uhfrfid.tssrfid.TssRfidUtill;
-import jp.co.tss21.uhfrfid.dotr_android.EnMaskFlag;
-import jp.co.tss21.uhfrfid.dotr_android.OnDotrEventListener;
-
 //import androidx.appcompat.app.AppCompatActivity;
-import android.graphics.Color;
-import android.graphics.Paint;
-
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 
 
 /**
@@ -119,7 +118,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private double sub_const = 20;//減衰定数N
 
     double read_height =1;//読み取り高さ
-    double add_height = 2.8;//アドレスRFIDタグの高さ
+    double add_height = 2.3;//アドレスRFIDタグの高さ z軸add変更
 
     int cal_flg = 0;
     /*
@@ -343,7 +342,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         origin_x = 560;
                         origin_y = 2510;
 
-                        add_1_x=18.0;
+                        add_1_x=6.0;
                         add_1_y=0.0;
                         add_2_x=6.0;
                         add_2_y=10.0;
@@ -1858,6 +1857,61 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                     int i=0;
                     int inv_alpha = 255;//描画時のアルファ値（透け具合）
                     int inv_color = 150;
+                    String epc_1st = "";
+                    String epc_2nd = "";
+                    String epc_3rd = "";
+                    String epc_4th = "";
+                    String epc_5th = "";
+                    String epc_6th = "";
+                    String epc_7th = "";
+                    String epc_8th = "";
+                    String epc_9th = "";
+                    int n = 0;
+                    for(Object item_ : addlist)//item_: [EPC, RSSI, 読み取り回数, 距離 RSSI真値]
+                    {
+                        ArrayList item = (ArrayList) item_;
+
+                            if (n == 0)
+                            {
+                                epc_1st = String.valueOf(item.get(0));
+                            }
+                            if (n == 1)
+                            {
+                                epc_2nd = String.valueOf(item.get(0));;
+                            }
+                            else if (n == 2)
+                            {
+                                epc_3rd = String.valueOf(item.get(0));;
+                            }
+                            else if (n == 3)
+                            {
+                                epc_4th = String.valueOf(item.get(0));;
+                            }
+                            else if (n == 4)
+                            {
+                                epc_5th = String.valueOf(item.get(0));;
+                            }
+                            else if (n == 5)
+                            {
+                                epc_6th = String.valueOf(item.get(0));;
+                            }
+                            else if (n == 6)
+                            {
+                                epc_7th = String.valueOf(item.get(0));;
+                            }
+                            else if (n == 7)
+                            {
+                                epc_8th = String.valueOf(item.get(0));;
+                            }
+                            else if (n == 8)
+                            {
+                                epc_9th = String.valueOf(item.get(0));;
+                            }
+                            n++;
+
+
+
+                    }
                     for(Object item_ : addlist)//item_: [EPC, RSSI, 読み取り回数, 距離 RSSI真値]
                     {
                         ArrayList item = (ArrayList) item_;
@@ -1885,15 +1939,18 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         add_rssi_tr[i] = Double.parseDouble(String.valueOf(item.get(4)));
 
                         //epc1st判定20230310 孤爪
-                        String epc_1st = null;
-                        String epc_2nd = null;
-                        String epc_3rd = null;
-                        String epc_4th = null;
-                        String epc_5th = null;
-                        String epc_6th = null;
-                        String epc_7th = null;
-                        String epc_8th = null;
-                        String epc_9th = null;
+
+                        /*
+                        String epc_1st = "";
+                        String epc_2nd = "";
+                        String epc_3rd = "";
+                        String epc_4th = "";
+                        String epc_5th = "";
+                        String epc_6th = "";
+                        String epc_7th = "";
+                        String epc_8th = "";
+                        String epc_9th = "";
+
 
                         for (int n = 0; n < add_epc.length; n++)
                         {
@@ -1935,11 +1992,20 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                             }
                         }
 
+
+
+                         */
+
+
                         //反対除去 20230310 孤爪
                         int judge = 0;
+                        Log.d ("確認epc1st_1",epc_1st);
                         if(surface_flg==0){//3面
                            judge = Rem_Sector_3(epc_1st, epc_2nd, epc_3rd, epc_4th, epc_5th, epc_6th, epc_7th, epc_8th, epc_9th);
                         }
+
+
+                        Log.d ("確認",String.valueOf(judge));
 
                         //セクターの描画20221206
                         paint.setColor(Color.argb(inv_alpha, inv_color, 255, inv_color));//緑
@@ -1975,6 +2041,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
                         i++;
 
                     }
+
 
                     //推定座標の算出及び推定円の描画20221206
                     det_x_m = det_sum_x / dis_weight_sum;
@@ -2387,104 +2454,113 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         int RSSIcheck9 = 0;
         int Rem = 0;
 
+        Log.d ("確認epc1st",epc_1st);
+
         //31
-        if (epc_1st == "3000000000000000000000000031") { RSSIcheck1 = 311;}
-        else if (epc_2nd == "3000000000000000000000000031") { RSSIcheck2 = 312;}
-        else if (epc_3rd == "3000000000000000000000000031") { RSSIcheck3 = 313;}
-        else if (epc_4th == "3000000000000000000000000031") { RSSIcheck4 = 314;}
-        else if (epc_5th == "3000000000000000000000000031") { RSSIcheck5 = 315;}
-        else if (epc_6th == "3000000000000000000000000031") { RSSIcheck6 = 316;}
-        else if (epc_7th == "3000000000000000000000000031") { RSSIcheck7 = 317;}
-        else if (epc_8th == "3000000000000000000000000031") { RSSIcheck8 = 318;}
-        else if (epc_9th == "3000000000000000000000000031") { RSSIcheck9 = 319;}
+        if (epc_1st.equals("3000000000000000000000000031")) { RSSIcheck1 = 311;}
+        else if (epc_2nd.equals("3000000000000000000000000031")) { RSSIcheck2 = 312;}
+        else if (epc_3rd.equals("3000000000000000000000000031")) { RSSIcheck3 = 313;}
+        else if (epc_4th.equals("3000000000000000000000000031")){ RSSIcheck4 = 314;}
+        else if (epc_5th.equals("3000000000000000000000000031")) { RSSIcheck5 = 315;}
+        else if (epc_6th.equals("3000000000000000000000000031")) { RSSIcheck6 = 316;}
+        else if (epc_7th.equals("3000000000000000000000000031")) { RSSIcheck7 = 317;}
+        else if (epc_8th.equals("3000000000000000000000000031")) { RSSIcheck8 = 318;}
+        else if (epc_9th.equals("3000000000000000000000000031")) { RSSIcheck9 = 319;}
+        Log.d ("確認1",epc_1st);
+        Log.d ("確認2.1",epc_2nd);
 
         //32 変更前 -71.60
-        if (epc_1st == "3000000000000000000000000032") { RSSIcheck1 = 321;}
-        else if (epc_2nd == "3000000000000000000000000032") { RSSIcheck2 = 322;}
-        else if (epc_3rd == "3000000000000000000000000032") { RSSIcheck3 = 323;}
-        else if (epc_4th == "3000000000000000000000000032") { RSSIcheck4 = 324;}
-        else if (epc_5th == "3000000000000000000000000032") { RSSIcheck5 = 325;}
-        else if (epc_6th == "3000000000000000000000000032") { RSSIcheck6 = 326;}
-        else if (epc_7th == "3000000000000000000000000032") { RSSIcheck7 = 327;}
-        else if (epc_8th == "3000000000000000000000000032") { RSSIcheck8 = 328;}
-        else if (epc_9th == "3000000000000000000000000032") { RSSIcheck9 = 329;}
+        if (epc_1st.equals("3000000000000000000000000032")) { RSSIcheck1 = 321;}
+        else if (epc_2nd.equals("3000000000000000000000000032")) { RSSIcheck2 = 322;}
+        else if (epc_3rd.equals("3000000000000000000000000032")) { RSSIcheck3 = 323;}
+        else if (epc_4th.equals("3000000000000000000000000032")) { RSSIcheck4 = 324;}
+        else if (epc_5th.equals("3000000000000000000000000032")) { RSSIcheck5 = 325;}
+        else if (epc_6th.equals("3000000000000000000000000032")) { RSSIcheck6 = 326;}
+        else if (epc_7th.equals("3000000000000000000000000032")) { RSSIcheck7 = 327;}
+        else if (epc_8th.equals("3000000000000000000000000032")) { RSSIcheck8 = 328;}
+        else if (epc_9th.equals("3000000000000000000000000032")) { RSSIcheck9 = 329;}
+        Log.d ("確認2",epc_2nd);
 
         //33 変更前  -75.49
-        if (epc_1st == "3000000000000000000000000033") { RSSIcheck1 = 331;}
-        else if (epc_2nd == "3000000000000000000000000033") { RSSIcheck2 = 332;}
-        else if (epc_3rd == "3000000000000000000000000033") { RSSIcheck3 = 333;}
-        else if (epc_4th == "3000000000000000000000000033") { RSSIcheck4 = 334;}
-        else if (epc_5th == "3000000000000000000000000033") { RSSIcheck5 = 335;}
-        else if (epc_6th == "3000000000000000000000000033") { RSSIcheck6 = 336;}
-        else if (epc_7th == "3000000000000000000000000033") { RSSIcheck7 = 337;}
-        else if (epc_8th == "3000000000000000000000000033") { RSSIcheck8 = 338;}
-        else if (epc_9th == "3000000000000000000000000033") { RSSIcheck9 = 339;}
+        if (epc_1st.equals("3000000000000000000000000033")) { RSSIcheck1 = 331;}
+        else if (epc_2nd.equals("3000000000000000000000000033")) { RSSIcheck2 = 332;}
+        else if (epc_3rd.equals("3000000000000000000000000033")) { RSSIcheck3 = 333;}
+        else if (epc_4th.equals("3000000000000000000000000033")) { RSSIcheck4 = 334;}
+        else if (epc_5th.equals("3000000000000000000000000033")) { RSSIcheck5 = 335;}
+        else if (epc_6th.equals("3000000000000000000000000033")) { RSSIcheck6 = 336;}
+        else if (epc_7th.equals("3000000000000000000000000033")) { RSSIcheck7 = 337;}
+        else if (epc_8th.equals("3000000000000000000000000033")) { RSSIcheck8 = 338;}
+        else if (epc_9th.equals("3000000000000000000000000033")) { RSSIcheck9 = 339;}
+        Log.d ("確認3",epc_3rd);
 
         //34 変更前
-        if (epc_1st == "3000000000000000000000000034") { RSSIcheck1 = 341;}
-        else if (epc_2nd == "3000000000000000000000000034") { RSSIcheck2 = 342;}
-        else if (epc_3rd == "3000000000000000000000000034") { RSSIcheck3 = 343;}
-        else if (epc_4th == "3000000000000000000000000034") { RSSIcheck4 = 344;}
-        else if (epc_5th == "3000000000000000000000000034") { RSSIcheck5 = 345;}
-        else if (epc_6th == "3000000000000000000000000034") { RSSIcheck6 = 346;}
-        else if (epc_7th == "3000000000000000000000000034") { RSSIcheck7 = 347;}
-        else if (epc_8th == "3000000000000000000000000034") { RSSIcheck8 = 348;}
-        else if (epc_9th == "3000000000000000000000000034") { RSSIcheck9 = 349;}
+        if (epc_1st.equals("3000000000000000000000000034")) { RSSIcheck1 = 341;}
+        else if (epc_2nd.equals("3000000000000000000000000034")) { RSSIcheck2 = 342;}
+        else if (epc_3rd.equals("3000000000000000000000000034")) { RSSIcheck3 = 343;}
+        else if (epc_4th.equals("3000000000000000000000000034")) { RSSIcheck4 = 344;}
+        else if (epc_5th.equals("3000000000000000000000000034")) { RSSIcheck5 = 345;}
+        else if (epc_6th.equals("3000000000000000000000000034")) { RSSIcheck6 = 346;}
+        else if (epc_7th.equals("3000000000000000000000000034")) { RSSIcheck7 = 347;}
+        else if (epc_8th.equals("3000000000000000000000000034")) { RSSIcheck8 = 348;}
+        else if (epc_9th.equals("3000000000000000000000000034")) { RSSIcheck9 = 349;}
+        Log.d ("確認4",epc_4th);
 
         //35 変更前
-        if (epc_1st == "3000000000000000000000000035") { RSSIcheck1 = 351;}
-        else if (epc_2nd == "3000000000000000000000000035") { RSSIcheck2 = 352;}
-        else if (epc_3rd == "3000000000000000000000000035") { RSSIcheck3 = 353; }
-        else if (epc_4th == "3000000000000000000000000035") { RSSIcheck4 = 354;}
-        else if (epc_5th == "3000000000000000000000000035") { RSSIcheck5 = 355;}
-        else if (epc_6th == "3000000000000000000000000035") { RSSIcheck6 = 356;}
-        else if (epc_7th == "3000000000000000000000000035") { RSSIcheck7 = 357;}
-        else if (epc_8th == "3000000000000000000000000035") { RSSIcheck8 = 358;}
-        else if (epc_9th == "3000000000000000000000000035") { RSSIcheck9 = 359;}
+        if (epc_1st.equals("3000000000000000000000000035")) { RSSIcheck1 = 351;}
+        else if (epc_2nd.equals("3000000000000000000000000035")) { RSSIcheck2 = 352;}
+        else if (epc_3rd.equals("3000000000000000000000000035")) { RSSIcheck3 = 353; }
+        else if (epc_4th.equals("3000000000000000000000000035")) { RSSIcheck4 = 354;}
+        else if (epc_5th.equals("3000000000000000000000000035")) { RSSIcheck5 = 355;}
+        else if (epc_6th.equals("3000000000000000000000000035")) { RSSIcheck6 = 356;}
+        else if (epc_7th.equals("3000000000000000000000000035")) { RSSIcheck7 = 357;}
+        else if (epc_8th.equals("3000000000000000000000000035")) { RSSIcheck8 = 358;}
+        else if (epc_9th.equals("3000000000000000000000000035")) { RSSIcheck9 = 359;}
+        Log.d ("確認5",epc_5th);
 
         //36 変更前 -67.81
-        if (epc_1st == "3000000000000000000000000036") { RSSIcheck1 = 361;}
-        else if (epc_2nd == "3000000000000000000000000036") { RSSIcheck2 = 362;}
-        else if (epc_3rd == "3000000000000000000000000036") { RSSIcheck3 = 363;}
-        else if (epc_4th == "3000000000000000000000000036") { RSSIcheck4 = 364;}
-        else if (epc_5th == "3000000000000000000000000036") { RSSIcheck5 = 365;}
-        else if (epc_6th == "3000000000000000000000000036") { RSSIcheck6 = 366;}
-        else if (epc_7th == "3000000000000000000000000036") { RSSIcheck7 = 367;}
-        else if (epc_8th == "3000000000000000000000000036") { RSSIcheck8 = 368;}
-        else if (epc_9th == "3000000000000000000000000036") { RSSIcheck9 = 369;}
+        if (epc_1st.equals("3000000000000000000000000036")) { RSSIcheck1 = 361;}
+        else if (epc_2nd.equals("3000000000000000000000000036")) { RSSIcheck2 = 362;}
+        else if (epc_3rd.equals("3000000000000000000000000036")) { RSSIcheck3 = 363;}
+        else if (epc_4th.equals("3000000000000000000000000036")) { RSSIcheck4 = 364;}
+        else if (epc_5th.equals("3000000000000000000000000036")) { RSSIcheck5 = 365;}
+        else if (epc_6th.equals("3000000000000000000000000036")) { RSSIcheck6 = 366;}
+        else if (epc_7th.equals("3000000000000000000000000036")) { RSSIcheck7 = 367;}
+        else if (epc_8th.equals("3000000000000000000000000036")) { RSSIcheck8 = 368;}
+        else if (epc_9th.equals("3000000000000000000000000036")) { RSSIcheck9 = 369;}
+        Log.d ("確認6",epc_6th);
 
         //37 変更前 -71.6
-        if (epc_1st == "3000000000000000000000000037") { RSSIcheck1 = 371;}
-        else if (epc_2nd == "3000000000000000000000000037") { RSSIcheck2 = 372;}
-        else if (epc_3rd == "3000000000000000000000000037") { RSSIcheck3 = 373;}
-        else if (epc_4th == "3000000000000000000000000037") { RSSIcheck4 = 374;}
-        else if (epc_5th == "3000000000000000000000000037") { RSSIcheck5 = 375;}
-        else if (epc_6th == "3000000000000000000000000037") { RSSIcheck6 = 376;}
-        else if (epc_7th == "3000000000000000000000000037") { RSSIcheck7 = 377;}
-        else if (epc_8th == "3000000000000000000000000037") { RSSIcheck8 = 378;}
-        else if (epc_9th == "3000000000000000000000000037") { RSSIcheck9 = 379;}
+        if (epc_1st.equals("3000000000000000000000000037")) { RSSIcheck1 = 371;}
+        else if (epc_2nd.equals("3000000000000000000000000037")) { RSSIcheck2 = 372;}
+        else if (epc_3rd.equals("3000000000000000000000000037")) { RSSIcheck3 = 373;}
+        else if (epc_4th.equals("3000000000000000000000000037")) { RSSIcheck4 = 374;}
+        else if (epc_5th.equals("3000000000000000000000000037")) { RSSIcheck5 = 375;}
+        else if (epc_6th.equals("3000000000000000000000000037")) { RSSIcheck6 = 376;}
+        else if (epc_7th.equals("3000000000000000000000000037")) { RSSIcheck7 = 377;}
+        else if (epc_8th.equals("3000000000000000000000000037")) { RSSIcheck8 = 378;}
+        else if (epc_9th.equals("3000000000000000000000000037")) { RSSIcheck9 = 379;}
 
         //38 変更前
-        if (epc_1st == "3000000000000000000000000038") { RSSIcheck1 = 381;}
-        else if (epc_2nd == "3000000000000000000000000038") { RSSIcheck2 = 382;}
-        else if (epc_3rd == "3000000000000000000000000038") { RSSIcheck3 = 383;}
-        else if (epc_4th == "3000000000000000000000000038") { RSSIcheck4 = 384;}
-        else if (epc_5th == "3000000000000000000000000038") { RSSIcheck5 = 385;}
-        else if (epc_6th == "3000000000000000000000000038") { RSSIcheck6 = 386;}
-        else if (epc_7th == "3000000000000000000000000038") { RSSIcheck7 = 387;}
-        else if (epc_8th == "3000000000000000000000000038") { RSSIcheck8 = 388;}
-        else if (epc_9th == "3000000000000000000000000038") { RSSIcheck9 = 389;}
+        if (epc_1st.equals("3000000000000000000000000038")) { RSSIcheck1 = 381;}
+        else if (epc_2nd.equals("3000000000000000000000000038")) { RSSIcheck2 = 382;}
+        else if (epc_3rd.equals("3000000000000000000000000038")) { RSSIcheck3 = 383;}
+        else if (epc_4th.equals("3000000000000000000000000038")) { RSSIcheck4 = 384;}
+        else if (epc_5th.equals("3000000000000000000000000038")) { RSSIcheck5 = 385;}
+        else if (epc_6th.equals("3000000000000000000000000038")) { RSSIcheck6 = 386;}
+        else if (epc_7th.equals("3000000000000000000000000038")) { RSSIcheck7 = 387;}
+        else if (epc_8th.equals("3000000000000000000000000038")) { RSSIcheck8 = 388;}
+        else if (epc_9th.equals("3000000000000000000000000038")) { RSSIcheck9 = 389;}
 
         //39 変更前 75.49
-        if (epc_1st == "3000000000000000000000000039") { RSSIcheck1 = 391;}
-        else if (epc_2nd == "3000000000000000000000000039") { RSSIcheck2 = 392;}
-        else if (epc_3rd == "3000000000000000000000000039") { RSSIcheck3 = 393;}
-        else if (epc_4th == "3000000000000000000000000039") { RSSIcheck4 = 394;}
-        else if (epc_5th == "3000000000000000000000000039") { RSSIcheck5 = 395;}
-        else if (epc_6th == "3000000000000000000000000039") { RSSIcheck6 = 396;}
-        else if (epc_7th == "3000000000000000000000000039") { RSSIcheck7 = 397;}
-        else if (epc_8th == "3000000000000000000000000039") { RSSIcheck8 = 398;}
-        else if (epc_9th == "3000000000000000000000000039") { RSSIcheck9 = 399;}
+        if (epc_1st.equals("3000000000000000000000000039")) { RSSIcheck1 = 391;}
+        else if (epc_2nd.equals("3000000000000000000000000039")) { RSSIcheck2 = 392;}
+        else if (epc_3rd.equals("3000000000000000000000000039")) { RSSIcheck3 = 393;}
+        else if (epc_4th.equals("3000000000000000000000000039")) { RSSIcheck4 = 394;}
+        else if (epc_5th.equals("3000000000000000000000000039")) { RSSIcheck5 = 395;}
+        else if (epc_6th.equals("3000000000000000000000000039")) { RSSIcheck6 = 396;}
+        else if (epc_7th.equals("3000000000000000000000000039")) { RSSIcheck7 = 397;}
+        else if (epc_8th.equals("3000000000000000000000000039")) { RSSIcheck8 = 398;}
+        else if (epc_9th.equals("3000000000000000000000000039")) { RSSIcheck9 = 399;}
 
 
 
@@ -2870,6 +2946,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
             else if (RSSIcheck8 == 378) { Rem = 37;}
             else if (RSSIcheck9 == 379) { Rem = 37;}
         }
+        Log.d ("確認Rem",String.valueOf(Rem));
         return Rem;
     }
 
@@ -2887,7 +2964,9 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         int add_x = origin_x;
         int add_y = origin_y;
         int inv_alpha = 255;
-        int inv_color = 150;
+        int inv_color = 255;
+
+        //judge = 31; //実験用　孤爪
 
         if(add_epc_.equals("3000000000000000000000000031")){
             add_d = 225;//y軸→x軸回転の角度
@@ -2986,7 +3065,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         int add_r_x_ = (int)(add_dis_*dotm_x);
         int add_r_y_ = (int)(add_dis_*dotm_y);
         canvas_.drawArc(add_x - add_r_x_, add_y - add_r_y_, add_x + add_r_x_, add_y + add_r_y_,add_d - 45,90,true, paint_);
-        paint_.setColor(Color.argb(inv_alpha, inv_color, 255, inv_color));//色戻し
+        paint_.setColor(Color.argb(inv_alpha, 150, 255, 150));//色戻し
 
         //重みづけ用の座標設定（m）
         est_x_.add(est_x);
