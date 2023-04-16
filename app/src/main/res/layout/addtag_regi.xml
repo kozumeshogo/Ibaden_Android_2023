@@ -1,6 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/add_2_posx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="6.0"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="225dp" />
+
+        <EditText
+            android:id="@+id/add_1_posz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="2.3"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="161dp" />
+
+        <EditText
+            android:id="@+id/add_3_posy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="10.0"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="424dp" />
+
+        <TextView
+            android:id="@+id/textView45"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="Z."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="485dp" />
+
+        <EditText
+            android:id="@+id/add_3_posz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="2.3"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="469dp" />
+
+        <TextView
+            android:id="@+id/textView43"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="X."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="395dp" />
+
+        <EditText
+            android:id="@+id/add_3_posx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="18.0"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="379dp" />
+
+        <TextView
+            android:id="@+id/textView42"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="アンテナ3(37,38,39)"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="360dp" />
+
+        <EditText
+            android:id="@+id/add_2_posy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="10.0"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="270dp" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="アンテナ1(31,32,33)"
+            tools:layout_editor_absoluteY="51dp" />
+
+        <EditText
+            android:id="@+id/add_1_posx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="6.0"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="71dp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="X."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="87dp" />
+
+        <TextView
+            android:id="@+id/textView36"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="Z."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="177dp" />
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="Y."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="132dp" />
+
+        <TextView
+            android:id="@+id/textView44"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="Y."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="440dp" />
+
+        <TextView
+            android:id="@+id/textView36"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="Z."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="331dp" />
+
+        <EditText
+            android:id="@+id/add_2_posz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="2.3"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="315dp" />
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="Y."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="286dp" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="アンテナ2(34,35,36)"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="206dp" />
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD設定"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="3dp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="X."
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="241dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView38"
+        android:layout_width="27dp"
+        android:layout_height="29dp"
+        android:layout_weight="1"
+        android:text="Z."
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="177dp" />
+
+    <EditText
+        android:id="@+id/add_1_posy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="0.0"
+        tools:layout_editor_absoluteX="53dp"
+        tools:layout_editor_absoluteY="116dp" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="27dp"
+        android:layout_height="29dp"
+        android:layout_weight="1"
+        android:text="Y."
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="132dp" />
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="27dp"
+        android:layout_height="29dp"
+        android:layout_weight="1"
+        android:text="X."
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="87dp" />
+
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="アンテナ1(31,32,33)"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="51dp" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD設定"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="3dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -76,7 +76,7 @@ import jp.co.tss21.uhfrfid.tssrfid.TssRfidUtill;
  *
  * @author Tohoku Systems Support.Co.,Ltd.
  */
-public class InventoryTagDemo extends TabActivity implements View.OnClickListener,OnDotrEventListener {
+public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnClickListener,OnDotrEventListener {
     private final static String TAG = InventoryTagDemo.class.getSimpleName();
 
     private TabHost mTabHost;
@@ -172,6 +172,7 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private Button mBtnConnect;
     private Button mBtnDisconnect;
     private Button mBtnCAL;
+    private Button mBtnADD; //20230416 ADD変数追加　孤爪
     private Button mBtnStore;
     private Button mBtnLog;
     private ListView mListLog;
@@ -206,8 +207,6 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
     private int search_flg = 0;
     private int search_test = 0;//起動時の描画を防ぐフラグ20220929
 
-
-    /** ADD登録タブ用*/
 
     /**public変数　20211129*/
     public String epcoc = ""; //InventoryEPCでのEPC番号
@@ -484,6 +483,11 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
         /** 検索タブ用  */
         mBtnSearch = (Button) findViewById(R.id.btn_search);
         mBtnSearch.setOnClickListener(this);
+
+        //20230416 ADD登録追加　孤爪
+        /** ADD登録タブ用 */
+        mBtnADD = (Button) findViewById(R.id.btn_add);
+        mBtnADD.setOnClickListener(this);
 
         //#0008 検索時物品選択用spnnerの処理
         //Spinner追加（物品選択）20220920
@@ -1017,6 +1021,24 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
 
 
+                break;
+            case R.id.btn_add:    //ADD登録　20230416 孤爪
+                TextView tv_1x_add = (TextView) findViewById(R.id.add_1_posx);
+                TextView tv_1y_add = (TextView) findViewById(R.id.add_1_posy);
+                TextView tv_1z_add = (TextView) findViewById(R.id.add_1_posz);
+                TextView tv_2x_add = (TextView) findViewById(R.id.add_2_posx);
+                TextView tv_2y_add = (TextView) findViewById(R.id.add_2_posy);
+                TextView tv_2z_add = (TextView) findViewById(R.id.add_2_posz);
+                TextView tv_3x_add = (TextView) findViewById(R.id.add_3_posx);
+                TextView tv_3y_add = (TextView) findViewById(R.id.add_3_posy);
+                TextView tv_3z_add = (TextView) findViewById(R.id.add_3_posz);
+                add_1_x = Double.parseDouble(tv_1x_add.getText().toString());
+                add_1_y = Double.parseDouble(tv_1y_add.getText().toString());
+                add_height = Double.parseDouble(tv_1z_add.getText().toString());
+                add_2_x = Double.parseDouble(tv_2x_add.getText().toString());
+                add_2_y = Double.parseDouble(tv_2y_add.getText().toString());
+                add_3_x = Double.parseDouble(tv_3x_add.getText().toString());
+                add_3_y = Double.parseDouble(tv_3y_add.getText().toString());
                 break;
         }
     }
@@ -3395,4 +3417,5 @@ public class InventoryTagDemo extends TabActivity implements View.OnClickListene
 
     }
     //#0029fin
+
 }
