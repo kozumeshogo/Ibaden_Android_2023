@@ -2988,6 +2988,8 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
         int inv_alpha = 255;
         int inv_color = 255;
 
+
+
         //judge = 31; //実験用　孤爪
 
         if(add_epc_.equals("3000000000000000000000000031")){
@@ -3083,6 +3085,15 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
             }
         }
+
+        //20230418 真値　白円描画追加　孤爪
+        Paint paint_real = new Paint();;
+        paint_real.setColor(Color.argb(255, 255, 255, 255));
+        TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
+        TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
+        float store_x_m = Float.valueOf(txt_store_x_m_.getText().toString());
+        float store_y_m = Float.valueOf(txt_store_y_m_.getText().toString());
+        canvas_.drawCircle(store_x_m, store_y_m, 2, paint_real);
 
         int add_r_x_ = (int)(add_dis_*dotm_x);
         int add_r_y_ = (int)(add_dis_*dotm_y);
@@ -3194,6 +3205,14 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
             est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
             est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
         }
+        //20230418 真値　白円描画追加　孤爪
+        Paint paint_real = new Paint();;
+        paint_real.setColor(Color.argb(255, 255, 255, 255));
+        TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
+        TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
+        float store_x_m = Float.valueOf(txt_store_x_m_.getText().toString());
+        float store_y_m = Float.valueOf(txt_store_y_m_.getText().toString());
+        canvas_.drawCircle(store_x_m, store_y_m, 2, paint_real);
 
         int add_r_x_ = (int)(add_dis_*dotm_x);
         int add_r_y_ = (int)(add_dis_*dotm_y);
