@@ -299,7 +299,8 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 if (checkedId != -1) {
                     // 選択されているラジオボタンの取得
                     RadioButton radioButton = (RadioButton) findViewById(checkedId);
-                    inv_map_flg = 2131230833 - checkedId;
+                    //inv_map_flg = 2131230833 - checkedId; //20230424 値変更？　孤爪
+                    inv_map_flg = 2131230844 - checkedId;
                     Log.d("マップ選択", String.valueOf(inv_map_flg));
                     //アドレスRFIDタグ座標設定
                     if(inv_map_flg==0){//マップ「研究室」20211108
@@ -317,6 +318,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                         add_3_y=11.0;
 
                         invMap = mapData(R.drawable.laboratory);
+                        Log.d("map", "lab");
                     }
                     else if(inv_map_flg==1){//マップ「E5棟8Fイノベーションルーム」20211108
                         dotm_x = 62;
@@ -332,6 +334,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                         add_3_y=2.0;
 
                         invMap = mapData(R.drawable.e5_8f_inov);
+                        Log.d("map", "inv");
                     }
                     else if(inv_map_flg==2){//マップ「工場」20211108
                         inv_map_flg=2;
@@ -349,6 +352,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                         add_3_y=10.0;
 
                         invMap = mapData(R.drawable.ibaden_factory);
+                        Log.d("map", "fac");
                     }
                 } else {
                     // 何も選択されていない場合の処理
@@ -486,8 +490,10 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
 
         //20230416 ADD登録追加　孤爪
         /** ADD登録タブ用 */
+
         mBtnADD = (Button) findViewById(R.id.btn_add);
         mBtnADD.setOnClickListener(this);
+
 
         //#0008 検索時物品選択用spnnerの処理
         //Spinner追加（物品選択）20220920
@@ -3087,13 +3093,25 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
         }
 
         //20230418 真値　白円描画追加　孤爪
+
         Paint paint_real = new Paint();;
         paint_real.setColor(Color.argb(255, 255, 255, 255));
         TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
         TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
         float store_x_m = Float.valueOf(txt_store_x_m_.getText().toString());
         float store_y_m = Float.valueOf(txt_store_y_m_.getText().toString());
-        canvas_.drawCircle(store_x_m, store_y_m, 2, paint_real);
+        float store_x_pl = (float)3.0;
+        float store_y_pl = (float)13.5;
+        store_y_m *= -1;
+
+        canvas_.drawCircle(((store_x_m+store_x_pl)*dotm_x)+store_x_pl, ((store_y_m+store_y_pl)*dotm_y), 70, paint_real);
+
+
+        Log.d("sin", "3");
+        String store_x_demo = String.valueOf(store_x_m);
+        String store_y_demo = String.valueOf(store_y_m);
+        Log.d("sin", store_x_demo);
+        Log.d("sin", store_y_demo);
 
         int add_r_x_ = (int)(add_dis_*dotm_x);
         int add_r_y_ = (int)(add_dis_*dotm_y);
@@ -3206,13 +3224,15 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
             est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
         }
         //20230418 真値　白円描画追加　孤爪
+
         Paint paint_real = new Paint();;
         paint_real.setColor(Color.argb(255, 255, 255, 255));
         TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
         TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
         float store_x_m = Float.valueOf(txt_store_x_m_.getText().toString());
         float store_y_m = Float.valueOf(txt_store_y_m_.getText().toString());
-        canvas_.drawCircle(store_x_m, store_y_m, 2, paint_real);
+        canvas_.drawCircle(store_x_m*dotm_x, store_y_m*dotm_y, 2, paint_real);
+        Log.d("sin", "4");
 
         int add_r_x_ = (int)(add_dis_*dotm_x);
         int add_r_y_ = (int)(add_dis_*dotm_y);

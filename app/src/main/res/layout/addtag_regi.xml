@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -13,34 +14,40 @@
             android:id="@+id/add_2_posx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="172dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="6.0"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="225dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
         <EditText
             android:id="@+id/add_1_posz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="172dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="2.3"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="161dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_1_posy" />
 
         <EditText
             android:id="@+id/add_3_posy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="172dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="10.0"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="424dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_3_posx" />
 
         <TextView
             android:id="@+id/textView45"
@@ -48,132 +55,134 @@
             android:layout_height="29dp"
             android:layout_weight="1"
             android:text="Z."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="485dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/add_3_posz"
+            app:layout_constraintHorizontal_bias="0.011"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView44"
+            app:layout_constraintVertical_bias="0.133" />
 
         <EditText
             android:id="@+id/add_3_posz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="172dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="2.3"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="469dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_3_posy"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView43"
             android:layout_width="27dp"
             android:layout_height="29dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="X."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="395dp" />
+            app:layout_constraintEnd_toStartOf="@+id/add_3_posx"
+            app:layout_constraintHorizontal_bias="0.115"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
         <EditText
             android:id="@+id/add_3_posx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="172dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="18.0"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="379dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
         <TextView
             android:id="@+id/textView42"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="アンテナ3(37,38,39)"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="360dp" />
+            app:layout_constraintTop_toBottomOf="@+id/add_2_posz"
+            tools:layout_editor_absoluteX="0dp" />
 
         <EditText
             android:id="@+id/add_2_posy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="172dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="10.0"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="270dp" />
-
-        <TextView
-            android:id="@+id/textView34"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="アンテナ1(31,32,33)"
-            tools:layout_editor_absoluteY="51dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_2_posx" />
 
         <EditText
             android:id="@+id/add_1_posx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="6.0"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="71dp" />
-
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="27dp"
-            android:layout_height="29dp"
-            android:layout_weight="1"
-            android:text="X."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="87dp" />
-
-        <TextView
-            android:id="@+id/textView36"
-            android:layout_width="27dp"
-            android:layout_height="29dp"
-            android:layout_weight="1"
-            android:text="Z."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="177dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView40"
+            app:layout_constraintTop_toBottomOf="@+id/textView41" />
 
         <TextView
             android:id="@+id/textView35"
             android:layout_width="27dp"
             android:layout_height="29dp"
+            android:layout_marginTop="12dp"
             android:layout_weight="1"
             android:text="Y."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="132dp" />
+            app:layout_constraintEnd_toStartOf="@+id/add_1_posy"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView40" />
 
         <TextView
             android:id="@+id/textView44"
             android:layout_width="27dp"
             android:layout_height="29dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="Y."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="440dp" />
+            app:layout_constraintEnd_toStartOf="@+id/add_3_posy"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView43" />
 
         <TextView
             android:id="@+id/textView36"
             android:layout_width="27dp"
             android:layout_height="29dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:text="Z."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="331dp" />
+            app:layout_constraintBottom_toTopOf="@+id/textView42"
+            app:layout_constraintEnd_toStartOf="@+id/add_2_posz"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/add_2_posz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="172dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="2.3"
-            tools:layout_editor_absoluteX="53dp"
-            tools:layout_editor_absoluteY="315dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_2_posy" />
 
         <TextView
             android:id="@+id/textView35"
@@ -181,88 +190,87 @@
             android:layout_height="29dp"
             android:layout_weight="1"
             android:text="Y."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="286dp" />
+            app:layout_constraintBottom_toTopOf="@+id/textView36"
+            app:layout_constraintEnd_toStartOf="@+id/add_2_posy"
+            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView18"
+            app:layout_constraintVertical_bias="0.191" />
 
         <TextView
             android:id="@+id/textView34"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="アンテナ2(34,35,36)"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="206dp" />
+            app:layout_constraintTop_toBottomOf="@+id/add_1_posz"
+            tools:layout_editor_absoluteX="0dp" />
 
         <Button
             android:id="@+id/btn_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ADD設定"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="3dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.005" />
 
         <TextView
             android:id="@+id/textView18"
             android:layout_width="27dp"
             android:layout_height="29dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="X."
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="241dp" />
+            app:layout_constraintEnd_toStartOf="@+id/add_2_posx"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+        <TextView
+            android:id="@+id/textView41"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="アンテナ1(31,32,33)"
+            app:layout_constraintTop_toBottomOf="@+id/btn_add"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/textView40"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="X."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+        <EditText
+            android:id="@+id/add_1_posy"
+            android:layout_width="206dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="176dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_1_posx" />
+
+        <TextView
+            android:id="@+id/textView38"
+            android:layout_width="27dp"
+            android:layout_height="29dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:text="Z."
+            app:layout_constraintBottom_toTopOf="@+id/textView34"
+            app:layout_constraintEnd_toStartOf="@+id/add_1_posz"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView38"
-        android:layout_width="27dp"
-        android:layout_height="29dp"
-        android:layout_weight="1"
-        android:text="Z."
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="177dp" />
-
-    <EditText
-        android:id="@+id/add_1_posy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="0.0"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="116dp" />
-
-    <TextView
-        android:id="@+id/textView39"
-        android:layout_width="27dp"
-        android:layout_height="29dp"
-        android:layout_weight="1"
-        android:text="Y."
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="132dp" />
-
-    <TextView
-        android:id="@+id/textView40"
-        android:layout_width="27dp"
-        android:layout_height="29dp"
-        android:layout_weight="1"
-        android:text="X."
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="87dp" />
-
-    <TextView
-        android:id="@+id/textView41"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="アンテナ1(31,32,33)"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="51dp" />
-
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ADD設定"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="3dp" />
 
 </android.support.constraint.ConstraintLayout>
