@@ -1,5 +1,7 @@
 package jp.co.tss21.sample.android.inventorytag;
 
+import static java.lang.Integer.parseInt;
+
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -154,6 +156,8 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
     private double add_2_y = 6.0;
     private double add_3_x = 5.0;
     private double add_3_y = 11.0;
+    private double add_4_x = 18.0; //20230515 アンテナ4追加　孤爪
+    private double add_4_y = 0.0;
     //範囲円半径[m]
     private double range_x_m =3.0;
     private double range_y_m = 3.0;
@@ -300,7 +304,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                     // 選択されているラジオボタンの取得
                     RadioButton radioButton = (RadioButton) findViewById(checkedId);
                     //inv_map_flg = 2131230833 - checkedId; //20230424 値変更？　孤爪
-                    inv_map_flg = 2131230844 - checkedId;
+                    inv_map_flg = 2131230849 - checkedId;
                     Log.d("マップ選択", String.valueOf(inv_map_flg));
                     //アドレスRFIDタグ座標設定
                     if(inv_map_flg==0){//マップ「研究室」20211108
@@ -350,6 +354,8 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                         add_2_y=10.0;
                         add_3_x=18.0;
                         add_3_y=10.0;
+                        add_4_x=18.0;  //20230515 アンテナ4追加　孤爪
+                        add_4_y=0.0;
 
                         invMap = mapData(R.drawable.ibaden_factory);
                         Log.d("map", "fac");
@@ -368,7 +374,8 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId != -1){
-                    surface_flg = checkedId - 2131230834;
+                    //surface_flg = checkedId - 2131230834;
+                    surface_flg = checkedId - 2131230850; //20230424 値変更？　孤爪
                     Log.d("面数選択", String.valueOf(surface_flg));
 
                     //多点CAL用パラメータ20221024
@@ -403,7 +410,8 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId != -1) {
-                    ranging_method_flg = 2131230830 - checkedId;
+                    //ranging_method_flg = 2131230830 - checkedId;
+                    ranging_method_flg = 2131230846 - checkedId; //20230424 値変更？　孤爪
                     Log.d("測距手法選択", String.valueOf(ranging_method_flg));
                 } else {
 
@@ -556,11 +564,11 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 goods_lasttime.setText(search_goods_lasttime.get(spinner.getSelectedItemPosition()));
 
                 //検索マップ描画パラメータ
-                int search_x = Integer.parseInt(search_goods_coorx.get(spinner.getSelectedItemPosition()));
-                int search_y = Integer.parseInt(search_goods_coory.get(spinner.getSelectedItemPosition()));
+                int search_x = parseInt(search_goods_coorx.get(spinner.getSelectedItemPosition()));
+                int search_y = parseInt(search_goods_coory.get(spinner.getSelectedItemPosition()));
                 int search_dotm_x = 0;
                 int search_dotm_y = 0;
-                int search_map_flg = Integer.parseInt(search_goods_map.get(spinner.getSelectedItemPosition()));
+                int search_map_flg = parseInt(search_goods_map.get(spinner.getSelectedItemPosition()));
                 if(search_map_flg==0){
                     search_dotm_x = 237;
                     search_dotm_y = 237;
@@ -1038,6 +1046,11 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 TextView tv_3x_add = (TextView) findViewById(R.id.add_3_posx);
                 TextView tv_3y_add = (TextView) findViewById(R.id.add_3_posy);
                 TextView tv_3z_add = (TextView) findViewById(R.id.add_3_posz);
+                TextView tv_4x_add = (TextView) findViewById(R.id.add_4_posx);
+                TextView tv_4y_add = (TextView) findViewById(R.id.add_4_posy);  //20230515 アンテナ4 dotm追加 孤爪
+                TextView tv_4z_add = (TextView) findViewById(R.id.add_4_posz);
+                TextView tv_dotm_x = (TextView) findViewById(R.id.add_dotm_x);
+                TextView tv_dotm_y = (TextView) findViewById(R.id.add_dotm_y);
                 add_1_x = Double.parseDouble(tv_1x_add.getText().toString());
                 add_1_y = Double.parseDouble(tv_1y_add.getText().toString());
                 add_height = Double.parseDouble(tv_1z_add.getText().toString());
@@ -1045,6 +1058,10 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 add_2_y = Double.parseDouble(tv_2y_add.getText().toString());
                 add_3_x = Double.parseDouble(tv_3x_add.getText().toString());
                 add_3_y = Double.parseDouble(tv_3y_add.getText().toString());
+                add_4_x = Double.parseDouble(tv_4x_add.getText().toString());
+                add_4_y = Double.parseDouble(tv_4y_add.getText().toString());
+                dotm_x = parseInt(tv_dotm_x.getText().toString());
+                dotm_y = parseInt(tv_dotm_y.getText().toString());
                 break;
         }
     }
@@ -2590,6 +2607,40 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
         else if (epc_8th.equals("3000000000000000000000000039")) { RSSIcheck8 = 398;}
         else if (epc_9th.equals("3000000000000000000000000039")) { RSSIcheck9 = 399;}
 
+        //20230515 アンテナ4追加 孤爪
+        //96
+        if (epc_1st.equals("3000000000000000000000000096")) { RSSIcheck1 = 961;}
+        else if (epc_2nd.equals("3000000000000000000000000096")) { RSSIcheck2 = 962;}
+        else if (epc_3rd.equals("3000000000000000000000000096")) { RSSIcheck3 = 963;}
+        else if (epc_4th.equals("3000000000000000000000000096")) { RSSIcheck4 = 964;}
+        else if (epc_5th.equals("3000000000000000000000000096")) { RSSIcheck5 = 965;}
+        else if (epc_6th.equals("3000000000000000000000000096")) { RSSIcheck6 = 966;}
+        else if (epc_7th.equals("3000000000000000000000000096")) { RSSIcheck7 = 967;}
+        else if (epc_8th.equals("3000000000000000000000000096")) { RSSIcheck8 = 968;}
+        else if (epc_9th.equals("3000000000000000000000000096")) { RSSIcheck9 = 969;}
+        
+        //97
+        if (epc_1st.equals("3000000000000000000000000097")) { RSSIcheck1 = 971;}
+        else if (epc_2nd.equals("3000000000000000000000000097")) { RSSIcheck2 = 972;}
+        else if (epc_3rd.equals("3000000000000000000000000097")) { RSSIcheck3 = 973;}
+        else if (epc_4th.equals("3000000000000000000000000097")) { RSSIcheck4 = 974;}
+        else if (epc_5th.equals("3000000000000000000000000097")) { RSSIcheck5 = 975;}
+        else if (epc_6th.equals("3000000000000000000000000097")) { RSSIcheck6 = 976;}
+        else if (epc_7th.equals("3000000000000000000000000097")) { RSSIcheck7 = 977;}
+        else if (epc_8th.equals("3000000000000000000000000097")) { RSSIcheck8 = 978;}
+        else if (epc_9th.equals("3000000000000000000000000097")) { RSSIcheck9 = 979;}
+        
+        //98
+        if (epc_1st.equals("3000000000000000000000000098")) { RSSIcheck1 = 981;}
+        else if (epc_2nd.equals("3000000000000000000000000098")) { RSSIcheck2 = 982;}
+        else if (epc_3rd.equals("3000000000000000000000000098")) { RSSIcheck3 = 983;}
+        else if (epc_4th.equals("3000000000000000000000000098")) { RSSIcheck4 = 984;}
+        else if (epc_5th.equals("3000000000000000000000000098")) { RSSIcheck5 = 985;}
+        else if (epc_6th.equals("3000000000000000000000000098")) { RSSIcheck6 = 986;}
+        else if (epc_7th.equals("3000000000000000000000000098")) { RSSIcheck7 = 987;}
+        else if (epc_8th.equals("3000000000000000000000000098")) { RSSIcheck8 = 988;}
+        else if (epc_9th.equals("3000000000000000000000000098")) { RSSIcheck9 = 989;}
+
 
 
         if (RSSIcheck1 == 311)
@@ -2974,6 +3025,136 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
             else if (RSSIcheck8 == 378) { Rem = 37;}
             else if (RSSIcheck9 == 379) { Rem = 37;}
         }
+        //20230515 アンテナ4追加 孤爪
+        //96
+        if (RSSIcheck1 == 961)
+        {
+            if (RSSIcheck2 == 982) { Rem = 98;}
+            else if (RSSIcheck3 == 983) { Rem = 98;}
+            else if (RSSIcheck4 == 984) { Rem = 98;}
+            else if (RSSIcheck5 == 985) { Rem = 98;}
+            else if (RSSIcheck6 == 986) { Rem = 98;}
+            else if (RSSIcheck7 == 987) { Rem = 98;}
+            else if (RSSIcheck8 == 988) { Rem = 98;}
+            else if (RSSIcheck9 == 989) { Rem = 98;}
+        }
+
+        //97
+        if (RSSIcheck1 == 971)
+        {
+            if (RSSIcheck2 == 962)
+            {
+                if (RSSIcheck3 == 983) { Rem = 98;}
+                else if (RSSIcheck4 == 984) { Rem = 98;}
+                else if (RSSIcheck5 == 985) { Rem = 98;}
+                else if (RSSIcheck6 == 986) { Rem = 98;}
+                else if (RSSIcheck7 == 987) { Rem = 98;}
+                else if (RSSIcheck8 == 988) { Rem = 98;}
+                else if (RSSIcheck9 == 989) { Rem = 98;}
+            }
+            else if (RSSIcheck3 == 963)
+            {
+                if (RSSIcheck4 == 984) { Rem = 98;}
+                else if (RSSIcheck5 == 985) { Rem = 98;}
+                else if (RSSIcheck6 == 986) { Rem = 98;}
+                else if (RSSIcheck7 == 987) { Rem = 98;}
+                else if (RSSIcheck8 == 988) { Rem = 98;}
+                else if (RSSIcheck9 == 989) { Rem = 98;}
+            }
+            else if (RSSIcheck4 == 964)
+            {
+                if (RSSIcheck5 == 985) { Rem = 98;}
+                else if (RSSIcheck6 == 986) { Rem = 98;}
+                else if (RSSIcheck7 == 987) { Rem = 98;}
+                else if (RSSIcheck8 == 988) { Rem = 98;}
+                else if (RSSIcheck9 == 989) { Rem = 98;}
+            }
+            else if (RSSIcheck5 == 965)
+            {
+                if (RSSIcheck6 == 986) { Rem = 98;}
+                else if (RSSIcheck7 == 987) { Rem = 98;}
+                else if (RSSIcheck8 == 988) { Rem = 98;}
+                else if (RSSIcheck9 == 989) { Rem = 98;}
+            }
+            else if (RSSIcheck6 == 966)
+            {
+                if (RSSIcheck7 == 987) { Rem = 98;}
+                else if (RSSIcheck8 == 988) { Rem = 98;}
+                else if (RSSIcheck9 == 989) { Rem = 98;}
+            }
+            else if (RSSIcheck7 == 967)
+            {
+                if (RSSIcheck8 == 988) { Rem = 98;}
+                else if (RSSIcheck9 == 989) { Rem = 98;}
+            }
+            else if (RSSIcheck8 == 968)
+            {
+                if (RSSIcheck9 == 989) { Rem = 98;}
+            }
+
+            if (RSSIcheck2 == 982)
+            {
+                if (RSSIcheck3 == 963) { Rem = 96;}
+                else if (RSSIcheck4 == 964) { Rem = 96;}
+                else if (RSSIcheck5 == 965) { Rem = 96;}
+                else if (RSSIcheck6 == 966) { Rem = 96;}
+                else if (RSSIcheck7 == 967) { Rem = 96;}
+                else if (RSSIcheck8 == 968) { Rem = 96;}
+                else if (RSSIcheck9 == 969) { Rem = 96;}
+            }
+            else if (RSSIcheck3 == 983)
+            {
+                if (RSSIcheck4 == 964) { Rem = 96;}
+                else if (RSSIcheck5 == 965) { Rem = 96;}
+                else if (RSSIcheck6 == 966) { Rem = 96;}
+                else if (RSSIcheck7 == 967) { Rem = 96;}
+                else if (RSSIcheck8 == 968) { Rem = 96;}
+                else if (RSSIcheck9 == 969) { Rem = 96;}
+            }
+            else if (RSSIcheck4 == 984)
+            {
+                if (RSSIcheck5 == 965) { Rem = 96;}
+                else if (RSSIcheck6 == 966) { Rem = 96;}
+                else if (RSSIcheck7 == 967) { Rem = 96;}
+                else if (RSSIcheck8 == 968) { Rem = 96;}
+                else if (RSSIcheck9 == 969) { Rem = 96;}
+            }
+            else if (RSSIcheck5 == 985)
+            {
+                if (RSSIcheck6 == 966) { Rem = 96;}
+                else if (RSSIcheck7 == 967) { Rem = 96;}
+                else if (RSSIcheck8 == 968) { Rem = 96;}
+                else if (RSSIcheck9 == 969) { Rem = 96;}
+            }
+            else if (RSSIcheck6 == 986)
+            {
+                if (RSSIcheck7 == 967) { Rem = 96;}
+                else if (RSSIcheck8 == 968) { Rem = 96;}
+                else if (RSSIcheck9 == 969) { Rem = 96;}
+            }
+            else if (RSSIcheck7 == 987)
+            {
+                if (RSSIcheck8 == 968) { Rem = 96;}
+                else if (RSSIcheck9 == 969) { Rem = 96;}
+            }
+            else if (RSSIcheck8 == 988)
+            {
+                if (RSSIcheck9 == 969) { Rem = 96;}
+            }
+        }
+        //98
+        if (RSSIcheck1 == 981)
+        {
+            if (RSSIcheck2 == 962) { Rem = 96;}
+            else if (RSSIcheck3 == 963) { Rem = 96;}
+            else if (RSSIcheck4 == 964) { Rem = 96;}
+            else if (RSSIcheck5 == 965) { Rem = 96;}
+            else if (RSSIcheck6 == 966) { Rem = 96;}
+            else if (RSSIcheck7 == 967) { Rem = 96;}
+            else if (RSSIcheck8 == 968) { Rem = 96;}
+            else if (RSSIcheck9 == 969) { Rem = 96;}
+        }
+        
         Log.d ("確認Rem",String.valueOf(Rem));
         return Rem;
     }
@@ -3086,6 +3267,38 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
             if (judge != 39) {
                 est_x = add_3_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
                 est_y = add_3_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
+            }
+        }
+        //20230515 アンテナ4追加 孤爪
+        else if(add_epc_.equals("3000000000000000000000000096")){
+            add_d = 225;//y軸→x軸回転の角度
+            add_x += (int)(add_4_x*dotm_x);
+            add_y -= (int)(add_4_y*dotm_y);
+            if (judge != 96) {
+                est_x = add_4_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_4_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+            }
+            else {
+                paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));
+            }
+        }
+        else if(add_epc_.equals("3000000000000000000000000097")){
+            add_d = 270;//y軸→x軸回転の角度
+            add_x += (int)(add_4_x*dotm_x);
+            add_y -= (int)(add_4_y*dotm_y);
+            est_x = add_4_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+            est_y = add_4_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
+        }
+        else if(add_epc_.equals("3000000000000000000000000098")){
+            add_d = 315;//y軸→x軸回転の角度
+            add_x += (int)(add_4_x*dotm_x);
+            add_y -= (int)(add_4_y*dotm_y);
+            if (judge != 98) {
+                est_x = add_4_x + (add_dis_ * Math.cos(Math.toRadians(add_d)));
+                est_y = add_4_y - (add_dis_ * Math.sin(Math.toRadians(add_d)));
             }
             else {
                 paint_.setColor(Color.argb(inv_alpha, inv_color, 0, inv_color));

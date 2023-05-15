@@ -111,15 +111,16 @@
     <TextView
         android:id="@+id/txt_inv"
         android:layout_width="match_parent"
-        android:layout_height="147dp"
+        android:layout_height="211dp"
         android:scrollbars="vertical"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="12sp" />
 
 
     <ImageView
         android:id="@+id/img_inv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="325dp"
         android:src="@drawable/e5_8f_inov" />
 
 </LinearLayout>
