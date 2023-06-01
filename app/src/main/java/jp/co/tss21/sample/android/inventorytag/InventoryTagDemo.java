@@ -3670,4 +3670,8 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
     }
     //#0029fin
 
+    //#0030 テキストファイル出力　20230601 孤爪
+
+    //#0030fin
+
 }

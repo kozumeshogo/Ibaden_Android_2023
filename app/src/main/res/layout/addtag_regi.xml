@@ -9,8 +9,8 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="-304dp">
 
         <TextView
             android:id="@+id/textView53"
@@ -28,13 +28,13 @@
             android:id="@+id/add_dotm_y"
             android:layout_width="149dp"
             android:layout_height="41dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="186"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView52"
             app:layout_constraintTop_toBottomOf="@+id/add_dotm_x" />
 
@@ -46,7 +46,7 @@
             android:layout_weight="1"
             android:text="Y."
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.035"
             app:layout_constraintStart_toEndOf="@+id/add_1_posy"
             app:layout_constraintTop_toBottomOf="@+id/textView51" />
 
@@ -60,7 +60,7 @@
             android:inputType="numberDecimal"
             android:text="186"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.214"
             app:layout_constraintStart_toEndOf="@+id/textView51"
             app:layout_constraintTop_toBottomOf="@+id/textView49" />
 
@@ -68,7 +68,8 @@
             android:id="@+id/textView51"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
             android:layout_weight="1"
             android:text="X."
             app:layout_constraintStart_toEndOf="@+id/add_1_posx"
@@ -85,9 +86,9 @@
 
         <EditText
             android:id="@+id/add_4_posy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -99,19 +100,19 @@
             android:id="@+id/textView46"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginTop="184dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="X."
             app:layout_constraintEnd_toStartOf="@+id/add_3_posx"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView42" />
+            app:layout_constraintTop_toTopOf="@+id/add_4_posx" />
 
         <EditText
             android:id="@+id/add_4_posx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -129,14 +130,14 @@
             app:layout_constraintEnd_toStartOf="@+id/add_3_posz"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView44"
-            app:layout_constraintVertical_bias="0.876" />
+            app:layout_constraintTop_toBottomOf="@+id/textView47"
+            app:layout_constraintVertical_bias="0.079" />
 
         <EditText
             android:id="@+id/add_4_posz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -144,19 +145,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_4_posy"
-            app:layout_constraintVertical_bias="0.291" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView47"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginTop="176dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Y."
             app:layout_constraintEnd_toStartOf="@+id/add_3_posy"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView43" />
+            app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
         <TextView
             android:id="@+id/textView37"
@@ -168,10 +169,9 @@
 
         <EditText
             android:id="@+id/add_2_posx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -181,10 +181,9 @@
 
         <EditText
             android:id="@+id/add_1_posz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="192dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -194,10 +193,9 @@
 
         <EditText
             android:id="@+id/add_3_posy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -209,20 +207,19 @@
             android:id="@+id/textView45"
             android:layout_width="27dp"
             android:layout_height="29dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Z."
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/add_3_posz"
-            app:layout_constraintHorizontal_bias="0.011"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView44"
-            app:layout_constraintVertical_bias="0.133" />
+            app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
         <EditText
             android:id="@+id/add_3_posz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -236,20 +233,19 @@
             android:id="@+id/textView43"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="X."
             app:layout_constraintEnd_toStartOf="@+id/add_3_posx"
-            app:layout_constraintHorizontal_bias="0.115"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
         <EditText
             android:id="@+id/add_3_posx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -268,9 +264,9 @@
 
         <EditText
             android:id="@+id/add_2_posy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -280,8 +276,8 @@
 
         <EditText
             android:id="@+id/add_1_posx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
             android:layout_marginTop="1dp"
             android:layout_weight="1"
             android:ems="10"
@@ -296,11 +292,9 @@
             android:id="@+id/textView35"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Y."
-            app:layout_constraintEnd_toStartOf="@+id/add_1_posy"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView40" />
 
@@ -308,11 +302,11 @@
             android:id="@+id/textView44"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Y."
             app:layout_constraintEnd_toStartOf="@+id/add_3_posy"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView43" />
 
@@ -320,7 +314,7 @@
             android:id="@+id/textView36"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:text="Z."
             app:layout_constraintBottom_toTopOf="@+id/textView42"
@@ -332,9 +326,9 @@
 
         <EditText
             android:id="@+id/add_2_posz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="196dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
@@ -397,7 +391,7 @@
             android:id="@+id/textView40"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="X."
             app:layout_constraintStart_toStartOf="parent"
@@ -405,28 +399,28 @@
 
         <EditText
             android:id="@+id/add_1_posy"
-            android:layout_width="206dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="176dp"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="192dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="0.0"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView35"
             app:layout_constraintTop_toBottomOf="@+id/add_1_posx" />
 
         <TextView
             android:id="@+id/textView38"
             android:layout_width="27dp"
             android:layout_height="29dp"
-            android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:text="Z."
-            app:layout_constraintBottom_toTopOf="@+id/textView34"
             app:layout_constraintEnd_toStartOf="@+id/add_1_posz"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="150dp" />
 
     </android.support.constraint.ConstraintLayout>
 
