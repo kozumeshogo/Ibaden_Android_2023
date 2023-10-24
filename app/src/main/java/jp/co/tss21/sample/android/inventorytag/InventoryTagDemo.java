@@ -1957,6 +1957,20 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
 
 
                     }
+                    //testAI宣言　20231024 孤爪
+                    double rssiout1 = -99999;
+                    double rssiout2 = -99999;
+                    double rssiout3 = -99999;
+                    double rssiout4 = -99999;
+                    double rssiout5 = -99999;
+                    double rssiout6 = -99999;
+                    double rssiout7 = -99999;
+                    double rssiout8 = -99999;
+                    double rssiout9 = -99999;
+                    double rssiout96 = -99999;
+                    double rssiout97 = -99999;
+                    double rssiout98 = -99999;
+
                     for(Object item_ : addlist)//item_: [EPC, RSSI, 読み取り回数, 距離 RSSI真値]
                     {
                         ArrayList item = (ArrayList) item_;
@@ -1975,6 +1989,26 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
 
                         dis_log.append(write_);
 
+                        //testAI 20231024 孤爪
+
+
+                          String addepc0;
+                          String addrssi0 = String.valueOf(item.get(1));
+                          addepc0 = String.valueOf(item.get(0));
+                        Log.d("addepc",addepc0 );
+
+                        if (addepc0.equals("3000000000000000000000000031")) {rssiout1 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000032")) {rssiout2 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000033")) {rssiout3 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000034")) {rssiout4 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000035")) {rssiout5 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000036")) {rssiout6 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000037")) {rssiout7 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000038")) {rssiout8 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000039")) {rssiout9 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000096")) {rssiout96 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000097")) {rssiout97 = Double.parseDouble(String.valueOf(item.get(1))); }
+                        else if (addepc0.equals("3000000000000000000000000098")) {rssiout98 = Double.parseDouble(String.valueOf(item.get(1))); }
 
                         paint.setStyle(Paint.Style.STROKE);
                         paint.setAntiAlias(true);
@@ -2049,6 +2083,25 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                            judge = Rem_Sector_3(epc_1st, epc_2nd, epc_3rd, epc_4th, epc_5th, epc_6th, epc_7th, epc_8th, epc_9th);
                         }
 
+                        //testAI出力　20231024 孤爪
+                        if (judge == 31){rssiout1 = -99999.9;}
+                        else if (judge == 32){rssiout2 = -99999.9;}
+                        else if (judge == 33){rssiout3 = -99999.9;}
+                        else if (judge == 34){rssiout4 = -99999.9;}
+                        else if (judge == 35){rssiout5 = -99999.9;}
+                        else if (judge == 36){rssiout6 = -99999.9;}
+                        else if (judge == 37){rssiout7 = -99999.9;}
+                        else if (judge == 38){rssiout8 = -99999.9;}
+                        else if (judge == 39){rssiout9 = -99999.9;}
+                        else if (judge == 96){rssiout96 = -99999.9;}
+                        else if (judge == 97){rssiout97 = -99999.9;}
+                        else if (judge == 98){rssiout98 = -99999.9;}
+
+
+
+
+
+
 
                         Log.d ("確認",String.valueOf(judge));
 
@@ -2086,6 +2139,80 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                         i++;
 
                     }
+                    //testAI出力　20231024 孤爪
+                    TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
+                    TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
+                    float store_x_m = Float.valueOf(txt_store_x_m_.getText().toString());
+                    float store_y_m = Float.valueOf(txt_store_y_m_.getText().toString());
+
+                    try {
+                        //FileWriter writer = new FileWriter("/files/testAI.txt", true);  // "true" を指定すると追記モードになります
+                        File store_file = new File("/data/data/" + this.getPackageName() + "/files/testAI.txt");
+                        FileWriter writer = new FileWriter(store_file,true);
+
+                        //writer.append("#epc#").append(String.valueOf(addepc0));
+                        //writer.append("#rssi#").append(String.valueOf(addrssi0));
+                        //writer.append("#judge#").append(String.valueOf(judge));
+                        writer.append("#31#").append(String.valueOf(rssiout1));
+                        writer.append("#32#").append(String.valueOf(rssiout2));
+                        writer.append("#33#").append(String.valueOf(rssiout3));
+                        writer.append("#34#").append(String.valueOf(rssiout4));
+                        writer.append("#35#").append(String.valueOf(rssiout5));
+                        writer.append("#36#").append(String.valueOf(rssiout6));
+                        writer.append("#37#").append(String.valueOf(rssiout7));
+                        writer.append("#38#").append(String.valueOf(rssiout8));
+                        writer.append("#39#").append(String.valueOf(rssiout9));
+                        // アンテナ4本で追加 20230426 孤爪
+                        writer.append("#96#").append(String.valueOf(rssiout96));
+                        writer.append("#97#").append(String.valueOf(rssiout97));
+                        writer.append("#98#").append(String.valueOf(rssiout98));
+
+                        writer.append("#X#").append(String.valueOf(store_x_m)).append("#Y#").append(String.valueOf(store_y_m)).append("#");
+
+                        writer.append(System.lineSeparator());  // 改行を追加
+
+                        writer.close();  // ファイルを閉じる
+                    } catch (IOException e) {
+                        e.printStackTrace();  // エラーハンドリング
+                    }
+                    //アンテナ4追加用　20231024 孤爪
+                    /*try {
+                        //FileWriter writer = new FileWriter("/files/testAI.txt", true);  // "true" を指定すると追記モードになります
+                        File store_file = new File("/data/data/" + this.getPackageName() + "/files/epc_add_3.csv");
+                        FileWriter writer = new FileWriter(store_file,false);
+
+
+                        writer.write("1-1,3000000000000000000000000031,1,1");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("1-2,3000000000000000000000000032,1,2");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("1-3,3000000000000000000000000033,1,3");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("2-1,3000000000000000000000000034,2,1");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("2-2,3000000000000000000000000035,2,2");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("2-3,3000000000000000000000000036,2,3");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("3-1,3000000000000000000000000037,3,1");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("3-2,3000000000000000000000000038,3,2");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("3-3,3000000000000000000000000039,3,3");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("4-1,3000000000000000000000000096,4,1");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("4-2,3000000000000000000000000097,4,2");
+                        writer.write(System.lineSeparator());  // 改行を追加
+                        writer.write("4-3,3000000000000000000000000098,4,3");
+
+
+                        writer.close();  // ファイルを閉じる
+                    } catch (IOException e) {
+                        e.printStackTrace();  // エラーハンドリング
+                    }
+
+                     */
 
 
                     //推定座標の算出及び推定円の描画20221206
@@ -2094,11 +2221,11 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                     det_x = origin_x + (int)(det_x_m*dotm_x);
                     det_y = origin_y - (int)(det_y_m*dotm_y);
 
-                    //距離差計算20230202
-                    TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
-                    TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
-                    double store_x_m = Double.valueOf(txt_store_x_m_.getText().toString());
-                    double store_y_m = Double.valueOf(txt_store_y_m_.getText().toString());
+                    //距離差計算20230202 //testAI出力と重複するため上4行コメント化　20231024　孤爪
+                    //TextView txt_store_x_m_ = (TextView) findViewById(R.id.txt_store_x_m);
+                    //TextView txt_store_y_m_ = (TextView) findViewById(R.id.txt_store_y_m);
+                    //double store_x_m = Double.valueOf(txt_store_x_m_.getText().toString());
+                    //double store_y_m = Double.valueOf(txt_store_y_m_.getText().toString());
                     double error_m = Math.sqrt(Math.pow(det_x_m - store_x_m,2)+Math.pow(det_y_m-store_y_m, 2));
 
                     /*
