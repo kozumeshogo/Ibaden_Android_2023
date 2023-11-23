@@ -45,12 +45,21 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+import net.sf.javaml.classification.Classifier;
+import net.sf.javaml.classification.tree.RandomForest;
+import net.sf.javaml.core.Dataset;
+import net.sf.javaml.tools.data.FileHandler;
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -2175,6 +2184,53 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                     } catch (IOException e) {
                         e.printStackTrace();  // エラーハンドリング
                     }
+
+                    //分類用csv出力　20231123 孤爪
+                    double[] rssirist = {rssiout1,rssiout2,rssiout3,rssiout4,rssiout5,rssiout6,rssiout7,rssiout8,rssiout9,rssiout96,rssiout97,rssiout98};
+                    try {
+                        // 出力ファイルの作成
+                        PrintWriter p = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
+                                new FileOutputStream("/data/data/" + this.getPackageName() + "/files/testdata.csv", false),"Shift-JIS")));
+
+
+                        // 内容をセットする
+                        for(int csvc = 0; csvc < 12; csvc++){
+                            p.print(rssirist[csvc]);
+                            p.print(",");
+                        }
+                        p.print(0);
+                        p.println();    // 改行
+                        // ファイルに書き出し閉じる
+                        p.close();
+                        System.out.println("ファイル出力完了！");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    //分類推定　20231123 孤爪
+                    /*
+
+                    String filePath1 = "/data/data/" + this.getPackageName() + "/files/rearranging_24_分類.csv";
+                    String filePath2 = "/data/data/" + this.getPackageName() + "/files/testdata.csv";
+                    Dataset data = FileHandler.loadDataset(new File(filePath1), 12, ",");
+                    // ランダムフォレストの作成と学習
+                    Classifier rf = new RandomForest(100);
+                    rf.buildClassifier(data);
+
+                    // 検証用データの読み込み（同じデータを使用）
+                    FileHandler.loadDataset(new File(filePath2), 12, ",")
+                            .stream()
+                            //reduceでfor文と同じ処理を行う
+                            .reduce(new HashMap<String,Integer>(), //ループの初期値を設定する
+                                    (accum, ins) -> {return createOperation(accum, ins,rf);},//ループで適用する処理を記載する
+                                    (s,v)->v)//paralle処理を考慮しない場合は適当なラムダ式を渡す
+                            //forEachでMapのキーと値の組み合わせを列挙する
+                            .forEach((m1,m2)->System.out.println(String.format("%s : %d", m1,m2)));
+
+                     */
+
+
+
                     //アンテナ4追加用　20231024 孤爪
                     /*try {
                         //FileWriter writer = new FileWriter("/files/testAI.txt", true);  // "true" を指定すると追記モードになります

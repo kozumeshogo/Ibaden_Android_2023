@@ -1,0 +1,84 @@
+Index: app/src/main/res/layout/store.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:id=\"@+id/log_text_\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\">\r\n\r\n\r\n    <Button\r\n        android:id=\"@+id/btn_store\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:onClick=\"onClickInv\"\r\n        android:text=\"保管\" />\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"0dip\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/textView25\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"作番\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/txt_sakuban_store\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:ems=\"10\"\r\n                android:inputType=\"textPersonName\"\r\n                android:text=\"\"\r\n                android:textSize=\"20sp\" />\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"0dip\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/textView26\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"作番\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/txt_tyuban_store\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:ems=\"10\"\r\n                android:inputType=\"textPersonName\"\r\n                android:text=\"\"\r\n                android:textSize=\"20sp\" />\r\n        </LinearLayout>\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView4\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"30dp\"\r\n        android:text=\"保管場所\" />\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/textView30\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:text=\"x:\" />\r\n\r\n        <EditText\r\n            android:id=\"@+id/txt_store_x_m\"\r\n            android:layout_width=\"108dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:ems=\"10\"\r\n            android:inputType=\"numberDecimal\"\r\n            android:text=\"3.0\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/textView32\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:text=\"y:\" />\r\n\r\n        <EditText\r\n            android:id=\"@+id/txt_store_y_m\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:ems=\"10\"\r\n            android:inputType=\"numberDecimal\"\r\n            android:text=\"3.0\" />\r\n    </LinearLayout>\r\n\r\n    <TextView\r\n        android:id=\"@+id/txt_inv\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"211dp\"\r\n        android:scrollbars=\"vertical\"\r\n        android:text=\"TextView\"\r\n        android:textSize=\"12sp\" />\r\n\r\n\r\n    <ImageView\r\n        android:id=\"@+id/img_inv\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"325dp\"\r\n        android:src=\"@drawable/e5_8f_inov\" />\r\n\r\n</LinearLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/store.xml b/app/src/main/res/layout/store.xml
+--- a/app/src/main/res/layout/store.xml	(revision 991c9fa86f59059a51ae4f58ee0864dbbf60e101)
++++ b/app/src/main/res/layout/store.xml	(date 1691109669185)
+@@ -77,14 +77,14 @@
+ 
+         <TextView
+             android:id="@+id/textView30"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
++            android:layout_width="17dp"
++            android:layout_height="16dp"
+             android:layout_weight="1"
+             android:text="x:" />
+ 
+         <EditText
+             android:id="@+id/txt_store_x_m"
+-            android:layout_width="108dp"
++            android:layout_width="84dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:ems="10"
+@@ -100,12 +100,29 @@
+ 
+         <EditText
+             android:id="@+id/txt_store_y_m"
++            android:layout_width="84"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:ems="10"
++            android:inputType="numberDecimal"
++            android:text="3.0" />
++
++        <TextView
++            android:id="@+id/textView33"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:text="推定円" />
++
++        <EditText
++            android:id="@+id/txt_store_circle"
++            android:layout_width="84"
++            android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:ems="10"
+             android:inputType="numberDecimal"
+             android:text="3.0" />
++
+     </LinearLayout>
+ 
+     <TextView
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/addtag_regi.xml\" value=\"0.190625\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/cal.xml\" value=\"0.20572916666666666\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/device.xml\" value=\"0.2878787878787879\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/fragment_setting.xml\" value=\"0.17255434782608695\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/goods_regi.xml\" value=\"0.3333333333333333\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/list_bt_device.xml\" value=\"0.20572916666666666\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/list_row.xml\" value=\"0.20572916666666666\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/log.xml\" value=\"0.3194444444444444\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/main.xml\" value=\"0.3333333333333333\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/mask.xml\" value=\"0.3333333333333333\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/option.xml\" value=\"0.19696969696969696\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/search.xml\" value=\"0.3671875\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/setting.xml\" value=\"0.19166666666666668\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/layout/store.xml\" value=\"0.20572916666666666\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Android_inv_20211005/app/src/main/res/menu/menu.xml\" value=\"0.3333333333333333\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Github/app/src/main/res/drawable/ic_lab_pic.xml\" value=\"0.25364583333333335\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Github/app/src/main/res/layout/cal.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Github/app/src/main/res/layout/device.xml\" value=\"0.3333333333333333\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Github/app/src/main/res/layout/goods_regi.xml\" value=\"0.16666666666666666\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Github/app/src/main/res/layout/search.xml\" value=\"0.2028985507246377\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/Github/app/src/main/res/layout/store.xml\" value=\"0.2111111111111111\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/InventoryTag_Android_20211005/app/src/main/res/layout/device.xml\" value=\"0.3333333333333333\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/InventoryTag_Android_20211005/app/src/main/res/layout/main.xml\" value=\"0.22\" />\r\n        <entry key=\"..\\:/Users/17t80/ibaden/app/src/main/res/layout/addtag_regi.xml\" value=\"0.22604166666666667\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/addtag_regi.xml\" value=\"0.25\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/cal.xml\" value=\"0.24728260869565216\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/device.xml\" value=\"0.2869791666666667\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/goods_regi.xml\" value=\"0.2869791666666667\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/list_bt_device.xml\" value=\"0.2869791666666667\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/main.xml\" value=\"0.2869791666666667\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/search.xml\" value=\"0.2869791666666667\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/setting.xml\" value=\"0.2869791666666667\" />\r\n        <entry key=\"..\\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/store.xml\" value=\"0.2869791666666667\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 991c9fa86f59059a51ae4f58ee0864dbbf60e101)
++++ b/.idea/misc.xml	(date 1691109670262)
+@@ -29,13 +29,13 @@
+         <entry key="..\:/Users/17t80/ibaden/app/src/main/res/layout/addtag_regi.xml" value="0.22604166666666667" />
+         <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/addtag_regi.xml" value="0.25" />
+         <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/cal.xml" value="0.24728260869565216" />
+-        <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/device.xml" value="0.2869791666666667" />
++        <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/device.xml" value="0.33" />
+         <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/goods_regi.xml" value="0.2869791666666667" />
+         <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/list_bt_device.xml" value="0.2869791666666667" />
+         <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/main.xml" value="0.2869791666666667" />
+         <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/search.xml" value="0.2869791666666667" />
+         <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/setting.xml" value="0.2869791666666667" />
+-        <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/store.xml" value="0.2869791666666667" />
++        <entry key="..\:/Users/Skozu/StudioProjects/Ibaden_Android_2022/app/src/main/res/layout/store.xml" value="0.33" />
+       </map>
+     </option>
+   </component>

@@ -77,14 +77,14 @@
 
         <TextView
             android:id="@+id/textView30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="17dp"
+            android:layout_height="16dp"
             android:layout_weight="1"
             android:text="x:" />
 
         <EditText
             android:id="@+id/txt_store_x_m"
-            android:layout_width="108dp"
+            android:layout_width="84dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
@@ -100,12 +100,29 @@
 
         <EditText
             android:id="@+id/txt_store_y_m"
-            android:layout_width="wrap_content"
+            android:layout_width="84"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
             android:text="3.0" />
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="推定円" />
+
+        <EditText
+            android:id="@+id/txt_store_circle"
+            android:layout_width="84"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:text="3.0" />
+
     </LinearLayout>
 
     <TextView
