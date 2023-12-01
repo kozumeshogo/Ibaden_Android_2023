@@ -45,21 +45,21 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
-import net.sf.javaml.classification.Classifier;
-import net.sf.javaml.classification.tree.RandomForest;
-import net.sf.javaml.core.Dataset;
-import net.sf.javaml.tools.data.FileHandler;
+//import net.sf.javaml.classification.Classifier;
+//import net.sf.javaml.classification.tree.RandomForest;
+//import net.sf.javaml.core.Dataset;
+//import net.sf.javaml.tools.data.FileHandler;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+//import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+//import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+//import java.io.OutputStreamWriter;
+//import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -2185,6 +2185,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                         e.printStackTrace();  // エラーハンドリング
                     }
 
+                    /*
                     //分類用csv出力　20231123 孤爪
                     double[] rssirist = {rssiout1,rssiout2,rssiout3,rssiout4,rssiout5,rssiout6,rssiout7,rssiout8,rssiout9,rssiout96,rssiout97,rssiout98};
                     try {
@@ -2202,10 +2203,12 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                         p.println();    // 改行
                         // ファイルに書き出し閉じる
                         p.close();
-                        System.out.println("ファイル出力完了！");
+                        System.out.println("ファイル出力完了");
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
+
+                     */
 
                     //分類推定　20231123 孤爪
                     /*
@@ -3686,13 +3689,17 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
             buff = new FileReader(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            //return ""; //20231130 孤爪　null回避
         }
         String line_ = null;
+
         BufferedReader fr = new BufferedReader(buff);
+
         try {
             line_ = fr.readLine();
         } catch (IOException e) {
             e.printStackTrace();
+            //return ""; //20231130 孤爪　null回避
         }
 
         while (line_ != null) {
@@ -3704,6 +3711,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 line_ = fr.readLine();
             } catch (IOException e) {
                 e.printStackTrace();
+                //return ""; //20231130 孤爪　null回避
             }
         }
         return "";
@@ -3726,8 +3734,10 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
     }
     //#0027
 
+
     //#0028 アドレスRFIDタグのEPCを.csvより取得 20221108
     private void setAddTag(){
+
         if(surface_flg==0){
             File file = new File("/data/data/" + this.getPackageName() + "/files/epc_add_3.csv");
             FileReader buff = null;
@@ -3735,6 +3745,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 buff = new FileReader(file);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+
             }
             BufferedReader fr = new BufferedReader(buff);
 
@@ -3743,6 +3754,7 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 line_ = fr.readLine();
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
             while (line_ != null)
             {
@@ -3798,7 +3810,10 @@ public class InventoryTagDemo<mBtnADD> extends TabActivity implements View.OnCli
                 e.printStackTrace();
             }
         }
+
+
     }
+
     //#0028fin
 
     //#0029 各種設定
